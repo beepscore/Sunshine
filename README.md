@@ -29,4 +29,5 @@ Online icon generator, requests creative commons attribution. (didn't use it)
 http://romannurik.github.io/AndroidAssetStudio/index.html
 
 Use Preview app to scale images.
+Manually replaced images.
 
