@@ -16,3 +16,17 @@ Nexus 4 running Android 5.1.1
 
 # Results
 
+## Replace launcher icon images ic_launcher.png
+Default app contains default ic_launcher.png
+res/mipmap-mdpi 48x48
+res/mipmap-hdpi 72x72
+res/mipmap-xhdpi 96x96
+res/mipmap-xxhdpi 144x144
+
+udacity image is 144x144.
+
+Online icon generator, requests creative commons attribution. (didn't use it)
+http://romannurik.github.io/AndroidAssetStudio/index.html
+
+Use Preview app to scale images.
+
