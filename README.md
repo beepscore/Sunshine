@@ -2,6 +2,10 @@
 Do Lesson 1 Sunshine.
 
 # References
+
+## Udacity Sunshine repository
+<https://github.com/udacity/Sunshine-Version-2>
+
 Online course "Android nanodegree" from Udacity/Google  
 <https://www.udacity.com/course/android-developer-nanodegree--nd801>  
 Developing Android Apps: Fundamentals
@@ -38,3 +42,20 @@ Right click on app.
 Select new / image asset. This launches Asset Studio.
 Use Asset Studio to generate images.
 
+### Gradle command line commands
+
+Grant gradlew execute permission. Only need to do this once.
+
+    chmod +x gradlew
+
+Compile target
+
+    ./gradlew assembleDebug
+
+Use adb to install apk on device.
+
+    adb install -r app/build/outputs/apk/app-debug-unaligned.apk
+
+Start app running
+
+    adb shell am start -n com.example.android.sunshine.app/com.example.android.sunshine.app.MainActivity
