@@ -28,6 +28,13 @@ udacity image is 144x144.
 Online icon generator, requests creative commons attribution. (didn't use it)
 http://romannurik.github.io/AndroidAssetStudio/index.html
 
-Use Preview app to scale images.
+### Preview
+Used Preview app to scale images.
 Manually replaced images.
+
+### Android Studio
+This option is simpler than using Preview.app.
+Right click on app.
+Select new / image asset. This launches Asset Studio.
+Use Asset Studio to generate images.
 
