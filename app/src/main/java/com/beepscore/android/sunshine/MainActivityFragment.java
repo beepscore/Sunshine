@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +30,13 @@ public class MainActivityFragment extends Fragment {
         configureList();
 
         // adapter creates views for each list item
-        Adapter adapter = new ArrayAdapter<String>(getActivity(),
+        ListAdapter adapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
                 weekForecast);
 
-        View listView = fragmentMainView.findViewById(R.id.listview_forecast);
+        ListView listView = (ListView)fragmentMainView.findViewById(R.id.listview_forecast);
+        listView.setAdapter(adapter);
 
         return fragmentMainView;
     }
