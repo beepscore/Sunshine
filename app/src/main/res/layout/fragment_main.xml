@@ -1,7 +1,6 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -9,69 +8,8 @@
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context=".MainActivityFragment">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:id="@+id/textLayout"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/date"
-            android:id="@+id/dateView"
-            android:layout_margin="20dp"
-            android:layout_alignParentTop="true"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_below="@id/dateView"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/degreesF"
-            android:id="@+id/degreesFView"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_below="@id/degreesFView"
-            android:layout_gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/degreesC"
-            android:id="@+id/degreesCView"
-            android:layout_alignParentBottom="false"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_toEndOf="@id/textLayout"
-        android:layout_toRightOf="@id/textLayout"
-        android:gravity="center"
+    <ListView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentEnd="true">
-        android:layout_alignParentRight="true">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:src="@drawable/ic_launcher"
-            android:contentDescription="@string/imageViewContentDescription"
-            android:layout_centerHorizontal="true"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/forecast"
-            android:id="@+id/textView"
-            android:layout_below="@+id/imageView"
-            android:layout_centerHorizontal="true"/>
-
-    </RelativeLayout>
-
-
-</RelativeLayout>
+        android:id="@+id/listview_forecast"/>
+</FrameLayout>

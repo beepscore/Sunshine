@@ -24,10 +24,11 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentMainView = inflater.inflate(R.layout.fragment_main, container, false);
-        configureDateViewInView(fragmentMainView);
+        //configureDateViewInView(fragmentMainView);
         return fragmentMainView;
     }
 
+    /*
     private void configureDateViewInView(View fragmentMainView) {
         // Android TextClock would be nice, but requires SDK >= 17. So don't use it.
         // https://developer.android.com/reference/android/widget/TextClock.html
@@ -44,4 +45,5 @@ public class MainActivityFragment extends Fragment {
         String formattedDate = dateFormat.format(now);
         dateView.setText(formattedDate);
     }
+    */
 }
