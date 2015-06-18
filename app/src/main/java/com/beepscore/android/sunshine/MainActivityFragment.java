@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 
-//import java.text.DateFormat;
 import java.util.ArrayList;
-//import java.util.Calendar;
-//import java.util.Date;
 import java.util.List;
 
 
@@ -23,23 +20,32 @@ public class MainActivityFragment extends Fragment {
     public MainActivityFragment() {
     }
 
+    List<String> weekForecast = new ArrayList<String>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentMainView = inflater.inflate(R.layout.fragment_main, container, false);
         configureList();
+
+        // adapter creates views for each list item
+        Adapter adapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.list_item_forecast,
+                R.id.list_item_forecast_textview,
+                weekForecast);
+
+        View listView = fragmentMainView.findViewById(R.id.listview_forecast);
+
         return fragmentMainView;
     }
 
     private void configureList() {
-        List<String> list = new ArrayList<String>;
-
-        list.add("Today - Sunny - 88/63");
-        list.add("Tomorrow - Foggy - 70/46");
-        list.add("Weds - Cloudy - 72/63");
-        list.add("Thurs - Rainy - 64/51");
-        list.add("Fri - Foggy - 70/46");
-        list.add("Sat - Sunny - 76/68");
+        weekForecast.add("Today - Sunny - 88/63");
+        weekForecast.add("Tomorrow - Foggy - 70/46");
+        weekForecast.add("Weds - Cloudy - 72/63");
+        weekForecast.add("Thurs - Rainy - 64/51");
+        weekForecast.add("Fri - Foggy - 70/46");
+        weekForecast.add("Sat - Sunny - 76/68");
     }
 
 }
