@@ -16,9 +16,9 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class ForecastFragment extends Fragment {
 
-    public MainActivityFragment() {
+    public ForecastFragment() {
     }
 
     List<String> weekForecast = new ArrayList<String>();
@@ -26,7 +26,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View fragmentMainView = inflater.inflate(R.layout.fragment_main, container, false);
+        View fragmentMainView = inflater.inflate(R.layout.fragment_forecast, container, false);
         configureList();
 
         // adapter creates views for each list item
