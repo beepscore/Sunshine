@@ -26,7 +26,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View fragmentMainView = inflater.inflate(R.layout.fragment_forecast, container, false);
+        View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
         configureList();
 
         // adapter creates views for each list item
@@ -35,10 +35,10 @@ public class ForecastFragment extends Fragment {
                 R.id.list_item_forecast_textview,
                 weekForecast);
 
-        ListView listView = (ListView)fragmentMainView.findViewById(R.id.listview_forecast);
+        ListView listView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
         listView.setAdapter(adapter);
 
-        return fragmentMainView;
+        return fragmentForecastView;
     }
 
     private void configureList() {
