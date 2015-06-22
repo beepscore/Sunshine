@@ -47,8 +47,7 @@ public class ForecastFragment extends Fragment {
         listView.setAdapter(adapter);
 
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-        //String urlString  = "http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7";
-        String urlString  = "http://api.geonames.org/findNearByWeatherJSON?formatted=true&lat=42&lng=-2&username=demo&style=full";
+        String urlString  = "http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7";
         fetchWeatherTask.execute(urlString);
 
         return fragmentForecastView;
