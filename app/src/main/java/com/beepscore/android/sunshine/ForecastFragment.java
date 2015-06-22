@@ -29,17 +29,25 @@ import java.util.List;
  */
 public class ForecastFragment extends Fragment {
 
+    // public empty constructor
     public ForecastFragment() {
     }
+
     private final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
     List<String> weekForecast = new ArrayList<String>();
 
     @Override
+    // onCreate is called before onCreateView
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
-        setHasOptionsMenu(true);
 
         configureList();
 
