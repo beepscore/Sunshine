@@ -66,9 +66,11 @@ public class ForecastFragment extends Fragment {
     // http://stackoverflow.com/questions/9671546/asynctask-android-example?rq=1
     private class FetchWeatherTask extends AsyncTask<String, Void, String> {
 
+        private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
+
         /** The system calls this on a worker (background) thread
          *  @param params first and only element is url string to make request to web service
-         *  @return json response from web service
+         *  @return json response from web service. return null if no input.
          */
         @Override
         protected String doInBackground(String... params) {
@@ -101,7 +103,7 @@ public class ForecastFragment extends Fragment {
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
                     // Nothing to do.
-                    forecastJsonStr = null;
+                    return null;
                 }
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
@@ -115,12 +117,12 @@ public class ForecastFragment extends Fragment {
 
                 if (buffer.length() == 0) {
                     // Stream was empty.  No point in parsing.
-                    forecastJsonStr = null;
+                    return null;
                 }
                 forecastJsonStr = buffer.toString();
 
             } catch (IOException e) {
-                Log.e("ForecastFragment", "Error ", e);
+                Log.e(LOG_TAG, "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attempting
                 // to parse it.
                 forecastJsonStr = null;
@@ -133,7 +135,7 @@ public class ForecastFragment extends Fragment {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.e("ForecastFragment", "Error closing stream", e);
+                        Log.e(LOG_TAG, "Error closing stream", e);
                     }
                 }
             }
@@ -147,7 +149,7 @@ public class ForecastFragment extends Fragment {
         protected void onPostExecute(String forecastJsonStr) {
             super.onPostExecute(forecastJsonStr);
             // TODO: parse forecastJsonStr in background? Show results in fragment view
-            Log.d("ForecastFragment", forecastJsonStr);
+            Log.d(LOG_TAG, forecastJsonStr);
         }
 
     }
