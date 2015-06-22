@@ -7,4 +7,5 @@
     <string name="degreesF">21°F</string>
     <string name="degreesC">8°C</string>
     <string name="forecast">Today - Sunny - 88 / 63</string>
+    <string name="action_refresh_title">Refresh</string>
 </resources>
