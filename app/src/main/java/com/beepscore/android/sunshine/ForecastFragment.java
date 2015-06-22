@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -35,6 +37,8 @@ public class ForecastFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
+        setHasOptionsMenu(true);
+
         configureList();
 
         // adapter creates views for each list item
@@ -61,6 +65,16 @@ public class ForecastFragment extends Fragment {
         weekForecast.add("Fri - Foggy - 70/46");
         weekForecast.add("Sat - Sunny - 76/68");
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        // http://stackoverflow.com/questions/15653737/oncreateoptionsmenu-inside-fragments
+        inflater.inflate(R.menu.forecastfragment, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
 
     // https://developer.android.com/guide/components/processes-and-threads.html#Threads
     // http://stackoverflow.com/questions/9671546/asynctask-android-example?rq=1
