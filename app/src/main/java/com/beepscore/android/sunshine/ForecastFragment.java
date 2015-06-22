@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,6 +31,7 @@ public class ForecastFragment extends Fragment {
 
     public ForecastFragment() {
     }
+    private final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
     List<String> weekForecast = new ArrayList<String>();
 
@@ -72,6 +74,18 @@ public class ForecastFragment extends Fragment {
         // http://stackoverflow.com/questions/15653737/oncreateoptionsmenu-inside-fragments
         inflater.inflate(R.menu.forecastfragment, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_refresh) {
+            Log.d(LOG_TAG, "action_refresh clicked");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     ////////////////////////////////////////////////////////////////////////////
