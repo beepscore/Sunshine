@@ -7,6 +7,12 @@ import android.net.Uri;
  */
 public class WeatherHelper {
 
+    /**
+     * URI for weather forecast query from OpenWeatherMap
+     * @param postalCode string for a query parameter
+     * @return uri
+     * http://openweathermap.org/API#forecast
+     */
     protected static Uri weatherUri(String postalCode) {
 
         // http://stackoverflow.com/questions/19167954/use-uri-builder-in-android-or-create-url-with-variables

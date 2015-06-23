@@ -1,5 +1,6 @@
 package com.beepscore.android.sunshine;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -34,7 +35,6 @@ public class ForecastFragment extends Fragment {
     }
 
     private final String LOG_TAG = ForecastFragment.class.getSimpleName();
-    private String urlString  = "";
 
     List<String> weekForecast = new ArrayList<String>();
 
@@ -62,8 +62,7 @@ public class ForecastFragment extends Fragment {
         listView.setAdapter(adapter);
 
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-        urlString = WeatherHelper.weatherUri("98053").toString();
-        fetchWeatherTask.execute(urlString);
+        fetchWeatherTask.execute("98053");
 
         return fragmentForecastView;
     }
@@ -93,8 +92,7 @@ public class ForecastFragment extends Fragment {
         if (id == R.id.action_refresh) {
             Log.d(LOG_TAG, "action_refresh clicked");
             FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            urlString = WeatherHelper.weatherUri("98053").toString();
-            fetchWeatherTask.execute(urlString);
+            fetchWeatherTask.execute("98053");
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -109,13 +107,13 @@ public class ForecastFragment extends Fragment {
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
         /** The system calls this on a worker (background) thread
-         *  @param params first and only element is url string to make request to web service
+         *  @param params first and only element is postcode string to make request to web service
          *  @return json response from web service. return null if no input.
          */
         @Override
         protected String doInBackground(String... params) {
 
-            String urlString = params[0];
+            String postcode = params[0];
 
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
@@ -126,13 +124,11 @@ public class ForecastFragment extends Fragment {
             String forecastJsonStr = null;
 
             try {
-                // Construct the URL for the OpenWeatherMap query
-                // Possible parameters are available at OWM's forecast API page, at
-                // http://openweathermap.org/API#forecast
-                URL url = new URL(urlString);
 
-                // Create the request to OpenWeatherMap, and open the connection
-                urlConnection = (HttpURLConnection) url.openConnection();
+                Uri weatherUri = WeatherHelper.weatherUri(postcode);
+                URL weatherUrl = new URL(weatherUri.toString());
+
+                urlConnection = (HttpURLConnection) weatherUrl.openConnection();
                 urlConnection.setRequestMethod("GET");
 
                 // If call connect on main thread app will crash
