@@ -59,3 +59,8 @@ Use adb to install apk on device.
 Start app running
 
     adb shell am start -n com.example.android.sunshine.app/com.example.android.sunshine.app.MainActivity
+
+### json
+To prettify format json in vim
+
+    :%!python3 -m json.tool
