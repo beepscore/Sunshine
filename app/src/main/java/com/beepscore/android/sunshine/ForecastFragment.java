@@ -34,7 +34,7 @@ public class ForecastFragment extends Fragment {
     }
 
     private final String LOG_TAG = ForecastFragment.class.getSimpleName();
-    private String urlString  = "http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7";
+    private String urlString  = "";
 
     List<String> weekForecast = new ArrayList<String>();
 
@@ -62,7 +62,8 @@ public class ForecastFragment extends Fragment {
         listView.setAdapter(adapter);
 
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-        fetchWeatherTask.execute(this.urlString);
+        urlString = WeatherHelper.weatherUri("98053").toString();
+        fetchWeatherTask.execute(urlString);
 
         return fragmentForecastView;
     }
@@ -92,7 +93,8 @@ public class ForecastFragment extends Fragment {
         if (id == R.id.action_refresh) {
             Log.d(LOG_TAG, "action_refresh clicked");
             FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            fetchWeatherTask.execute(this.urlString);
+            urlString = WeatherHelper.weatherUri("98053").toString();
+            fetchWeatherTask.execute(urlString);
             return true;
         }
         return super.onOptionsItemSelected(item);
