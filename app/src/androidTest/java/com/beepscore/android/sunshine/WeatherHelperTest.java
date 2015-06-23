@@ -14,7 +14,7 @@ public class WeatherHelperTest extends ApplicationTestCase<Application> {
 
     public void testWeatherUri() {
         Uri expected = Uri.parse("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
-        Uri actual = WeatherHelper.weatherUri("94043");
+        Uri actual = WeatherHelper.weatherUri("94043", "json", "metric", 7);
         assertEquals(expected, actual);
     }
 

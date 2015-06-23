@@ -9,24 +9,39 @@ public class WeatherHelper {
 
     /**
      * URI for weather forecast query from OpenWeatherMap
-     * @param postalCode string for a query parameter
+     * @param postalCode specifies a geographic location
+     * @param format web service desired result format e.g. json, xml
+     * @param units web service desired result units e.g. metric
+     * @param numberOfDays e.g. 7
      * @return uri
      * http://openweathermap.org/API#forecast
      */
-    protected static Uri weatherUri(String postalCode) {
+    protected static Uri weatherUri(String postalCode,
+                                    String format, String units, Integer numberOfDays) {
+
+        final String SCHEME = "http";
+        final String BASE_URL = "api.openweathermap.org";
+        final String DATA = "data";
+        final String API_VERSION = "2.5";
+        final String FORECAST = "forecast";
+        final String DAILY = "daily";
+        final String QUERY_PARAM = "q";
+        final String MODE_PARAM = "mode";
+        final String UNITS_PARAM = "units";
+        final String COUNT_PARAM = "cnt";
 
         // http://stackoverflow.com/questions/19167954/use-uri-builder-in-android-or-create-url-with-variables
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("http")
-                .authority("api.openweathermap.org")
-                .appendPath("data")
-                .appendPath("2.5")
-                .appendPath("forecast")
-                .appendPath("daily")
-                .appendQueryParameter("q", postalCode)
-                .appendQueryParameter("mode", "json")
-                .appendQueryParameter("units", "metric")
-                .appendQueryParameter("cnt", "7");
+        builder.scheme(SCHEME)
+                .authority(BASE_URL)
+                .appendPath(DATA)
+                .appendPath(API_VERSION)
+                .appendPath(FORECAST)
+                .appendPath(DAILY)
+                .appendQueryParameter(QUERY_PARAM, postalCode)
+                .appendQueryParameter(MODE_PARAM, format)
+                .appendQueryParameter(UNITS_PARAM, units)
+                .appendQueryParameter(COUNT_PARAM, Integer.toString(numberOfDays));
 
         Uri uri = builder.build();
         return uri;
