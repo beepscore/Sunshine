@@ -36,8 +36,6 @@ public class ForecastFragment extends Fragment {
     public ForecastFragment() {
     }
 
-    private final String LOG_TAG = ForecastFragment.class.getSimpleName();
-
     ListView listView = null;
     List<String> weekForecast = new ArrayList<String>();
 
@@ -87,9 +85,7 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            Log.d(LOG_TAG, "action_refresh clicked");
             FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
             fetchWeatherTask.execute("98053");
             return true;

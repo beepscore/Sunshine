@@ -1,6 +1,5 @@
 package com.beepscore.android.sunshine;
 
-import android.util.Log;
 import android.text.format.Time;
 
 import org.json.JSONArray;
@@ -14,8 +13,6 @@ import java.text.SimpleDateFormat;
  * Based on Udacity Lesson 2 JSON parsing quiz
  */
 public class WeatherDataParser {
-
-    private final String LOG_TAG = WeatherDataParser.class.getSimpleName();
 
     /**
      * Given a string of the form returned by the api call:
@@ -129,9 +126,6 @@ public class WeatherDataParser {
             resultStrs[i] = day + " - " + description + " - " + highAndLow;
         }
 
-        for (String s : resultStrs) {
-            Log.v(LOG_TAG, "Forecast entry: " + s);
-        }
         return resultStrs;
 
     }
