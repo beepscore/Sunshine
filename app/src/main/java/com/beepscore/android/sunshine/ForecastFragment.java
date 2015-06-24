@@ -113,6 +113,7 @@ public class ForecastFragment extends Fragment {
         protected String[] doInBackground(String... params) {
 
             String postcode = params[0];
+            final Integer NUM_DAYS = 7;
 
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
@@ -125,7 +126,7 @@ public class ForecastFragment extends Fragment {
 
             try {
 
-                Uri weatherUri = WeatherHelper.weatherUri(postcode, "json", "metric", 7);
+                Uri weatherUri = WeatherHelper.weatherUri(postcode, "json", "metric", NUM_DAYS);
                 URL weatherUrl = new URL(weatherUri.toString());
 
                 urlConnection = (HttpURLConnection) weatherUrl.openConnection();
@@ -157,18 +158,12 @@ public class ForecastFragment extends Fragment {
                 }
                 forecastJsonStr = buffer.toString();
 
-                WeatherDataParser weatherDataParser = new WeatherDataParser();
-                forecastStrings = weatherDataParser.getWeatherDataFromJson(forecastJsonStr, 7);
-
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attempting
                 // to parse it.
-                forecastStrings = null;
-            } catch (JSONException e) {
-                // Couldn't parse json
-                Log.e(LOG_TAG, "Error ", e);
-                forecastStrings = null;
+                return null;
+
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
@@ -181,7 +176,17 @@ public class ForecastFragment extends Fragment {
                     }
                 }
             }
-            return forecastStrings;
+
+            try {
+                WeatherDataParser weatherDataParser = new WeatherDataParser();
+                forecastStrings = weatherDataParser.getWeatherDataFromJson(forecastJsonStr, NUM_DAYS);
+                return forecastStrings;
+            } catch (JSONException e) {
+                // Couldn't parse json
+                Log.e(LOG_TAG, "Error ", e);
+                e.printStackTrace();
+                return null;
+            }
         }
 
         /** Use to update UI. The system calls this on the UI thread.
