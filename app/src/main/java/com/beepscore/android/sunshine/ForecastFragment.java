@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import org.json.JSONException;
@@ -193,7 +192,9 @@ public class ForecastFragment extends Fragment {
         @Override
         protected void onPostExecute(String[] forecastStrings) {
             super.onPostExecute(forecastStrings);
-            updateAdapter(adapter, forecastStrings);
+            if (forecastStrings != null) {
+                updateAdapter(adapter, forecastStrings);
+            }
         }
 
     }
