@@ -18,8 +18,16 @@ public class WeatherDataParser {
      */
     public static double getMaxTemperatureForDay(String weatherJsonStr, int dayIndex)
             throws JSONException {
-        // TODO: add parsing code here
-        return -1;
+
+        // http://stackoverflow.com/questions/9605913/how-to-parse-json-in-android
+        JSONObject weatherObj = new JSONObject(weatherJsonStr);
+
+        JSONArray listArray = weatherObj.getJSONArray("list");
+        JSONObject listElement = listArray.getJSONObject(dayIndex);
+        JSONObject temp = listElement.getJSONObject("temp");
+        double max = temp.getDouble("max");
+
+        return max;
     }
 
 }
