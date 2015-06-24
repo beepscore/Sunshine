@@ -37,8 +37,7 @@ public class ForecastFragment extends Fragment {
     }
 
     ListView listView = null;
-    List<String> weekForecast = new ArrayList<String>();
-
+    ArrayAdapter adapter = null;
 
     @Override
     // onCreate is called before onCreateView
@@ -52,8 +51,10 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
 
+        List<String> weekForecast = new ArrayList<String>();
+
         // adapter creates views for each list item
-        ListAdapter adapter = new ArrayAdapter<String>(getActivity(),
+        adapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
                 weekForecast);
@@ -67,11 +68,9 @@ public class ForecastFragment extends Fragment {
         return fragmentForecastView;
     }
 
-    private void configureList(String[] forecastStrings) {
-        weekForecast.clear();
-        for (String dayForecast : forecastStrings) {
-            weekForecast.add(dayForecast);
-        }
+    private void updateAdapter(ArrayAdapter adapter, String[] forecastStrings) {
+        adapter.clear();
+        adapter.addAll(forecastStrings);
     }
 
     @Override
@@ -194,8 +193,7 @@ public class ForecastFragment extends Fragment {
         @Override
         protected void onPostExecute(String[] forecastStrings) {
             super.onPostExecute(forecastStrings);
-            configureList(forecastStrings);
-            listView.invalidateViews();
+            updateAdapter(adapter, forecastStrings);
         }
 
     }
