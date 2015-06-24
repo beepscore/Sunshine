@@ -101,6 +101,8 @@ public class ForecastFragment extends Fragment {
 
     // https://developer.android.com/guide/components/processes-and-threads.html#Threads
     // http://stackoverflow.com/questions/9671546/asynctask-android-example?rq=1
+    // Nested classes
+    // http://docs.oracle.com/javase/tutorial/java/javaOO/nested.html
     private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
