@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +38,9 @@ public class ForecastFragment extends Fragment {
 
     private final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
+    ListView listView = null;
     List<String> weekForecast = new ArrayList<String>();
+
 
     @Override
     // onCreate is called before onCreateView
@@ -50,15 +54,13 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
 
-        configureList();
-
         // adapter creates views for each list item
         ListAdapter adapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
                 weekForecast);
 
-        ListView listView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
+        listView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
         listView.setAdapter(adapter);
 
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
@@ -67,13 +69,10 @@ public class ForecastFragment extends Fragment {
         return fragmentForecastView;
     }
 
-    private void configureList() {
-        weekForecast.add("Today - Sunny - 88/63");
-        weekForecast.add("Tomorrow - Foggy - 70/46");
-        weekForecast.add("Weds - Cloudy - 72/63");
-        weekForecast.add("Thurs - Rainy - 64/51");
-        weekForecast.add("Fri - Foggy - 70/46");
-        weekForecast.add("Sat - Sunny - 76/68");
+    private void configureList(String[] forecastStrings) {
+        for (String dayForecast : forecastStrings) {
+            weekForecast.add(dayForecast);
+        }
     }
 
     @Override
@@ -102,7 +101,7 @@ public class ForecastFragment extends Fragment {
 
     // https://developer.android.com/guide/components/processes-and-threads.html#Threads
     // http://stackoverflow.com/questions/9671546/asynctask-android-example?rq=1
-    private class FetchWeatherTask extends AsyncTask<String, Void, String> {
+    private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
@@ -111,7 +110,7 @@ public class ForecastFragment extends Fragment {
          *  @return json response from web service. return null if no input.
          */
         @Override
-        protected String doInBackground(String... params) {
+        protected String[] doInBackground(String... params) {
 
             String postcode = params[0];
 
@@ -122,6 +121,7 @@ public class ForecastFragment extends Fragment {
 
             // Will contain the raw JSON response as a string.
             String forecastJsonStr = null;
+            String[] forecastStrings = null;
 
             try {
 
@@ -157,12 +157,18 @@ public class ForecastFragment extends Fragment {
                 }
                 forecastJsonStr = buffer.toString();
 
+                WeatherDataParser weatherDataParser = new WeatherDataParser();
+                forecastStrings = weatherDataParser.getWeatherDataFromJson(forecastJsonStr, 7);
+
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attempting
                 // to parse it.
-                forecastJsonStr = null;
-
+                forecastStrings = null;
+            } catch (JSONException e) {
+                // Couldn't parse json
+                Log.e(LOG_TAG, "Error ", e);
+                forecastStrings = null;
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
@@ -175,17 +181,17 @@ public class ForecastFragment extends Fragment {
                     }
                 }
             }
-            return forecastJsonStr;
+            return forecastStrings;
         }
 
         /** Use to update UI. The system calls this on the UI thread.
-         *  @param forecastJsonStr is the result returned from doInBackground()
+         *  @param forecastStrings is the result returned from doInBackground()
          */
         @Override
-        protected void onPostExecute(String forecastJsonStr) {
-            super.onPostExecute(forecastJsonStr);
-            // TODO: parse forecastJsonStr in background? Show results in fragment view
-            Log.d(LOG_TAG, forecastJsonStr);
+        protected void onPostExecute(String[] forecastStrings) {
+            super.onPostExecute(forecastStrings);
+            configureList(forecastStrings);
+            listView.invalidateViews();
         }
 
     }
