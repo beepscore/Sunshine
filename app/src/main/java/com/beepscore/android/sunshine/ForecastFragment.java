@@ -68,6 +68,7 @@ public class ForecastFragment extends Fragment {
     }
 
     private void configureList(String[] forecastStrings) {
+        weekForecast.clear();
         for (String dayForecast : forecastStrings) {
             weekForecast.add(dayForecast);
         }
