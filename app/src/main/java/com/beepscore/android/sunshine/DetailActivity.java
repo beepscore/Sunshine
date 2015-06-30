@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 // https://github.com/udacity/Sunshine-Version-2/blob/3.02_create_detail_activity/app/src/main/java/com/example/android/sunshine/app/DetailActivity.java
 
@@ -59,7 +60,13 @@ public class DetailActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
+            String dayForecast = getActivity().getIntent().getExtras().getString("dayForecast");
+
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+            TextView textView = (TextView)rootView.findViewById(R.id.detail_text_view);
+            // http://stackoverflow.com/questions/11387740/where-how-to-getintent-getextras-in-an-android-fragment
+            textView.setText(dayForecast);
+
             return rootView;
         }
     }

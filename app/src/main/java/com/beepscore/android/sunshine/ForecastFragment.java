@@ -1,5 +1,6 @@
 package com.beepscore.android.sunshine;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -67,8 +68,9 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String dayForecast = adapter.getItem(i);
-                Toast toast = Toast.makeText(getActivity(), dayForecast, Toast.LENGTH_SHORT);
-                toast.show();
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra("dayForecast", dayForecast);
+                startActivity(intent);
             }
         });
 
