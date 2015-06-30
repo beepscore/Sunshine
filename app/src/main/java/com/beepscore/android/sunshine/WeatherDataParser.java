@@ -85,6 +85,7 @@ public class WeatherDataParser {
         // current day, we're going to take advantage of that to get a nice
         // normalized UTC date for all of our weather.
 
+        // TODO: Consider replace deprecated class Time
         Time dayTime = new Time();
         dayTime.setToNow();
 
