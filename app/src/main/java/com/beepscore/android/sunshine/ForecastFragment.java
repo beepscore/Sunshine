@@ -38,7 +38,7 @@ public class ForecastFragment extends Fragment {
     }
 
     ListView listView = null;
-    ArrayAdapter adapter = null;
+    ArrayAdapter<String> adapter = null;
 
     @Override
     // onCreate is called before onCreateView
@@ -52,7 +52,7 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
 
-        final List<String> weekForecast = new ArrayList<String>();
+        List<String> weekForecast = new ArrayList<String>();
 
         // adapter creates views for each list item
         adapter = new ArrayAdapter<String>(getActivity(),
@@ -66,7 +66,7 @@ public class ForecastFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String dayForecast = weekForecast.get(i);
+                String dayForecast = adapter.getItem(i);
                 Toast toast = Toast.makeText(getActivity(), dayForecast, Toast.LENGTH_SHORT);
                 toast.show();
             }
