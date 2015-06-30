@@ -12,4 +12,5 @@
     <!-- Menu label to fetch updated weather info from the server -->
     <!-- translatable="false" indicates to translators don't translate string -->
     <string name="action_refresh_title" translatable="false">Refresh</string>
+    <string name="title_activity_detail">DetailActivity</string>
 </resources>
