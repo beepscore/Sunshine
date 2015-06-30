@@ -1,5 +1,6 @@
 package com.beepscore.android.sunshine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -60,7 +61,7 @@ public class DetailActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            String dayForecast = getActivity().getIntent().getExtras().getString("dayForecast");
+            String dayForecast = getActivity().getIntent().getExtras().getString(Intent.EXTRA_TEXT);
 
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
             TextView textView = (TextView)rootView.findViewById(R.id.detail_text_view);
