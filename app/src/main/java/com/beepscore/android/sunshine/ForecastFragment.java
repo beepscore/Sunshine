@@ -11,8 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -50,7 +52,7 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
 
-        List<String> weekForecast = new ArrayList<String>();
+        final List<String> weekForecast = new ArrayList<String>();
 
         // adapter creates views for each list item
         adapter = new ArrayAdapter<String>(getActivity(),
@@ -60,6 +62,15 @@ public class ForecastFragment extends Fragment {
 
         listView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String dayForecast = weekForecast.get(i);
+                Toast toast = Toast.makeText(getActivity(), dayForecast, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
 
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
         fetchWeatherTask.execute("98053");
