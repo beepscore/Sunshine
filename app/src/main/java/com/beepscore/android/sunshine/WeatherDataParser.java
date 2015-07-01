@@ -23,10 +23,10 @@ public class WeatherDataParser {
     final String OWM_DESCRIPTION = "main";
 
     /**
-     * Given a string of the form returned by the api call:
+     * @param weatherJsonStr a string of the form returned by the api call
      * http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7
-     * retrieve the maximum temperature for the day indicated by dayIndex
-     * (Note: 0-indexed, so 0 would refer to the first day).
+     * @param dayIndex Note: 0-indexed, so 0 refers to the first day.
+     * @return the maximum temperature for the day indicated by dayIndex
      */
     public static double getMaxTemperatureForDay(String weatherJsonStr, int dayIndex)
             throws JSONException {
@@ -62,7 +62,7 @@ public class WeatherDataParser {
     protected String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
             throws JSONException {
 
-        JSONArray weatherArray = getJsonDaysFromJsonString(forecastJsonStr);
+        JSONArray weatherDays = getWeatherDaysFromJsonString(forecastJsonStr);
 
         // OWM returns daily forecasts based upon the local time of the city that is being
         // asked for, which means that we need to know the GMT offset to translate this data
@@ -83,31 +83,28 @@ public class WeatherDataParser {
         dayTime = new Time();
 
         String[] resultStrs = new String[numDays];
-        for(int i = 0; i < weatherArray.length(); i++) {
+        for(int i = 0; i < weatherDays.length(); i++) {
 
-            // For now, using the format "Day, description, hi/low"
-            String highAndLow;
-
-            // JSON object representing day i
-            JSONObject dayForecast = weatherArray.getJSONObject(i);
+            JSONObject weatherDay = weatherDays.getJSONObject(i);
 
             String day = getDayString(dayTime, julianStartDay, i);
-            String description = getDescription(dayForecast);
+            String description = getDescription(weatherDay);
 
-            double high = getHigh(dayForecast);
-            double low = getLow(dayForecast);
+            double high = getHigh(weatherDay);
+            double low = getLow(weatherDay);
+            String highAndLow = formatHighLows(high, low);
 
-            highAndLow = formatHighLows(high, low);
+            // format "Day - description - hi/low"
             resultStrs[i] = day + " - " + description + " - " + highAndLow;
         }
-
         return resultStrs;
     }
-    protected JSONArray getJsonDaysFromJsonString(String forecastJsonStr)
+
+    protected JSONArray getWeatherDaysFromJsonString(String forecastJsonStr)
             throws JSONException {
         JSONObject forecastJson = new JSONObject(forecastJsonStr);
-        JSONArray daysArray = forecastJson.getJSONArray(OWM_LIST);
-        return daysArray;
+        JSONArray weatherDays = forecastJson.getJSONArray(OWM_LIST);
+        return weatherDays;
     }
 
     private String getDayString(Time dayTime, int julianStartDay, int i) {
@@ -124,28 +121,28 @@ public class WeatherDataParser {
         return day;
     }
 
-    private String getDescription(JSONObject dayForecast) throws JSONException {
+    private String getDescription(JSONObject weatherDay) throws JSONException {
         String description;// description is in a child array called "weather", which is 1 element long.
-        JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
+        JSONObject weatherObject = weatherDay.getJSONArray(OWM_WEATHER).getJSONObject(0);
         description = weatherObject.getString(OWM_DESCRIPTION);
         return description;
     }
 
-    private double getHigh(JSONObject dayForecast) throws JSONException {
-        JSONObject temperatureObject = getTemperatureJson(dayForecast);
+    private double getHigh(JSONObject weatherDay) throws JSONException {
+        JSONObject temperatureObject = getTemperatureJson(weatherDay);
         return temperatureObject.getDouble(OWM_MAX);
     }
 
-    private double getLow(JSONObject dayForecast) throws JSONException {
-        JSONObject temperatureObject = getTemperatureJson(dayForecast);
+    private double getLow(JSONObject weatherDay) throws JSONException {
+        JSONObject temperatureObject = getTemperatureJson(weatherDay);
         return temperatureObject.getDouble(OWM_MIN);
     }
 
-    private JSONObject getTemperatureJson(JSONObject dayForecast) throws JSONException {
+    private JSONObject getTemperatureJson(JSONObject weatherDay) throws JSONException {
         // Temperatures are in a child object called "temp".
         // Try not to name variables "temp" when working with temperature.
         // It confuses everybody.
-        return dayForecast.getJSONObject(OWM_TEMPERATURE);
+        return weatherDay.getJSONObject(OWM_TEMPERATURE);
     }
 
     /**
