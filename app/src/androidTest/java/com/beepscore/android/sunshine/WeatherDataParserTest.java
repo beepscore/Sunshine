@@ -41,4 +41,12 @@ public class WeatherDataParserTest extends TestCase {
         assertEquals(9.84, WeatherDataParser.getLow(weatherDay));
     }
 
+    public void testGetHumidity() throws JSONException {
+        JSONArray weatherDays = WeatherDataParser.getWeatherDaysFromJsonString(WEATHER_DATA_FREMONT_JUN_4);
+        JSONObject weatherDay = weatherDays.getJSONObject(0);
+        assertEquals(Integer.valueOf(52), WeatherDataParser.getHumidity(weatherDay));
+        weatherDay = weatherDays.getJSONObject(1);
+        assertEquals(Integer.valueOf(47), WeatherDataParser.getHumidity(weatherDay));
+    }
+
 }

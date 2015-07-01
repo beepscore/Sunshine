@@ -21,6 +21,7 @@ public class WeatherDataParser {
     final static String OWM_MAX = "max";
     final static String OWM_MIN = "min";
     final static String OWM_DESCRIPTION = "main";
+    final static String OWM_HUMIDITY = "humidity";
 
     /**
      * @param weatherJsonStr a string of the form returned by the api call
@@ -139,6 +140,11 @@ public class WeatherDataParser {
         // Try not to name variables "temp" when working with temperature.
         // It confuses everybody.
         return weatherDay.getJSONObject(OWM_TEMPERATURE);
+    }
+
+    protected static Integer getHumidity(JSONObject weatherDay) throws JSONException {
+        Integer humidity = weatherDay.getInt(OWM_HUMIDITY);
+        return humidity;
     }
 
     /**
