@@ -21,6 +21,14 @@ public class WeatherDataParserTest extends TestCase {
         assertEquals(16.75, WeatherDataParser.getMaxTemperatureForDay(WEATHER_DATA_FREMONT_JUN_4, 6));
     }
 
+    public void testGetDescription() throws JSONException {
+        JSONArray weatherDays = WeatherDataParser.getWeatherDaysFromJsonString(WEATHER_DATA_FREMONT_JUN_4);
+        JSONObject weatherDay = weatherDays.getJSONObject(5);
+        assertEquals("Rain", WeatherDataParser.getDescription(weatherDay));
+        weatherDay = weatherDays.getJSONObject(6);
+        assertEquals("Clear", WeatherDataParser.getDescription(weatherDay));
+    }
+
     public void testGetHigh() throws JSONException {
         JSONArray weatherDays = WeatherDataParser.getWeatherDaysFromJsonString(WEATHER_DATA_FREMONT_JUN_4);
         JSONObject weatherDay = weatherDays.getJSONObject(6);
