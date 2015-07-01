@@ -96,29 +96,17 @@ public class WeatherDataParser {
 
         String[] resultStrs = new String[numDays];
         for(int i = 0; i < weatherArray.length(); i++) {
+
             // For now, using the format "Day, description, hi/low"
-            String day;
-            String description;
             String highAndLow;
 
-            // Get the JSON object representing the day
+            // JSON object representing day i
             JSONObject dayForecast = weatherArray.getJSONObject(i);
 
-            // The date/time is returned as a long.  We need to convert that
-            // into something human-readable, since most people won't read "1400356800" as
-            // "this saturday".
-            long dateTime;
-            // Cheating to convert this to UTC time, which is what we want anyhow
-            dateTime = dayTime.setJulianDay(julianStartDay+i);
-            day = getReadableDateString(dateTime);
+            String day = getDayString(dayTime, julianStartDay, i);
+            String description = getDescription(dayForecast);
+            JSONObject temperatureObject = getTemperatureJson(dayForecast);
 
-            // description is in a child array called "weather", which is 1 element long.
-            JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
-            description = weatherObject.getString(OWM_DESCRIPTION);
-
-            // Temperatures are in a child object called "temp".  Try not to name variables
-            // "temp" when working with temperature.  It confuses everybody.
-            JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
             double high = temperatureObject.getDouble(OWM_MAX);
             double low = temperatureObject.getDouble(OWM_MIN);
 
@@ -127,14 +115,40 @@ public class WeatherDataParser {
         }
 
         return resultStrs;
-
     }
-
     protected JSONArray getJsonDaysFromJsonString(String forecastJsonStr)
             throws JSONException {
         JSONObject forecastJson = new JSONObject(forecastJsonStr);
         JSONArray daysArray = forecastJson.getJSONArray(OWM_LIST);
         return daysArray;
+    }
+
+    private String getDayString(Time dayTime, int julianStartDay, int i) {
+        String day;
+        // The date/time is returned as a long.  We need to convert that
+        // into something human-readable, since most people won't read "1400356800" as
+        // "this saturday".
+        long dateTime;
+
+        // Cheating to convert this to UTC time, which is what we want anyhow
+        dateTime = dayTime.setJulianDay(julianStartDay+i);
+        day = getReadableDateString(dateTime);
+
+        return day;
+    }
+
+    private String getDescription(JSONObject dayForecast) throws JSONException {
+        String description;// description is in a child array called "weather", which is 1 element long.
+        JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
+        description = weatherObject.getString(OWM_DESCRIPTION);
+        return description;
+    }
+
+    private JSONObject getTemperatureJson(JSONObject dayForecast) throws JSONException {
+        // Temperatures are in a child object called "temp".
+        // Try not to name variables "temp" when working with temperature.
+        // It confuses everybody.
+        return dayForecast.getJSONObject(OWM_TEMPERATURE);
     }
 
 }
