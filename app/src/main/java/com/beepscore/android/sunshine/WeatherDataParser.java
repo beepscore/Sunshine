@@ -14,13 +14,13 @@ import java.text.SimpleDateFormat;
  */
 public class WeatherDataParser {
 
-    // Names of the JSON objects that need to be extracted.
-    final String OWM_LIST = "list";
-    final String OWM_WEATHER = "weather";
-    final String OWM_TEMPERATURE = "temp";
-    final String OWM_MAX = "max";
-    final String OWM_MIN = "min";
-    final String OWM_DESCRIPTION = "main";
+    // Names of the JSON objects to extract
+    final static String OWM_LIST = "list";
+    final static String OWM_WEATHER = "weather";
+    final static String OWM_TEMPERATURE = "temp";
+    final static String OWM_MAX = "max";
+    final static String OWM_MIN = "min";
+    final static String OWM_DESCRIPTION = "main";
 
     /**
      * @param weatherJsonStr a string of the form returned by the api call
@@ -32,20 +32,16 @@ public class WeatherDataParser {
             throws JSONException {
 
         // http://stackoverflow.com/questions/9605913/how-to-parse-json-in-android
-        JSONObject weatherObj = new JSONObject(weatherJsonStr);
-
-        JSONArray listArray = weatherObj.getJSONArray("list");
-        JSONObject listElement = listArray.getJSONObject(dayIndex);
-        JSONObject temp = listElement.getJSONObject("temp");
-        double max = temp.getDouble("max");
-
+        JSONArray weatherDays = getWeatherDaysFromJsonString(weatherJsonStr);
+        JSONObject weatherDay = weatherDays.getJSONObject(dayIndex);
+        double max = getHigh(weatherDay);
         return max;
     }
 
     /* The date/time conversion code is going to be moved outside the asynctask later,
      * so for convenience we're breaking it out into its own method now.
      */
-    private String getReadableDateString(long time){
+    private static String getReadableDateString(long time){
         // Because the API returns a unix timestamp (measured in seconds),
         // it must be converted to milliseconds in order to be converted to valid date.
         SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE MMM dd");
@@ -100,14 +96,14 @@ public class WeatherDataParser {
         return resultStrs;
     }
 
-    protected JSONArray getWeatherDaysFromJsonString(String forecastJsonStr)
+    protected static JSONArray getWeatherDaysFromJsonString(String forecastJsonStr)
             throws JSONException {
         JSONObject forecastJson = new JSONObject(forecastJsonStr);
         JSONArray weatherDays = forecastJson.getJSONArray(OWM_LIST);
         return weatherDays;
     }
 
-    private String getDayString(Time dayTime, int julianStartDay, int i) {
+    private static String getDayString(Time dayTime, int julianStartDay, int i) {
         String day;
         // The date/time is returned as a long.  We need to convert that
         // into something human-readable, since most people won't read "1400356800" as
@@ -121,24 +117,24 @@ public class WeatherDataParser {
         return day;
     }
 
-    private String getDescription(JSONObject weatherDay) throws JSONException {
+    private static String getDescription(JSONObject weatherDay) throws JSONException {
         String description;// description is in a child array called "weather", which is 1 element long.
         JSONObject weatherObject = weatherDay.getJSONArray(OWM_WEATHER).getJSONObject(0);
         description = weatherObject.getString(OWM_DESCRIPTION);
         return description;
     }
 
-    private double getHigh(JSONObject weatherDay) throws JSONException {
+    private static double getHigh(JSONObject weatherDay) throws JSONException {
         JSONObject temperatureObject = getTemperatureJson(weatherDay);
         return temperatureObject.getDouble(OWM_MAX);
     }
 
-    private double getLow(JSONObject weatherDay) throws JSONException {
+    private static double getLow(JSONObject weatherDay) throws JSONException {
         JSONObject temperatureObject = getTemperatureJson(weatherDay);
         return temperatureObject.getDouble(OWM_MIN);
     }
 
-    private JSONObject getTemperatureJson(JSONObject weatherDay) throws JSONException {
+    private static JSONObject getTemperatureJson(JSONObject weatherDay) throws JSONException {
         // Temperatures are in a child object called "temp".
         // Try not to name variables "temp" when working with temperature.
         // It confuses everybody.
