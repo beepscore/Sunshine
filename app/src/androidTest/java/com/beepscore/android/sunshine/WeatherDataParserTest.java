@@ -1,7 +1,9 @@
 package com.beepscore.android.sunshine;
 
 import junit.framework.TestCase;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by stevebaker on 6/22/15.
@@ -18,4 +20,17 @@ public class WeatherDataParserTest extends TestCase {
     public void testFremontLastDay() throws JSONException {
         assertEquals(16.75, WeatherDataParser.getMaxTemperatureForDay(WEATHER_DATA_FREMONT_JUN_4, 6));
     }
+
+    public void testGetHigh() throws JSONException {
+        JSONArray weatherDays = WeatherDataParser.getWeatherDaysFromJsonString(WEATHER_DATA_FREMONT_JUN_4);
+        JSONObject weatherDay = weatherDays.getJSONObject(6);
+        assertEquals(16.75, WeatherDataParser.getHigh(weatherDay));
+    }
+
+    public void testGetLow() throws JSONException {
+        JSONArray weatherDays = WeatherDataParser.getWeatherDaysFromJsonString(WEATHER_DATA_FREMONT_JUN_4);
+        JSONObject weatherDay = weatherDays.getJSONObject(6);
+        assertEquals(9.84, WeatherDataParser.getLow(weatherDay));
+    }
+
 }
