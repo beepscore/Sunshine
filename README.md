@@ -1,5 +1,5 @@
 # Purpose
-Do Lesson 1 Sunshine.
+Do Lesson 1, 2 Sunshine.
 
 # References
 
@@ -42,7 +42,11 @@ Right click on app.
 Select new / image asset. This launches Asset Studio.
 Use Asset Studio to generate images.
 
-### Gradle command line commands
+### Reference repository
+Copied image resources from project reference
+<https://github.com/udacity/Sunshine-Version-2>
+
+## Gradle command line commands
 
 Grant gradlew execute permission. Only need to do this once.
 
@@ -60,7 +64,7 @@ Start app running
 
     adb shell am start -n com.example.android.sunshine.app/com.example.android.sunshine.app.MainActivity
 
-### json
+## json
 To prettify format json in vim
 
     :%!python3 -m json.tool
