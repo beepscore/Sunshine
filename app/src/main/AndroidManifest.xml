@@ -20,7 +20,8 @@
         </activity>
         <activity
             android:name=".DetailActivity"
-            android:label="@string/title_activity_detail" >
+            android:label="@string/title_activity_detail"
+            android:parentActivityName="com.beepscore.android.sunshine.MainActivity" >
         </activity>
     </application>
 
