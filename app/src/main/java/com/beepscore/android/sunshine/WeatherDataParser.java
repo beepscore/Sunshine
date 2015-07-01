@@ -103,7 +103,7 @@ public class WeatherDataParser {
         return weatherDays;
     }
 
-    private static String getDayString(Time dayTime, int julianStartDay, int i) {
+    protected static String getDayString(Time dayTime, int julianStartDay, int i) {
         String day;
         // The date/time is returned as a long.  We need to convert that
         // into something human-readable, since most people won't read "1400356800" as
@@ -117,19 +117,19 @@ public class WeatherDataParser {
         return day;
     }
 
-    private static String getDescription(JSONObject weatherDay) throws JSONException {
+    protected static String getDescription(JSONObject weatherDay) throws JSONException {
         String description;// description is in a child array called "weather", which is 1 element long.
         JSONObject weatherObject = weatherDay.getJSONArray(OWM_WEATHER).getJSONObject(0);
         description = weatherObject.getString(OWM_DESCRIPTION);
         return description;
     }
 
-    private static double getHigh(JSONObject weatherDay) throws JSONException {
+    protected static double getHigh(JSONObject weatherDay) throws JSONException {
         JSONObject temperatureObject = getTemperatureJson(weatherDay);
         return temperatureObject.getDouble(OWM_MAX);
     }
 
-    private static double getLow(JSONObject weatherDay) throws JSONException {
+    protected static double getLow(JSONObject weatherDay) throws JSONException {
         JSONObject temperatureObject = getTemperatureJson(weatherDay);
         return temperatureObject.getDouble(OWM_MIN);
     }
