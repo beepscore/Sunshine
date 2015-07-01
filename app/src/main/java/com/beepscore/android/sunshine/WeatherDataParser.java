@@ -14,6 +14,14 @@ import java.text.SimpleDateFormat;
  */
 public class WeatherDataParser {
 
+    // Names of the JSON objects that need to be extracted.
+    final String OWM_LIST = "list";
+    final String OWM_WEATHER = "weather";
+    final String OWM_TEMPERATURE = "temp";
+    final String OWM_MAX = "max";
+    final String OWM_MIN = "min";
+    final String OWM_DESCRIPTION = "main";
+
     /**
      * Given a string of the form returned by the api call:
      * http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7
@@ -66,16 +74,7 @@ public class WeatherDataParser {
     protected String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
             throws JSONException {
 
-        // These are the names of the JSON objects that need to be extracted.
-        final String OWM_LIST = "list";
-        final String OWM_WEATHER = "weather";
-        final String OWM_TEMPERATURE = "temp";
-        final String OWM_MAX = "max";
-        final String OWM_MIN = "min";
-        final String OWM_DESCRIPTION = "main";
-
-        JSONObject forecastJson = new JSONObject(forecastJsonStr);
-        JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
+        JSONArray weatherArray = getJsonDaysFromJsonString(forecastJsonStr);
 
         // OWM returns daily forecasts based upon the local time of the city that is being
         // asked for, which means that we need to know the GMT offset to translate this data
@@ -129,6 +128,13 @@ public class WeatherDataParser {
 
         return resultStrs;
 
+    }
+
+    protected JSONArray getJsonDaysFromJsonString(String forecastJsonStr)
+            throws JSONException {
+        JSONObject forecastJson = new JSONObject(forecastJsonStr);
+        JSONArray daysArray = forecastJson.getJSONArray(OWM_LIST);
+        return daysArray;
     }
 
 }
