@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">Sunshine</string>
-    <string name="weather">weather</string>
-    <string name="imageViewContentDescription">weather chart</string>
     <string name="date">date</string>
-    <string name="degreesF">21°F</string>
     <string name="degreesC">8°C</string>
+    <string name="degreesF">21°F</string>
     <string name="forecast">Today - Sunny - 88 / 63</string>
+    <string name="imageViewContentDescription">weather chart</string>
+    <string name="title_activity_detail">Details</string>
+    <string name="weather">weather</string>
 
     <!-- By convention, name of a string shown in action bar is prefixed action_ -->
     <string name="action_settings">Settings</string>
     <!-- Menu label to fetch updated weather info from the server -->
     <!-- translatable="false" indicates to translators don't translate string -->
     <string name="action_refresh_title" translatable="false">Refresh</string>
-    <string name="title_activity_detail">Details</string>
 </resources>
