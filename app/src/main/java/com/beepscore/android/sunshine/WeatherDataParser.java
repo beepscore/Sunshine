@@ -105,10 +105,9 @@ public class WeatherDataParser {
 
             String day = getDayString(dayTime, julianStartDay, i);
             String description = getDescription(dayForecast);
-            JSONObject temperatureObject = getTemperatureJson(dayForecast);
 
-            double high = temperatureObject.getDouble(OWM_MAX);
-            double low = temperatureObject.getDouble(OWM_MIN);
+            double high = getHigh(dayForecast);
+            double low = getLow(dayForecast);
 
             highAndLow = formatHighLows(high, low);
             resultStrs[i] = day + " - " + description + " - " + highAndLow;
@@ -142,6 +141,16 @@ public class WeatherDataParser {
         JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
         description = weatherObject.getString(OWM_DESCRIPTION);
         return description;
+    }
+
+    private double getHigh(JSONObject dayForecast) throws JSONException {
+        JSONObject temperatureObject = getTemperatureJson(dayForecast);
+        return temperatureObject.getDouble(OWM_MAX);
+    }
+
+    private double getLow(JSONObject dayForecast) throws JSONException {
+        JSONObject temperatureObject = getTemperatureJson(dayForecast);
+        return temperatureObject.getDouble(OWM_MIN);
     }
 
     private JSONObject getTemperatureJson(JSONObject dayForecast) throws JSONException {
