@@ -23,6 +23,10 @@
             android:label="@string/title_activity_detail"
             android:parentActivityName="com.beepscore.android.sunshine.MainActivity" >
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>
