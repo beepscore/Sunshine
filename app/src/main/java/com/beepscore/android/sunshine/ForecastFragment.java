@@ -1,8 +1,10 @@
 package com.beepscore.android.sunshine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,8 +75,7 @@ public class ForecastFragment extends Fragment {
             }
         });
 
-        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-        fetchWeatherTask.execute("98053");
+        fetchWeatherForLocationPreference();
 
         return fragmentForecastView;
     }
@@ -97,8 +98,7 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
-            FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            fetchWeatherTask.execute("98053");
+            fetchWeatherForLocationPreference();
             return true;
         }
 
@@ -109,6 +109,21 @@ public class ForecastFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void fetchWeatherForLocationPreference() {
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        String locationPreferenceString = getLocationPreferenceString();
+        fetchWeatherTask.execute(locationPreferenceString);
+    }
+
+    private String getLocationPreferenceString() {
+        // http://stackoverflow.com/questions/2614719/how-do-i-get-the-sharedpreferences-from-a-preferenceactivity-in-android
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String keyName = getString(R.string.pref_location_key);
+        // if no key-value pair for keyName, use pref_location_default
+        return preferences.getString(keyName,
+                getString(R.string.pref_location_default));
     }
 
     ////////////////////////////////////////////////////////////////////////////
