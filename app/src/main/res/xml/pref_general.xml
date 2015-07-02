@@ -6,8 +6,15 @@
     <EditTextPreference
         android:defaultValue="@string/pref_location_default"
         android:key="@string/pref_location_key"
-        android:title="@string/pref_location_label"
+        android:title="@string/pref_location_title"
         android:inputType="text"
         android:singleLine="true" />
+
+    <ListPreference
+        android:key="@string/pref_units_key"
+        android:summary="@string/pref_units_summary"
+        android:title="@string/pref_units_title"
+        android:entries="@array/pref_units_entries"
+        android:entryValues="@array/pref_units_values" />
 
 </PreferenceScreen>

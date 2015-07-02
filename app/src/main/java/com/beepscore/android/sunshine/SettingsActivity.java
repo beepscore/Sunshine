@@ -26,6 +26,7 @@ public class SettingsActivity extends PreferenceActivity
         // To target SDK 10 Gingerbread, must use deprecated addPreferencesFromResource
         addPreferencesFromResource(R.xml.pref_general);
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
     }
 
     /**
