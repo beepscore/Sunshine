@@ -68,3 +68,10 @@ Start app running
 To prettify format json in vim
 
     :%!python3 -m json.tool
+
+## Settings
+Android 10 Gingerbread used PreferenceActivity.
+Android >= 11 can use PreferenceFragment.
+Android Studio Settings template will generate code to support both, but may show deprecation warnings.
+Instead, for this project use Udacity supplied gist.
+<https://gist.github.com/udacityandroid/41aca2eb9ff6942e769b>
