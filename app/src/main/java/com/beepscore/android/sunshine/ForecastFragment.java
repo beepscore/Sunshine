@@ -75,9 +75,13 @@ public class ForecastFragment extends Fragment {
             }
         });
 
-        fetchWeatherForLocationPreference();
-
         return fragmentForecastView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        fetchWeatherForLocationPreference();
     }
 
     private void updateAdapter(ArrayAdapter adapter, String[] forecastStrings) {
