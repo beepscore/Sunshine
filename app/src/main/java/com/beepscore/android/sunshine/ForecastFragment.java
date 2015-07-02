@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -102,6 +101,13 @@ public class ForecastFragment extends Fragment {
             fetchWeatherTask.execute("98053");
             return true;
         }
+
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
