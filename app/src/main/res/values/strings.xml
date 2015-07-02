@@ -19,8 +19,8 @@
     <!-- Title for the location preference [CHAR LIMIT=30] -->
     <string name="pref_location_title">Location</string>
     <string name="pref_units_key" translatable="false">units</string>
-    <string name="pref_units_summary">Temperature Units</string>
-    <string name="pref_units_title">Pick Your Units</string>
+    <string name="pref_units_dialog_title">Pick Your Units</string>
+    <string name="pref_units_title">Temperature Units</string>
 
     <string name="title_activity_detail">Details</string>
     <string name="title_activity_settings">Settings</string>
