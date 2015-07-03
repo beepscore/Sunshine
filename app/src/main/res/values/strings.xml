@@ -7,9 +7,9 @@
 
     <string name="app_name">Sunshine</string>
     <string name="date">date</string>
-    <string name="degreesC">8°C</string>
-    <string name="degreesF">21°F</string>
-    <string name="forecast">Today - Sunny - 88 / 63</string>
+    <string name="degreesC">°C</string>
+    <string name="degreesF">°F</string>
+    <string name="forecast">-</string>
     <string name="imageViewContentDescription">weather chart</string>
 
     <!-- Default postal code for location preference [CHAR LIMIT=NONE] -->
