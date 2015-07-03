@@ -68,30 +68,12 @@ public class WeatherDataParser {
 
         JSONArray weatherDays = getWeatherDaysFromJsonString(forecastJsonStr);
 
-        // OWM returns daily forecasts based upon the local time of the city that is being
-        // asked for, which means that we need to know the GMT offset to translate this data
-        // properly.
-
-        // Since this data is also sent in-order and the first day is always the
-        // current day, we're going to take advantage of that to get a nice
-        // normalized UTC date for all of our weather.
-
-        // TODO: Consider replace deprecated class Time
-        Time dayTime = new Time();
-        dayTime.setToNow();
-
-        // we start at the day returned by local time. Otherwise this is a mess.
-        int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
-
-        // now we work exclusively in UTC
-        dayTime = new Time();
-
         String[] resultStrs = new String[numDays];
         for(int i = 0; i < weatherDays.length(); i++) {
 
             JSONObject weatherDay = weatherDays.getJSONObject(i);
 
-            String day = getDayString(dayTime, julianStartDay, i);
+            String day = getDayString(i);
             String description = getDescription(weatherDay);
 
             double high = getHigh(weatherDay);
@@ -104,7 +86,25 @@ public class WeatherDataParser {
         return resultStrs;
     }
 
-    protected static String getDayString(Time dayTime, int julianStartDay, int i) {
+    protected static String getDayString(int i) {
+
+        // OWM returns daily forecasts based upon the local time of the city that is being
+        // asked for, which means that we need to know the GMT offset to translate this data
+        // properly.
+
+        // Since this data is also sent in-order and the first day is always the
+        // current day, we're going to take advantage of that to get a nice
+        // normalized UTC date for all of our weather.
+
+        // TODO: Consider replace deprecated class Time
+        Time timeNow = new Time();
+        timeNow.setToNow();
+
+        // we start at the day returned by local time. Otherwise this is a mess.
+        int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), timeNow.gmtoff);
+
+        // now we work exclusively in UTC
+        Time dayTime = new Time();
         String day;
         // The date/time is returned as a long.  We need to convert that
         // into something human-readable, since most people won't read "1400356800" as
