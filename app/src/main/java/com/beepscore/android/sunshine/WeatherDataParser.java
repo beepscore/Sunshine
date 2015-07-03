@@ -125,11 +125,19 @@ public class WeatherDataParser {
         return description;
     }
 
+    /**
+     * @param weatherDay a json object representing the weather for one day
+     * @return the maximum temperature
+     */
     protected static double getHigh(JSONObject weatherDay) throws JSONException {
         JSONObject temperatureObject = getTemperatureJson(weatherDay);
         return temperatureObject.getDouble(OWM_MAX);
     }
 
+    /**
+     * @param weatherDay a json object representing the weather for one day
+     * @return the minimum temperature
+     */
     protected static double getLow(JSONObject weatherDay) throws JSONException {
         JSONObject temperatureObject = getTemperatureJson(weatherDay);
         return temperatureObject.getDouble(OWM_MIN);
@@ -142,6 +150,10 @@ public class WeatherDataParser {
         return weatherDay.getJSONObject(OWM_TEMPERATURE);
     }
 
+    /**
+     * @param weatherDay a json object representing the weather for one day
+     * @return the humidity as an integer from 0-100 inclusive
+     */
     protected static Integer getHumidity(JSONObject weatherDay) throws JSONException {
         Integer humidity = weatherDay.getInt(OWM_HUMIDITY);
         return humidity;
