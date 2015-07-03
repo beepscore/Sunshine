@@ -130,6 +130,14 @@ public class ForecastFragment extends Fragment {
                 getString(R.string.pref_location_default));
     }
 
+    private String getUnitsPreferenceString() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String keyName = getString(R.string.pref_units_key);
+        // if no key-value pair for keyName, use pref_units_metric
+        return preferences.getString(keyName,
+                getString(R.string.pref_units_metric));
+    }
+
     ////////////////////////////////////////////////////////////////////////////
 
     // https://developer.android.com/guide/components/processes-and-threads.html#Threads
