@@ -44,14 +44,16 @@ public class MainActivity extends AppCompatActivity {
         showMapForUri(geoLocation);
     }
 
-    public Uri getGeoLocation(String locationPreference) {
-        String escapedLocationPreference = locationPreference.replaceAll(" ", "+");
-        Uri uri = Uri.parse("geo:0,0?q=" + escapedLocationPreference);
-        return uri;
+    protected Uri getGeoLocation(String locationPreference) {
+        // Uri builder escapes any spaces in locationPreference string to %20
+        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                .appendQueryParameter("q", locationPreference)
+                .build();
+        return geoLocation;
     }
 
     // https://developer.android.com/guide/components/intents-common.html
-    public void showMapForUri(Uri geoLocation) {
+    private void showMapForUri(Uri geoLocation) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(geoLocation);
         // if device doesn't have any apps to handle this intent, startActivity would crash
