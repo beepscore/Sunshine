@@ -39,6 +39,13 @@ public class WeatherDataParser {
         return max;
     }
 
+    protected static JSONArray getWeatherDaysFromJsonString(String forecastJsonStr)
+            throws JSONException {
+        JSONObject forecastJson = new JSONObject(forecastJsonStr);
+        JSONArray weatherDays = forecastJson.getJSONArray(OWM_LIST);
+        return weatherDays;
+    }
+
     /* The date/time conversion code is going to be moved outside the asynctask later,
      * so for convenience we're breaking it out into its own method now.
      */
@@ -95,13 +102,6 @@ public class WeatherDataParser {
             resultStrs[i] = day + " - " + description + " - " + highAndLow;
         }
         return resultStrs;
-    }
-
-    protected static JSONArray getWeatherDaysFromJsonString(String forecastJsonStr)
-            throws JSONException {
-        JSONObject forecastJson = new JSONObject(forecastJsonStr);
-        JSONArray weatherDays = forecastJson.getJSONArray(OWM_LIST);
-        return weatherDays;
     }
 
     protected static String getDayString(Time dayTime, int julianStartDay, int i) {
