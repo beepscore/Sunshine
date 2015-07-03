@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by stevebaker on 6/22/15.
@@ -22,6 +24,9 @@ public class WeatherDataParser {
     final static String OWM_MIN = "min";
     final static String OWM_DESCRIPTION = "main";
     final static String OWM_HUMIDITY = "humidity";
+
+    final static String DAY = "day";
+    final static String DESCRIPTION = "description";
 
     /**
      * @param weatherJsonStr a string of the form returned by the api call
@@ -49,31 +54,40 @@ public class WeatherDataParser {
     /**
      * Take the String representing the complete forecast in JSON Format and
      * pull out the data we need to construct the Strings needed for the wireframes.
-     *
+     * <p/>
      * Fortunately parsing is easy:  constructor takes the JSON string and converts it
      * into an Object hierarchy for us.
      */
-    protected String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
+    protected ArrayList<HashMap<String, String>> getWeatherDataFromJson(String forecastJsonStr, int numDays)
             throws JSONException {
 
-        JSONArray weatherDays = getWeatherDaysFromJsonString(forecastJsonStr);
+        ArrayList<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
 
-        String[] resultStrs = new String[numDays];
-        for(int i = 0; i < weatherDays.length(); i++) {
+        JSONArray weatherDays = getWeatherDaysFromJsonString(forecastJsonStr);
+        for (int i = 0; i < weatherDays.length(); i++) {
 
             JSONObject weatherDay = weatherDays.getJSONObject(i);
 
+            HashMap<String, String> dayMap = new HashMap();
+
             String day = getDayString(i);
+            dayMap.put(DAY, day);
+
             String description = getDescription(weatherDay);
+            dayMap.put(DESCRIPTION, description);
 
             double high = getHigh(weatherDay);
-            double low = getLow(weatherDay);
-            String highAndLow = formatHighLows(high, low);
+            dayMap.put(OWM_MAX, String.valueOf(high));
 
-            // format "Day - description - hi/low"
-            resultStrs[i] = day + " - " + description + " - " + highAndLow;
+            double low = getLow(weatherDay);
+            dayMap.put(OWM_MIN, String.valueOf(low));
+
+            Integer humidity = getHumidity(weatherDay);
+            dayMap.put(OWM_HUMIDITY, String.valueOf(humidity));
+
+            results.add(i, dayMap);
         }
-        return resultStrs;
+        return results;
     }
 
     protected static String getDayString(int i) {

@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -84,7 +85,7 @@ public class ForecastFragment extends Fragment {
         fetchWeatherForLocationPreference();
     }
 
-    private void updateAdapter(ArrayAdapter adapter, String[] forecastStrings) {
+    private void updateAdapter(ArrayAdapter adapter, ArrayList<String> forecastStrings) {
         adapter.clear();
         adapter.addAll(forecastStrings);
     }
@@ -144,7 +145,8 @@ public class ForecastFragment extends Fragment {
     // http://stackoverflow.com/questions/9671546/asynctask-android-example?rq=1
     // Nested classes
     // http://docs.oracle.com/javase/tutorial/java/javaOO/nested.html
-    private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
+    // first parameter is input, second is integer for onProgressUpdate, third is return for onPostExecute
+    private class FetchWeatherTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
@@ -153,7 +155,7 @@ public class ForecastFragment extends Fragment {
          *  @return json response from web service. return null if no input.
          */
         @Override
-        protected String[] doInBackground(String... params) {
+        protected ArrayList<HashMap<String, String>> doInBackground(String... params) {
 
             String postcode = params[0];
             final Integer NUM_DAYS = 7;
@@ -165,7 +167,6 @@ public class ForecastFragment extends Fragment {
 
             // Will contain the raw JSON response as a string.
             String forecastJsonStr = null;
-            String[] forecastStrings = null;
 
             try {
 
@@ -222,8 +223,8 @@ public class ForecastFragment extends Fragment {
 
             try {
                 WeatherDataParser weatherDataParser = new WeatherDataParser();
-                forecastStrings = weatherDataParser.getWeatherDataFromJson(forecastJsonStr, NUM_DAYS);
-                return forecastStrings;
+                ArrayList<HashMap<String, String>> forecastResults = weatherDataParser.getWeatherDataFromJson(forecastJsonStr, NUM_DAYS);
+                return forecastResults;
             } catch (JSONException e) {
                 // Couldn't parse json
                 Log.e(LOG_TAG, "Error ", e);
@@ -233,12 +234,62 @@ public class ForecastFragment extends Fragment {
         }
 
         /** Use to update UI. The system calls this on the UI thread.
-         *  @param forecastStrings is the result returned from doInBackground()
+         *  @param forecastResults is the result returned from doInBackground()
          */
         @Override
-        protected void onPostExecute(String[] forecastStrings) {
-            super.onPostExecute(forecastStrings);
-            if (forecastStrings != null) {
+        protected void onPostExecute(ArrayList<HashMap<String, String>> forecastResults) {
+            super.onPostExecute(forecastResults);
+            if (forecastResults != null) {
+
+                ArrayList<String> forecastStrings = new ArrayList<String>();
+
+                for (int index = 0; index < forecastResults.size(); ++index) {
+                    HashMap<String, String> dayMap = forecastResults.get(index);
+
+                    String forecastString = "";
+                    if (dayMap != null) {
+
+                        if (dayMap.containsKey(WeatherDataParser.DAY)
+                                && (dayMap.get(WeatherDataParser.DAY) != null)) {
+                            String descriptionString = dayMap.get(WeatherDataParser.DAY);
+                            forecastString = forecastString + descriptionString;
+                        }
+
+                        forecastString = forecastString + " ";
+
+                        if (dayMap.containsKey(WeatherDataParser.DESCRIPTION)
+                                && (dayMap.get(WeatherDataParser.DESCRIPTION) != null)) {
+                            String descriptionString = dayMap.get(WeatherDataParser.DESCRIPTION);
+                            forecastString = forecastString + descriptionString;
+                        }
+
+                        forecastString = forecastString + " ";
+
+                        if (dayMap.containsKey(WeatherDataParser.OWM_MAX)
+                                && (dayMap.get(WeatherDataParser.OWM_MAX) != null)) {
+                            String maxString = dayMap.get(WeatherDataParser.OWM_MAX);
+                            forecastString = forecastString + maxString;
+                        }
+
+                        forecastString = forecastString + " / ";
+
+                        if (dayMap.containsKey(WeatherDataParser.OWM_MIN)
+                                && (dayMap.get(WeatherDataParser.OWM_MIN) != null)) {
+                            String minString = dayMap.get(WeatherDataParser.OWM_MIN);
+                            forecastString = forecastString + minString;
+                        }
+
+                        forecastString = forecastString + " humidity: ";
+
+                        if (dayMap.containsKey(WeatherDataParser.OWM_HUMIDITY)
+                                && (dayMap.get(WeatherDataParser.OWM_HUMIDITY) != null)) {
+                            String humidityString = dayMap.get(WeatherDataParser.OWM_HUMIDITY);
+                            forecastString = forecastString + humidityString;
+                        }
+
+                    }
+                    forecastStrings.add(forecastString);
+                }
                 updateAdapter(adapter, forecastStrings);
             }
         }
