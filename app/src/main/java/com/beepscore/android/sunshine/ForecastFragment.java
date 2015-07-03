@@ -1,10 +1,8 @@
 package com.beepscore.android.sunshine;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -119,25 +117,8 @@ public class ForecastFragment extends Fragment {
 
     private void fetchWeatherForLocationPreference() {
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-        String locationPreferenceString = getLocationPreferenceString();
+        String locationPreferenceString = PreferenceHelper.getLocationPreferenceString(getActivity());
         fetchWeatherTask.execute(locationPreferenceString);
-    }
-
-    private String getLocationPreferenceString() {
-        // http://stackoverflow.com/questions/2614719/how-do-i-get-the-sharedpreferences-from-a-preferenceactivity-in-android
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String keyName = getString(R.string.pref_location_key);
-        // if no key-value pair for keyName, use pref_location_default
-        return preferences.getString(keyName,
-                getString(R.string.pref_location_default));
-    }
-
-    private String getUnitsPreferenceString() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String keyName = getString(R.string.pref_units_key);
-        // if no key-value pair for keyName, use pref_units_metric
-        return preferences.getString(keyName,
-                getString(R.string.pref_units_metric));
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -304,7 +285,7 @@ public class ForecastFragment extends Fragment {
         // getIntegerInstance rounds, doesn't truncate.
         NumberFormat formatter = NumberFormat.getIntegerInstance();
 
-        if (getUnitsPreferenceString() == getString(R.string.pref_units_imperial)) {
+        if (PreferenceHelper.getUnitsPreferenceString(getActivity()) == getString(R.string.pref_units_imperial)) {
             return formatter.format(WeatherHelper.degreesCToDegreesF(temperatureDegreesC))
                     + getString(R.string.degreesF);
         } else {
