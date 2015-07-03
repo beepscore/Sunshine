@@ -1,7 +1,6 @@
 package com.beepscore.android.sunshine;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -40,7 +39,6 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.detail, menu);
-        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -58,33 +56,7 @@ public class DetailActivity extends AppCompatActivity {
             return true;
         }
 
-        if (id == R.id.intent_map) {
-            String locatonPreference = PreferenceHelper.getLocationPreferenceString(this);
-            showMapForLocationPreference(locatonPreference);
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
-    }
-
-    public void showMapForLocationPreference(String locationPreference) {
-        Uri geoLocation = getGeoLocation(locationPreference);
-        showMapForUri(geoLocation);
-    }
-
-    public Uri getGeoLocation(String locationPreference) {
-        String escapedLocationPreference = locationPreference.replaceAll(" ", "+");
-        Uri uri = Uri.parse("geo:0,0?q=" + escapedLocationPreference);
-        return uri;
-    }
-
-    // https://developer.android.com/guide/components/intents-common.html
-    public void showMapForUri(Uri geoLocation) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(geoLocation);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
     }
 
     /**
@@ -99,11 +71,11 @@ public class DetailActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
+            // http://stackoverflow.com/questions/11387740/where-how-to-getintent-getextras-in-an-android-fragment
             String dayForecast = getActivity().getIntent().getExtras().getString(Intent.EXTRA_TEXT);
 
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
             TextView textView = (TextView)rootView.findViewById(R.id.detail_text_view);
-            // http://stackoverflow.com/questions/11387740/where-how-to-getintent-getextras-in-an-android-fragment
             textView.setText(dayForecast);
 
             return rootView;

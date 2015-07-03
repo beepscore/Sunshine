@@ -5,4 +5,8 @@
     <item android:id="@+id/action_refresh"
           android:title="@string/action_refresh_title"
           app:showAsAction="never"/>
+    <item android:id="@+id/intent_map"
+          android:title="@string/intent_map"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
 </menu>

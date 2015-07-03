@@ -106,6 +106,12 @@ public class ForecastFragment extends Fragment {
             return true;
         }
 
+        if (id == R.id.intent_map) {
+            String locatonPreference = PreferenceHelper.getLocationPreferenceString(getActivity());
+            showMapForLocationPreference(locatonPreference);
+            return true;
+        }
+
         if (id == R.id.action_settings) {
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
             startActivity(intent);
@@ -290,6 +296,26 @@ public class ForecastFragment extends Fragment {
                     + getString(R.string.degreesF);
         } else {
             return formatter.format(temperatureDegreesC) + getString(R.string.degreesC);
+        }
+    }
+
+    public void showMapForLocationPreference(String locationPreference) {
+        Uri geoLocation = getGeoLocation(locationPreference);
+        showMapForUri(geoLocation);
+    }
+
+    public Uri getGeoLocation(String locationPreference) {
+        String escapedLocationPreference = locationPreference.replaceAll(" ", "+");
+        Uri uri = Uri.parse("geo:0,0?q=" + escapedLocationPreference);
+        return uri;
+    }
+
+    // https://developer.android.com/guide/components/intents-common.html
+    public void showMapForUri(Uri geoLocation) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
         }
     }
 
