@@ -31,15 +31,15 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_map) {
-            String locatonPreference = PreferenceHelper.getLocationPreferenceString(this);
-            showMapForLocationPreference(locatonPreference);
+            openPreferredLocationInMap();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void showMapForLocationPreference(String locationPreference) {
+    private void openPreferredLocationInMap() {
+        String locationPreference = PreferenceHelper.getLocationPreferenceString(this);
         Uri geoLocation = getGeoLocation(locationPreference);
         showMapForUri(geoLocation);
     }
