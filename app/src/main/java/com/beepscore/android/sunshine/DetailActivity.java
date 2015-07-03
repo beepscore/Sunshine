@@ -1,6 +1,7 @@
 package com.beepscore.android.sunshine;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -57,7 +58,22 @@ public class DetailActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.intent_map) {
+            showMap(null);
+            return true;
+        }
+
+
         return super.onOptionsItemSelected(item);
+    }
+
+    // https://developer.android.com/guide/components/intents-common.html
+    public void showMap(Uri geoLocation) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     /**
