@@ -314,6 +314,8 @@ public class ForecastFragment extends Fragment {
     public void showMapForUri(Uri geoLocation) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(geoLocation);
+        // if device doesn't have any apps to handle this intent, startActivity would crash
+        // so check resolveActivity before attempting to startActivity
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivity(intent);
         }
