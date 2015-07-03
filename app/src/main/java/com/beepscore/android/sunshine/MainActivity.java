@@ -1,5 +1,7 @@
 package com.beepscore.android.sunshine;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -28,6 +30,35 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (id == R.id.action_map) {
+            String locatonPreference = PreferenceHelper.getLocationPreferenceString(this);
+            showMapForLocationPreference(locatonPreference);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
+
+    public void showMapForLocationPreference(String locationPreference) {
+        Uri geoLocation = getGeoLocation(locationPreference);
+        showMapForUri(geoLocation);
+    }
+
+    public Uri getGeoLocation(String locationPreference) {
+        String escapedLocationPreference = locationPreference.replaceAll(" ", "+");
+        Uri uri = Uri.parse("geo:0,0?q=" + escapedLocationPreference);
+        return uri;
+    }
+
+    // https://developer.android.com/guide/components/intents-common.html
+    public void showMapForUri(Uri geoLocation) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+        // if device doesn't have any apps to handle this intent, startActivity would crash
+        // so check resolveActivity before attempting to startActivity
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
 }

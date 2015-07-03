@@ -4,6 +4,7 @@
     <!-- Menu label to fetch updated weather info from the server -->
     <string name="action_refresh_title" translatable="false">Refresh</string>
     <string name="action_settings">Settings</string>
+    <string name="action_map">Map Location</string>
 
     <string name="app_name">Sunshine</string>
     <string name="date">date</string>
@@ -12,7 +13,6 @@
     <string name="forecast">-</string>
     <string name="imageViewContentDescription">weather chart</string>
 
-    <string name="intent_map">Map</string>
 
     <!-- Default postal code for location preference [CHAR LIMIT=NONE] -->
     <string name="pref_location_default" translatable="false">94043</string>
