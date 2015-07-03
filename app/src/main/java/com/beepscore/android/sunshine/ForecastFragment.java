@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -298,16 +299,16 @@ public class ForecastFragment extends Fragment {
 
     }
 
-    private String temperatureInPreferredUnits(String temperatureString) {
-        double temperatureDegreesC = Double.parseDouble(temperatureString);
+    private String temperatureInPreferredUnits(String temperatureDegreesCString) {
+        double temperatureDegreesC = Double.parseDouble(temperatureDegreesCString);
+        // getIntegerInstance rounds, doesn't truncate.
+        NumberFormat formatter = NumberFormat.getIntegerInstance();
 
         if (getUnitsPreferenceString() == getString(R.string.pref_units_imperial)) {
-            double temperatureDegreesF = WeatherHelper.degreesCToDegreesF(temperatureDegreesC);
-            Integer roundedTemperatureDegreesF = Integer.valueOf((int) Math.round(temperatureDegreesF));
-            return roundedTemperatureDegreesF.toString() + getString(R.string.degreesF);
+            return formatter.format(WeatherHelper.degreesCToDegreesF(temperatureDegreesC))
+                    + getString(R.string.degreesF);
         } else {
-            Integer roundedTemperatureDegreesC = Integer.valueOf((int) Math.round(temperatureDegreesC));
-            return roundedTemperatureDegreesC.toString() + getString(R.string.degreesC);
+            return formatter.format(temperatureDegreesC) + getString(R.string.degreesC);
         }
     }
 
