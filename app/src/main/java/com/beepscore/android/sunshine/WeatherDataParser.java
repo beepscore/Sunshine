@@ -118,6 +118,10 @@ public class WeatherDataParser {
         return day;
     }
 
+    /**
+     * @param weatherDay a json object representing the weather for one day
+     * @return the description e.g. Clear, Clouds, Rain
+     */
     protected static String getDescription(JSONObject weatherDay) throws JSONException {
         String description;// description is in a child array called "weather", which is 1 element long.
         JSONObject weatherObject = weatherDay.getJSONArray(OWM_WEATHER).getJSONObject(0);
