@@ -75,3 +75,13 @@ Android >= 11 can use PreferenceFragment.
 Android Studio Settings template will generate code to support both, but may show deprecation warnings.
 Instead, for this project use Udacity supplied gist.
 <https://gist.github.com/udacityandroid/41aca2eb9ff6942e769b>
+
+## Location city,us more reliable than zip code
+Around 2015-07-03 1:00am Pacific, I set app to location 33710.
+I thought this would give St Petersburg FL USA but got Samonac FR, very hot!
+
+Instead in app enter location St Petersburg,us
+
+US zip code 988053 returns Castroreale IT.
+Instead enter location Seattle,us
+
