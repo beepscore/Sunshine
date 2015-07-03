@@ -12,6 +12,8 @@
     <string name="forecast">-</string>
     <string name="imageViewContentDescription">weather chart</string>
 
+    <string name="intent_map">Map</string>
+
     <!-- Default postal code for location preference [CHAR LIMIT=NONE] -->
     <string name="pref_location_default" translatable="false">94043</string>
     <!-- Key name for storing location in SharedPreferences [CHAR LIMIT=NONE] -->
