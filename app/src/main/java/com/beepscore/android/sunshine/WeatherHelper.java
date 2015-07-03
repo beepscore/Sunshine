@@ -59,4 +59,8 @@ public class WeatherHelper {
         return uri;
     }
 
+    protected static double degreesCToDegreesF(double degreesC) {
+        return (((9.0/5.0) * degreesC) + 32);
+    }
+
 }
