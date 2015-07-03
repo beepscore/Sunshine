@@ -9,6 +9,18 @@ public class WeatherHelper {
 
     /**
      * URI for weather forecast query from OpenWeatherMap
+     * requests result format as json and units as metric
+     * @param postalCode specifies a geographic location
+     * @param numberOfDays e.g. 7
+     * @return uri
+     * http://openweathermap.org/API#forecast
+     */
+    protected static Uri weatherJsonMetricUri(String postalCode, Integer numberOfDays) {
+        return weatherUri(postalCode, "json", "metric", numberOfDays);
+    }
+
+    /**
+     * URI for weather forecast query from OpenWeatherMap
      * @param postalCode specifies a geographic location
      * @param format web service desired result format e.g. json, xml
      * @param units web service desired result units e.g. metric

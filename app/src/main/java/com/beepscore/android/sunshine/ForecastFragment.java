@@ -161,7 +161,7 @@ public class ForecastFragment extends Fragment {
 
             try {
 
-                Uri weatherUri = WeatherHelper.weatherUri(postcode, "json", "metric", NUM_DAYS);
+                Uri weatherUri = WeatherHelper.weatherJsonMetricUri(postcode, NUM_DAYS);
                 URL weatherUrl = new URL(weatherUri.toString());
 
                 urlConnection = (HttpURLConnection) weatherUrl.openConnection();
