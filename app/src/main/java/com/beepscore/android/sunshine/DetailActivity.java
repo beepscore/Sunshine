@@ -59,16 +59,27 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         if (id == R.id.intent_map) {
-            showMap(null);
+            String locatonPreference = PreferenceHelper.getLocationPreferenceString(this);
+            showMapForLocationPreference(locatonPreference);
             return true;
         }
-
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void showMapForLocationPreference(String locationPreference) {
+        Uri geoLocation = getGeoLocation(locationPreference);
+        showMapForUri(geoLocation);
+    }
+
+    public Uri getGeoLocation(String locationPreference) {
+        String escapedLocationPreference = locationPreference.replaceAll(" ", "+");
+        Uri uri = Uri.parse("geo:0,0?q=" + escapedLocationPreference);
+        return uri;
+    }
+
     // https://developer.android.com/guide/components/intents-common.html
-    public void showMap(Uri geoLocation) {
+    public void showMapForUri(Uri geoLocation) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(geoLocation);
         if (intent.resolveActivity(getPackageManager()) != null) {
