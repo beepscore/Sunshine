@@ -268,7 +268,8 @@ public class ForecastFragment extends Fragment {
                         if (dayMap.containsKey(WeatherDataParser.OWM_MAX)
                                 && (dayMap.get(WeatherDataParser.OWM_MAX) != null)) {
                             String maxString = dayMap.get(WeatherDataParser.OWM_MAX);
-                            forecastString = forecastString + maxString;
+                            String temperatureInPreferredUnits = temperatureInPreferredUnits(maxString);
+                            forecastString = forecastString + temperatureInPreferredUnits;
                         }
 
                         forecastString = forecastString + " / ";
@@ -276,7 +277,8 @@ public class ForecastFragment extends Fragment {
                         if (dayMap.containsKey(WeatherDataParser.OWM_MIN)
                                 && (dayMap.get(WeatherDataParser.OWM_MIN) != null)) {
                             String minString = dayMap.get(WeatherDataParser.OWM_MIN);
-                            forecastString = forecastString + minString;
+                            String temperatureInPreferredUnits = temperatureInPreferredUnits(minString);
+                            forecastString = forecastString + temperatureInPreferredUnits;
                         }
 
                         forecastString = forecastString + " humidity: ";
@@ -294,6 +296,19 @@ public class ForecastFragment extends Fragment {
             }
         }
 
+    }
+
+    private String temperatureInPreferredUnits(String temperatureString) {
+        double temperatureDegreesC = Double.parseDouble(temperatureString);
+
+        if (getUnitsPreferenceString() == getString(R.string.pref_units_imperial)) {
+            double temperatureDegreesF = WeatherHelper.degreesCToDegreesF(temperatureDegreesC);
+            Integer roundedTemperatureDegreesF = Integer.valueOf((int) Math.round(temperatureDegreesF));
+            return roundedTemperatureDegreesF.toString() + getString(R.string.degreesF);
+        } else {
+            Integer roundedTemperatureDegreesC = Integer.valueOf((int) Math.round(temperatureDegreesC));
+            return roundedTemperatureDegreesC.toString() + getString(R.string.degreesC);
+        }
     }
 
 }
