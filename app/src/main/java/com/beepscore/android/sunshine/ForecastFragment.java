@@ -39,7 +39,6 @@ public class ForecastFragment extends Fragment {
     public ForecastFragment() {
     }
 
-    ListView listView = null;
     ArrayAdapter<String> adapter = null;
 
     @Override
@@ -62,7 +61,7 @@ public class ForecastFragment extends Fragment {
                 R.id.list_item_forecast_textview,
                 weekForecast);
 
-        listView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
+        ListView listView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
