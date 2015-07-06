@@ -123,10 +123,12 @@ public class ForecastFragment extends Fragment {
     ////////////////////////////////////////////////////////////////////////////
 
     // https://developer.android.com/guide/components/processes-and-threads.html#Threads
-    // http://stackoverflow.com/questions/9671546/asynctask-android-example?rq=1
     // Nested classes
     // http://docs.oracle.com/javase/tutorial/java/javaOO/nested.html
-    // first parameter is input, second is integer for onProgressUpdate, third is return for onPostExecute
+    // http://stackoverflow.com/questions/9671546/asynctask-android-example?rq=1
+    // first parameter is doInBackground first argument params[0].
+    // second is onProgressUpdate integer argument.
+    // third is doInBackground return type and onPostExecute argument type.
     private class FetchWeatherTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
