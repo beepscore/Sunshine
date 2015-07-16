@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.app.data;
+package com.beepscore.android.sunshine.data;
 
 import android.net.Uri;
 import android.test.AndroidTestCase;
@@ -40,6 +40,6 @@ public class TestWeatherContract extends AndroidTestCase {
                 TEST_WEATHER_LOCATION, locationUri.getLastPathSegment());
         assertEquals("Error: Weather location Uri doesn't match our expected result",
                 locationUri.toString(),
-                "content://com.example.android.sunshine.app/weather/%2FNorth%20Pole");
+                "content://com.beepscore.android.sunshine/weather/%2FNorth%20Pole");
     }
 }
