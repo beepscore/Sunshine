@@ -106,11 +106,9 @@ public class TestDb extends AndroidTestCase {
     }
 
     /*
-        Students:  Here is where you will build code to test that we can insert and query the
-        location database.  We've done a lot of work for you.  You'll want to look in TestUtilities
-        where you can uncomment out the "createNorthPoleLocationValues" function.  You can
-        also make use of the ValidateCurrentRecord function from within TestUtilities.
-    */
+     *  Test insert and query the location database.
+     *  This updated Udacity sample code calls insertLocation, which satisfies the requirements for the test.
+     */
     public void testLocationTable() {
         insertLocation();
     }
@@ -176,11 +174,14 @@ public class TestDb extends AndroidTestCase {
         dbHelper.close();
     }
 
-
     /*
-        Students: This is a helper method for the testWeatherTable quiz. You can move your
-        code from testLocationTable to here so that you can call this code from both
-        testWeatherTable and testLocationTable.
+     *  Gets reference to writable database
+     *  Creates ContentValues
+     *  Inserts ContentValues into database and get a row ID back
+     *  Queries the database and receive a Cursor back
+     *  Validates data in resulting Cursor with the original ContentValues
+     *  Moves the cursor to demonstrate that there is only one record in the database
+     *  Closes Cursor and Database
      */
     public long insertLocation() {
         // First step: Get reference to writable database
@@ -200,8 +201,8 @@ public class TestDb extends AndroidTestCase {
         // Verify we got a row back.
         assertTrue(locationRowId != -1);
 
-        // Data's inserted.  IN THEORY.  Now pull some out to stare at it and verify it made
-        // the round trip.
+        // Data's inserted. IN THEORY.
+        // Now pull some out to stare at it and verify it made the round trip.
 
         // Fourth Step: Query the database and receive a Cursor back
         // A cursor is your primary interface to the query results.
@@ -220,8 +221,6 @@ public class TestDb extends AndroidTestCase {
         assertTrue( "Error: No Records returned from location query", cursor.moveToFirst() );
 
         // Fifth Step: Validate data in resulting Cursor with the original ContentValues
-        // (you can use the validateCurrentRecord function in TestUtilities to validate the
-        // query if you like)
         TestUtilities.validateCurrentRecord("Error: Location Query Validation Failed",
                 cursor, testValues);
 
