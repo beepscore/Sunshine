@@ -106,7 +106,7 @@ public class TestDb extends AndroidTestCase {
     }
 
     /*
-     *  Test insert and query the location database.
+     *  Test insert and query the database location table.
      *  This updated Udacity sample code calls insertLocation, which satisfies the requirements for the test.
      */
     public void testLocationTable() {
@@ -114,32 +114,23 @@ public class TestDb extends AndroidTestCase {
     }
 
     /*
-        Students:  Here is where you will build code to test that we can insert and query the
-        database.  We've done a lot of work for you.  You'll want to look in TestUtilities
-        where you can use the "createWeatherValues" function.  You can
-        also make use of the validateCurrentRecord function from within TestUtilities.
+     *  Test insert and query the database weather table.
+     *  This updated Udacity sample code satisfies the requirements for the test.
      */
     public void testWeatherTable() {
-        // First insert the location, and then use the locationRowId to insert
-        // the weather. Make sure to cover as many failure cases as you can.
-
-        // Instead of rewriting all of the code we've already written in testLocationTable
-        // we can move this code to insertLocation and then call insertLocation from both
-        // tests. Why move it? We need the code to return the ID of the inserted location
-        // and our testLocationTable can only return void because it's a test.
 
         long locationRowId = insertLocation();
-
-        // Make sure we have a valid row ID.
+        // Make sure we have a valid location row ID.
         assertFalse("Error: Location Not Inserted Correctly", locationRowId == -1L);
 
-        // First step: Get reference to writable database
+        // Get reference to writable database
         // If there's an error in those massive SQL table creation Strings,
         // errors will be thrown here when you try to get a writable database.
         WeatherDbHelper dbHelper = new WeatherDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         // Second Step (Weather): Create weather values
+        // use the locationRowId for weather foreign key location.
         ContentValues weatherValues = TestUtilities.createWeatherValues(locationRowId);
 
         // Third Step (Weather): Insert ContentValues into database and get a row ID back
@@ -182,6 +173,7 @@ public class TestDb extends AndroidTestCase {
      *  Validates data in resulting Cursor with the original ContentValues
      *  Moves the cursor to demonstrate that there is only one record in the database
      *  Closes Cursor and Database
+     *  @return database location table row index
      */
     public long insertLocation() {
         // First step: Get reference to writable database

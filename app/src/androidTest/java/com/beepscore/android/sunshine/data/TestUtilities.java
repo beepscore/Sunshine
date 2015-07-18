@@ -45,6 +45,7 @@ public class TestUtilities extends AndroidTestCase {
 
     /*
      * Create some default weather values for database tests.
+     * @param locationRowId value for weather table foreign key location.
      */
     static ContentValues createWeatherValues(long locationRowId) {
         ContentValues weatherValues = new ContentValues();
