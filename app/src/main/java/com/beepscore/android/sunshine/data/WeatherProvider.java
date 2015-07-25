@@ -37,7 +37,8 @@ public class WeatherProvider extends ContentProvider {
 
     private static final SQLiteQueryBuilder sWeatherByLocationSettingQueryBuilder;
 
-    static{
+    // Class static constructor, can access static variables but not instance variables
+    static {
         sWeatherByLocationSettingQueryBuilder = new SQLiteQueryBuilder();
         
         //This is an inner join which looks like
