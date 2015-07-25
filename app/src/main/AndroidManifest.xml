@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme" >
         <provider
             android:authorities="com.beepscore.android.sunshine"
-            android:name="com.beepscore.android.sunshine.data.WeatherProvider" >
+            android:name=".data.WeatherProvider" >
         </provider>
         <activity
             android:name=".MainActivity"
