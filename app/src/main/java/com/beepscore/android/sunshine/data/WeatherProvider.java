@@ -322,6 +322,7 @@ public class WeatherProvider extends ContentProvider {
         return rowsUpdated;
     }
 
+    // bulkInsert and transaction is faster than multiple single inserts
     @Override
     public int bulkInsert(Uri uri, ContentValues[] values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -338,6 +339,7 @@ public class WeatherProvider extends ContentProvider {
                             returnCount++;
                         }
                     }
+                    // must call setTransactionSuccessful so endTransaction will commit it
                     db.setTransactionSuccessful();
                 } finally {
                     db.endTransaction();
