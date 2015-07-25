@@ -70,10 +70,12 @@ public class ForecastFragment extends Fragment {
         fetchWeatherForLocationPreference();
     }
 
+    /*
     private void updateAdapter(ArrayAdapter adapter, ArrayList<String> forecastStrings) {
         adapter.clear();
         adapter.addAll(forecastStrings);
     }
+    */
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
