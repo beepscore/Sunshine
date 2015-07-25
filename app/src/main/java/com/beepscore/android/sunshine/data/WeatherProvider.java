@@ -158,8 +158,10 @@ public class WeatherProvider extends ContentProvider {
         switch (match) {
             // Student: Uncomment and fill out these two cases
             case WEATHER_WITH_LOCATION_AND_DATE:
+                // return CONTENT_ITEM_TYPE, a single row
                 return WeatherContract.WeatherEntry.CONTENT_ITEM_TYPE;
             case WEATHER_WITH_LOCATION:
+                // return CONTENT_TYPE, may contain multiple items
                 return WeatherContract.WeatherEntry.CONTENT_TYPE;
             case WEATHER:
                 return WeatherContract.WeatherEntry.CONTENT_TYPE;
