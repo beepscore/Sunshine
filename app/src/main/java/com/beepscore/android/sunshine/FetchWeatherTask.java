@@ -19,7 +19,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -29,7 +28,6 @@ import android.widget.ArrayAdapter;
 
 import com.beepscore.android.sunshine.data.WeatherContract;
 import com.beepscore.android.sunshine.data.WeatherContract.WeatherEntry;
-import com.beepscore.android.sunshine.data.WeatherDbHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -110,7 +108,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
      * @return the row ID of the added location.
      */
     long addLocation(String locationSetting, String cityName, double lat, double lon) {
-        // Students: First, check if the location with this city name exists in the db
+        // Students: First, check if the location with this city name exists in the content provider
         // If it exists, return the current ID
         // Otherwise, insert it using the content resolver and the base URI
 
@@ -119,7 +117,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         if (locationCursor != null
                 && locationCursor.moveToFirst()) {
-            // location with this cityName already exists in database
+            // location with this cityName already exists in content provider
             // http://stackoverflow.com/questions/2848056/how-to-get-a-row-id-from-a-cursor
             locationRowId = locationCursor.getLong(locationCursor.getColumnIndex("_id"));
 
@@ -135,18 +133,20 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
     }
 
     private Cursor getLocationCursor(String cityName) {
-        WeatherDbHelper dbHelper = new WeatherDbHelper(mContext);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String whereColumns = WeatherContract.LocationEntry.COLUMN_CITY_NAME  + " = ? ";
-        String[] whereValues = {cityName, };
+        // Query content provider, not database
+        // More flexible design, easier to change content provider to use a different underlying source
 
-        return db.query(
-                WeatherContract.LocationEntry.TABLE_NAME,  // Table to Query
+        // e.g. "content://com.beepscore.android.sunshine/location"
+        Uri locationUri = WeatherContract.LocationEntry.CONTENT_URI;
+
+        String selection = WeatherContract.LocationEntry.COLUMN_CITY_NAME  + " = ? ";
+        String[] selectionArgs = {cityName};
+
+        return mContext.getContentResolver().query(
+                locationUri,
                 null, // leaving "columns" null just returns all the columns.
-                whereColumns, // cols for "where" clause
-                whereValues, // values for "where" clause
-                null, // columns to group by
-                null, // columns to filter by row groups
+                selection, // cols for "where" clause
+                selectionArgs, // values for "where" clause
                 null  // sort order
         );
     }
@@ -161,7 +161,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         contentValues.put(WeatherContract.LocationEntry.COLUMN_COORD_LAT, lat);
         contentValues.put(WeatherContract.LocationEntry.COLUMN_COORD_LONG, lon);
 
-        // e.g. "content://com.beepscore.android.sunshine/location/2
+        // e.g. content://com.beepscore.android.sunshine/location/2
         Uri locationRowUri = mContext.getContentResolver().insert(locationUri, contentValues);
         locationRowId = Long.valueOf(locationRowUri.getLastPathSegment());
         return locationRowId;
