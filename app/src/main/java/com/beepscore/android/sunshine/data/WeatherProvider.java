@@ -256,6 +256,7 @@ public class WeatherProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
+        // notify any registered observers (e.g. a cursor) that content has changed
         getContext().getContentResolver().notifyChange(uri, null);
         return returnUri;
     }
