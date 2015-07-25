@@ -18,6 +18,8 @@ package com.beepscore.android.sunshine;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -25,7 +27,9 @@ import android.text.format.Time;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.beepscore.android.sunshine.data.WeatherContract;
 import com.beepscore.android.sunshine.data.WeatherContract.WeatherEntry;
+import com.beepscore.android.sunshine.data.WeatherDbHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -109,7 +113,58 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         // Students: First, check if the location with this city name exists in the db
         // If it exists, return the current ID
         // Otherwise, insert it using the content resolver and the base URI
-        return -1;
+
+        Cursor locationCursor = getLocationCursor(cityName);
+        long locationRowId = -1;
+
+        if (locationCursor != null
+                && locationCursor.moveToFirst()) {
+            // location with this cityName already exists in database
+            // http://stackoverflow.com/questions/2848056/how-to-get-a-row-id-from-a-cursor
+            locationRowId = locationCursor.getLong(locationCursor.getColumnIndex("_id"));
+
+        } else if (locationSetting != null && cityName != null) {
+            locationRowId = addNewLocation(locationSetting, cityName, lat, lon);
+        }
+
+        if (locationCursor != null) {
+            locationCursor.close();
+        }
+
+        return locationRowId;
+    }
+
+    private Cursor getLocationCursor(String cityName) {
+        WeatherDbHelper dbHelper = new WeatherDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String whereColumns = WeatherContract.LocationEntry.COLUMN_CITY_NAME  + " = ? ";
+        String[] whereValues = {cityName, };
+
+        return db.query(
+                WeatherContract.LocationEntry.TABLE_NAME,  // Table to Query
+                null, // leaving "columns" null just returns all the columns.
+                whereColumns, // cols for "where" clause
+                whereValues, // values for "where" clause
+                null, // columns to group by
+                null, // columns to filter by row groups
+                null  // sort order
+        );
+    }
+
+    private long addNewLocation(String locationSetting, String cityName, double lat, double lon) {
+
+        long locationRowId;Uri locationUri = WeatherContract.LocationEntry.CONTENT_URI;
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING, locationSetting);
+        contentValues.put(WeatherContract.LocationEntry.COLUMN_CITY_NAME, cityName);
+        contentValues.put(WeatherContract.LocationEntry.COLUMN_COORD_LAT, lat);
+        contentValues.put(WeatherContract.LocationEntry.COLUMN_COORD_LONG, lon);
+
+        // e.g. "content://com.beepscore.android.sunshine/location/2
+        Uri locationRowUri = mContext.getContentResolver().insert(locationUri, contentValues);
+        locationRowId = Long.valueOf(locationRowUri.getLastPathSegment());
+        return locationRowId;
     }
 
     /*
