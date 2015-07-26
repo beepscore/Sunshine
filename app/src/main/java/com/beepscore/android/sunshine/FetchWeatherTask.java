@@ -108,9 +108,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
      * @return the row ID of the added location.
      */
     long addLocation(String locationSetting, String cityName, double lat, double lon) {
-        // Students: First, check if the location with this city name exists in the content provider
-        // If it exists, return the current ID
-        // Otherwise, insert it using the content resolver and the base URI
 
         Cursor locationCursor = getLocationCursor(cityName);
         long locationRowId = -1;
@@ -138,15 +135,16 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         // e.g. "content://com.beepscore.android.sunshine/location"
         Uri locationUri = WeatherContract.LocationEntry.CONTENT_URI;
-
+        // we need only column _ID
+        String[] projection = {WeatherContract.LocationEntry._ID};
         String selection = WeatherContract.LocationEntry.COLUMN_CITY_NAME  + " = ? ";
         String[] selectionArgs = {cityName};
 
         return mContext.getContentResolver().query(
                 locationUri,
-                null, // leaving "columns" null just returns all the columns.
-                selection, // cols for "where" clause
-                selectionArgs, // values for "where" clause
+                projection,
+                selection,
+                selectionArgs,
                 null  // sort order
         );
     }
