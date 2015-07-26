@@ -194,11 +194,10 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
     }
 
     /**
-     * Take the String representing the complete forecast in JSON Format and
-     * pull out the data we need to construct the Strings needed for the wireframes.
-     *
-     * Fortunately parsing is easy:  constructor takes the JSON string and converts it
-     * into an Object hierarchy for us.
+     * Parses forecastJsonStr
+     * This method has side effect inserts values in content provider
+     * @param forecastJsonStr the complete forecast in JSON format
+     * @return Strings
      */
     private String[] getWeatherDataFromJson(String forecastJsonStr,
                                             String locationSetting)
@@ -252,9 +251,9 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
             // Insert the new weather information into the database
             Vector<ContentValues> cVVector = new Vector<ContentValues>(weatherArray.length());
 
-            // OWM returns daily forecasts based upon the local time of the city that is being
-            // asked for, which means that we need to know the GMT offset to translate this data
-            // properly.
+            // OpenWeatherMap OWM returns daily forecasts based upon the local time
+            // of the city that is being asked for,
+            // which means that we need to know the GMT offset to translate this data properly.
 
             // Since this data is also sent in-order and the first day is always the
             // current day, we're going to take advantage of that to get a nice
