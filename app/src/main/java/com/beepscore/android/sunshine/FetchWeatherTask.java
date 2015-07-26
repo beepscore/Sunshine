@@ -109,12 +109,12 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
      */
     long addLocation(String locationSetting, String cityName, double lat, double lon) {
 
-        Cursor locationCursor = getLocationCursor(cityName);
+        Cursor locationCursor = getLocationCursor(locationSetting);
         long locationRowId = -1;
 
         if (locationCursor != null
                 && locationCursor.moveToFirst()) {
-            // location with this cityName already exists in content provider
+            // location with this locationSetting already exists in content provider
             // http://stackoverflow.com/questions/2848056/how-to-get-a-row-id-from-a-cursor
             locationRowId = locationCursor.getLong(locationCursor.getColumnIndex("_id"));
 
@@ -129,7 +129,13 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         return locationRowId;
     }
 
-    private Cursor getLocationCursor(String cityName) {
+    /**
+     * queries content provider
+     * @param locationSetting The location string used to request updates from the server.
+     * Note multiple locationSettings could have the same cityName.
+     * @return a Cursor with location _IDs that match locationSetting
+     */
+    private Cursor getLocationCursor(String locationSetting) {
         // Query content provider, not database
         // More flexible design, easier to change content provider to use a different underlying source
 
@@ -137,8 +143,8 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         Uri locationUri = WeatherContract.LocationEntry.CONTENT_URI;
         // we need only column _ID
         String[] projection = {WeatherContract.LocationEntry._ID};
-        String selection = WeatherContract.LocationEntry.COLUMN_CITY_NAME  + " = ? ";
-        String[] selectionArgs = {cityName};
+        String selection = WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING  + " = ? ";
+        String[] selectionArgs = {locationSetting};
 
         return mContext.getContentResolver().query(
                 locationUri,
