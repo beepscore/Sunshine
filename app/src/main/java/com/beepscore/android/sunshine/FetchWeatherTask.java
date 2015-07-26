@@ -102,6 +102,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
      * Helper method to handle insertion of a new location in the weather database.
      *
      * @param locationSetting The location string used to request updates from the server.
+     *                        e.g. "Sunnydale, CA"
      * @param cityName A human-readable city name, e.g "Mountain View"
      * @param lat the latitude of the city
      * @param lon the longitude of the city
