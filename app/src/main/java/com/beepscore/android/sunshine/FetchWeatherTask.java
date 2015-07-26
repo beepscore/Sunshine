@@ -158,7 +158,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
     private long addNewLocation(String locationSetting, String cityName, double lat, double lon) {
 
-        long locationRowId;Uri locationUri = WeatherContract.LocationEntry.CONTENT_URI;
+        Uri locationUri = WeatherContract.LocationEntry.CONTENT_URI;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING, locationSetting);
@@ -168,7 +168,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         // e.g. content://com.beepscore.android.sunshine/location/2
         Uri locationRowUri = mContext.getContentResolver().insert(locationUri, contentValues);
-        locationRowId = Long.valueOf(locationRowUri.getLastPathSegment());
+        long locationRowId = Long.valueOf(locationRowUri.getLastPathSegment());
         return locationRowId;
     }
 
