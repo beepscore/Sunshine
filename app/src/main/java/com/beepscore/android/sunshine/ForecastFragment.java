@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,14 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.beepscore.android.sunshine.Utility;
 import com.beepscore.android.sunshine.data.WeatherContract;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ForecastFragment extends Fragment {
+public class ForecastFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private final static int LOADER_ID = 1;
 
     // public empty constructor
     public ForecastFragment() {
@@ -32,6 +38,17 @@ public class ForecastFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // Prepare the loader.
+        // Either re-connect with an existing one or start a new one.
+        // http://developer.android.com/guide/components/loaders.html
+        // http://android-developer-tutorials.blogspot.com/2013/03/using-cursorloader-in-android.html
+        getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
     @Override
@@ -84,7 +101,15 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
+
+            // delete old forecasts
+            Uri weatherUri = WeatherContract.WeatherEntry.CONTENT_URI;
+            int numberOfRowsDeleted = getActivity().getContentResolver().delete(weatherUri,
+                    null, null);
+
+            // get new forecasts
             updateWeather();
+
             return true;
         }
 
@@ -96,5 +121,48 @@ public class ForecastFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // LoaderManager.LoaderCallbacks<Cursor>
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        // Called when a new Loader needs to be created.
+        // This sample only has one Loader, so we don't care about the ID.
+
+        // e.g. "content://com.beepscore.android.sunshine/weather"
+        Uri baseUri = WeatherContract.WeatherEntry.CONTENT_URI;
+
+        return new CursorLoader(getActivity(),
+                baseUri,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+        TextView textView = (TextView)getActivity().findViewById(R.id.list_item_forecast_textview);
+
+        if (mForecastAdapter != null
+                && data != null
+                && data.moveToFirst()
+                && textView != null) {
+
+            // Swap the new cursor in.
+            // The framework will take care of closing the old cursor once we return.
+            mForecastAdapter.swapCursor(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // called when the last Cursor provided to onLoadFinished() is about to be closed.
+        // We need to make sure we are no longer using it.
+        mForecastAdapter.swapCursor(null);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
 
 }
