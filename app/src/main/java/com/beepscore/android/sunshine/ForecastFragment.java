@@ -26,12 +26,11 @@ public class ForecastFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final static int LOADER_ID = 1;
+    private ForecastAdapter mForecastAdapter = null;
 
     // public empty constructor
     public ForecastFragment() {
     }
-
-    ForecastAdapter mForecastAdapter = null;
 
     @Override
     // onCreate is called before onCreateView
@@ -129,11 +128,15 @@ public class ForecastFragment extends Fragment
         // Called when a new Loader needs to be created.
         // This sample only has one Loader, so we don't care about the ID.
 
-        // e.g. "content://com.beepscore.android.sunshine/weather"
-        Uri baseUri = WeatherContract.WeatherEntry.CONTENT_URI;
+        String locationSetting = Utility.getPreferredLocation(getActivity());
+
+        // Sort order:  Ascending, by date.
+        String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
+        Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
+                locationSetting, System.currentTimeMillis());
 
         return new CursorLoader(getActivity(),
-                baseUri,
+                weatherForLocationUri,
                 null,
                 null,
                 null,
