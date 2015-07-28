@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.beepscore.android.sunshine.data.WeatherContract;
 
@@ -53,20 +52,8 @@ public class ForecastFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        String locationSetting = Utility.getPreferredLocation(getActivity());
-
-        // Sort order:  Ascending, by date.
-        String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
-        Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
-                locationSetting, System.currentTimeMillis());
-
-        Cursor cur = getActivity().getContentResolver().query(weatherForLocationUri,
-                null, null, null, sortOrder);
-
-        // The CursorAdapter will take data from our cursor and populate the ListView
-        // However, we cannot use FLAG_AUTO_REQUERY since it is deprecated, so we will end
-        // up with an empty list the first time we run.
-        mForecastAdapter = new ForecastAdapter(getActivity(), cur, 0);
+        // cursor isn't ready yet, so use null
+        mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
 
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
         ListView listView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
@@ -103,11 +90,16 @@ public class ForecastFragment extends Fragment
 
             // delete old forecasts
             Uri weatherUri = WeatherContract.WeatherEntry.CONTENT_URI;
-            int numberOfRowsDeleted = getActivity().getContentResolver().delete(weatherUri,
-                    null, null);
+            int numberOfRowsDeleted = getActivity().getContentResolver().delete(weatherUri, null, null);
+
+            // Note console log shows warning
+            // Attempted to finish an input event but the input event receiver has already been disposed.
 
             // get new forecasts
             updateWeather();
+
+            // Reference Lesson 4c Handle the Settings Change
+            getLoaderManager().restartLoader(LOADER_ID, null, this);
 
             return true;
         }
@@ -128,35 +120,28 @@ public class ForecastFragment extends Fragment
         // Called when a new Loader needs to be created.
         // This sample only has one Loader, so we don't care about the ID.
 
-        String locationSetting = Utility.getPreferredLocation(getActivity());
-
         // Sort order:  Ascending, by date.
         String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
-        Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
-                locationSetting, System.currentTimeMillis());
 
         return new CursorLoader(getActivity(),
-                weatherForLocationUri,
+                getWeatherForLocationUri(),
                 null,
                 null,
                 null,
-                null);
+                sortOrder);
+    }
+
+    private Uri getWeatherForLocationUri() {
+        String locationSetting = Utility.getPreferredLocation(getActivity());
+        return WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
+                locationSetting, System.currentTimeMillis());
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-        TextView textView = (TextView)getActivity().findViewById(R.id.list_item_forecast_textview);
-
-        if (mForecastAdapter != null
-                && data != null
-                && data.moveToFirst()
-                && textView != null) {
-
-            // Swap the new cursor in.
-            // The framework will take care of closing the old cursor once we return.
-            mForecastAdapter.swapCursor(data);
-        }
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        // Swap the new cursor in.
+        // The framework will take care of closing the old cursor once we return.
+        mForecastAdapter.swapCursor(cursor);
     }
 
     @Override
