@@ -125,7 +125,7 @@ public class ForecastFragment extends Fragment
 
         return new CursorLoader(getActivity(),
                 getWeatherForLocationUri(),
-                null,
+                ForecastAdapter.FORECAST_COLUMNS,
                 null,
                 null,
                 sortOrder);
