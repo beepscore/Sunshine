@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.beepscore.android.sunshine.data.WeatherContract;
@@ -27,7 +28,7 @@ public class ForecastFragment extends Fragment
     /*
      * projection of columns we want to get from database
      */
-    private static final String[] FORECAST_COLUMNS = {
+    public static final String[] FORECAST_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
             // the content provider joins the location & weather tables in the background
             // (both have an _id column)
@@ -59,6 +60,7 @@ public class ForecastFragment extends Fragment
 
     private final static int LOADER_ID = 1;
     private ForecastAdapter mForecastAdapter = null;
+    private String dayForecast = "";
 
     // public empty constructor
     public ForecastFragment() {
@@ -91,6 +93,25 @@ public class ForecastFragment extends Fragment
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
         ListView listView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView adapterView, View view, int position, long l) {
+                // CursorAdapter returns a cursor at the correct position for getItem(), or null
+                // if it cannot seek to that position.
+                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+                if (cursor != null) {
+                    String locationSetting = Utility.getPreferredLocation(getActivity());
+                    Intent intent = new Intent(getActivity(), DetailActivity.class)
+                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
+                            ));
+                    intent.putExtra(Intent.EXTRA_TEXT, dayForecast);
+                    startActivity(intent);
+                }
+            }
+        });
 
         return fragmentForecastView;
     }
@@ -175,6 +196,7 @@ public class ForecastFragment extends Fragment
         // Swap the new cursor in.
         // The framework will take care of closing the old cursor once we return.
         mForecastAdapter.swapCursor(cursor);
+        dayForecast = getDayForecast(cursor);
     }
 
     @Override
@@ -185,5 +207,26 @@ public class ForecastFragment extends Fragment
     }
 
     ////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param cursor
+     * @return weather in format for sharing. e.g. "Tue 6/24 - Foggy - 21/8"
+     */
+    public static String getDayForecast(Cursor cursor) {
+        String dayForecastString = "";
+        if (cursor != null
+                && cursor.moveToFirst()) {
+            String separator = " - ";
+
+            dayForecastString = Utility.formatDate(cursor.getLong(COL_WEATHER_DATE))
+                    + separator
+                    + cursor.getString(COL_WEATHER_DESC)
+                    + separator
+                    + cursor.getInt(COL_WEATHER_MAX_TEMP)
+                    + "/"
+                    + cursor.getInt(COL_WEATHER_MIN_TEMP);
+        }
+        return dayForecastString;
+    }
 
 }
