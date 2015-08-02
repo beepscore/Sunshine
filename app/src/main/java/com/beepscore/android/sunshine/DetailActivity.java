@@ -69,20 +69,37 @@ public class DetailActivity extends AppCompatActivity {
         private static final String LOG_TAG = DetailFragment.class.getSimpleName();
         private static final String FORECAST_SHARE_HASHTAG = "#SunshineApp";
 
+        // http://openweathermap.org/current#current_JSON
         // ShareActionProvider shares weather as a String
         // e.g. "Tue 6/24 - Foggy - 21/8 #SunshineApp"
         private ShareActionProvider mShareActionProvider;
         private String locationSetting = "";
         private String weatherDate = "";
+        private String weatherDay = "";
         private String weatherDesc = "";
-        private int weatherMaxTemp;
-        private int weatherMinTemp;
+        private int weatherHumidity;
+        private double weatherTemperatureMax;
+        private double weatherTemperatureMin;
+        private int weatherPressure;
+
+        // TODO get and parse wind speed and degrees
+        // "wind":{"speed":5.1,"deg":150}
+        private double weatherWindSpeed;
+        private int weatherWindDegrees;
 
         // dayForecast used for sharing
         private String dayForecast = "";
 
         private Uri uri = null;
-        private TextView textView = null;
+
+        private TextView dayTextView = null;
+        private TextView dateTextView = null;
+        private TextView descTextView = null;
+        private TextView humidityTextView = null;
+        private TextView pressureTextView = null;
+        private TextView temperatureMaxTextView = null;
+        private TextView temperatureMinTextView = null;
+        private TextView windTextView = null;
 
         private final static int LOADER_ID = 2;
 
@@ -102,8 +119,14 @@ public class DetailActivity extends AppCompatActivity {
             Intent intent = getActivity().getIntent();
 
             if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-                this.textView = (TextView)rootView.findViewById(R.id.detail_text_view);
-                this.textView.setText("coming soon");
+                dateTextView = (TextView)rootView.findViewById(R.id.date_text_view);
+                dayTextView = (TextView)rootView.findViewById(R.id.day_text_view);
+                descTextView = (TextView)rootView.findViewById(R.id.description_text_view);
+                temperatureMaxTextView = (TextView)rootView.findViewById(R.id.temperature_max_text_view);
+                temperatureMinTextView = (TextView)rootView.findViewById(R.id.temperature_min_text_view);
+                humidityTextView = (TextView)rootView.findViewById(R.id.humidity_text_view);
+                pressureTextView = (TextView)rootView.findViewById(R.id.pressure_text_view);
+                windTextView = (TextView)rootView.findViewById(R.id.wind_text_view);
 
                 dayForecast = intent.getStringExtra(Intent.EXTRA_TEXT);
                 uri = intent.getData();
@@ -195,19 +218,8 @@ public class DetailActivity extends AppCompatActivity {
             String separator = " ";
             if (cursor != null
                     && cursor.moveToFirst()) {
-                locationSetting = cursor.getString(ForecastFragment.COL_LOCATION_SETTING);
-                weatherDesc = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
-                weatherDate = Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
-                weatherMinTemp = cursor.getInt(ForecastFragment.COL_WEATHER_MIN_TEMP);
-                weatherMaxTemp = cursor.getInt(ForecastFragment.COL_WEATHER_MAX_TEMP);
-
-                String detailForecast = locationSetting
-                        + separator + weatherDate
-                        + separator + weatherMaxTemp
-                        + "/" + weatherMinTemp
-                        + separator + weatherDesc;
-
-                this.textView.setText(detailForecast);
+                updateWeatherProperties(cursor);
+                updateUI();
 
                 if (mShareActionProvider != null) {
 
@@ -219,6 +231,51 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         }
+
+        private void updateWeatherProperties(Cursor cursor) {
+            locationSetting = cursor.getString(ForecastFragment.COL_LOCATION_SETTING);
+            weatherDate = Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
+            weatherDay = Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
+            weatherDesc = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
+            weatherTemperatureMax = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
+            weatherTemperatureMin = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
+            //TODO get humidity, pressure, wind speed and wind degrees
+        }
+
+         //TODO bind adapter to views, then it will update views instead??
+         private void updateUI() {
+             if (weatherDate != null) {
+                 dayTextView.setText(weatherDate);
+             }
+             if (weatherDate != null) {
+                 dateTextView.setText(weatherDate);
+             }
+             if (weatherDesc != null) {
+                 descTextView.setText(weatherDesc);
+             }
+
+             String temperatureMax = Utility.formatTemperature(weatherTemperatureMax, true)
+                     + "°";
+             temperatureMaxTextView.setText(temperatureMax);
+
+             String temperatureMin = Utility.formatTemperature(weatherTemperatureMin, true)
+                     + "°";
+             temperatureMinTextView.setText(temperatureMin);
+
+             String humidityString = "Humidity: "
+                     + String.valueOf(weatherHumidity)
+                     + " %";
+             humidityTextView.setText(humidityString);
+
+             String pressureString = "Pressure: "
+                     + String.valueOf(weatherPressure)
+                     + " hPa";
+             pressureTextView.setText(pressureString);
+
+             String windString = "Wind: "
+                     + String.valueOf(weatherWindSpeed);
+             windTextView.setText(windString);
+         }
 
         @Override
         public void onLoaderReset(Loader<Cursor> loader) {
