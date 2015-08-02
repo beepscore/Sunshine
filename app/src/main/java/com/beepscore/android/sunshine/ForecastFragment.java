@@ -43,7 +43,11 @@ public class ForecastFragment extends Fragment
             WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING,
             WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
             WeatherContract.LocationEntry.COLUMN_COORD_LAT,
-            WeatherContract.LocationEntry.COLUMN_COORD_LONG
+            WeatherContract.LocationEntry.COLUMN_COORD_LONG,
+            WeatherContract.WeatherEntry.COLUMN_HUMIDITY,
+            WeatherContract.WeatherEntry.COLUMN_PRESSURE,
+            WeatherContract.WeatherEntry.COLUMN_WIND_SPEED,
+            WeatherContract.WeatherEntry.COLUMN_DEGREES
     };
 
     // These indices are tied to FORECAST_COLUMNS.
@@ -57,6 +61,10 @@ public class ForecastFragment extends Fragment
     static final int COL_WEATHER_CONDITION_ID = 6;
     static final int COL_COORD_LAT = 7;
     static final int COL_COORD_LONG = 8;
+    static final int COL_HUMIDITY = 9;
+    static final int COL_PRESSURE = 10;
+    static final int COL_WIND_SPEED = 11;
+    static final int COL_DEGREES = 12;
 
     private final static int LOADER_ID = 1;
     private ForecastAdapter mForecastAdapter = null;
