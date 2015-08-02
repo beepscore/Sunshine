@@ -77,15 +77,15 @@ public class DetailActivity extends AppCompatActivity {
         private String weatherDate = "";
         private String weatherDay = "";
         private String weatherDesc = "";
-        private int weatherHumidity;
+        private double weatherHumidity;
         private double weatherTemperatureMax;
         private double weatherTemperatureMin;
-        private int weatherPressure;
+        private double weatherPressure;
 
         // TODO get and parse wind speed and degrees
         // "wind":{"speed":5.1,"deg":150}
         private double weatherWindSpeed;
-        private int weatherWindDegrees;
+        private double weatherWindDegrees;
 
         // dayForecast used for sharing
         private String dayForecast = "";
@@ -237,9 +237,12 @@ public class DetailActivity extends AppCompatActivity {
             weatherDate = Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
             weatherDay = Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
             weatherDesc = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
+            weatherHumidity = cursor.getDouble(ForecastFragment.COL_HUMIDITY);
+            weatherPressure = cursor.getDouble(ForecastFragment.COL_PRESSURE);
             weatherTemperatureMax = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
             weatherTemperatureMin = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
-            //TODO get humidity, pressure, wind speed and wind degrees
+            weatherWindSpeed = cursor.getDouble(ForecastFragment.COL_WIND_SPEED);
+            weatherWindDegrees = cursor.getDouble(ForecastFragment.COL_DEGREES);
         }
 
          //TODO bind adapter to views, then it will update views instead??
@@ -273,7 +276,9 @@ public class DetailActivity extends AppCompatActivity {
              pressureTextView.setText(pressureString);
 
              String windString = "Wind: "
-                     + String.valueOf(weatherWindSpeed);
+                     + String.valueOf(weatherWindSpeed)
+                     + " km/H "
+                     + String.valueOf(weatherWindDegrees);
              windTextView.setText(windString);
          }
 
