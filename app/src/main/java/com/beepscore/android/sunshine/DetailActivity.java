@@ -282,7 +282,7 @@ public class DetailActivity extends AppCompatActivity {
              String windString = "Wind: "
                      + String.valueOf(weatherWindSpeed)
                      + " km/H "
-                     + String.valueOf(weatherWindDegrees);
+                     + WeatherHelper.windDirectionCompassPointForWindDegrees(weatherWindDegrees);
              windTextView.setText(windString);
 
          }
@@ -329,5 +329,6 @@ public class DetailActivity extends AppCompatActivity {
             }
             return imageResource;
         }
+
     }
 }

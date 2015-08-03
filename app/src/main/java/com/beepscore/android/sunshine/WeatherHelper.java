@@ -63,4 +63,55 @@ public class WeatherHelper {
         return (((9.0/5.0) * degreesC) + 32);
     }
 
+    /*
+     * @param windDegrees compass direction wind is coming from
+     * e.g. 0 degrees is N, increases clockwise
+     * @return compass direction wind is coming from e.g. NW, S
+     */
+    public static String windDirectionCompassPointForWindDegrees(double windDegrees) {
+        String windDirectionCompassPoint = "";
+        final float DEGREES_PER_SIXTEENTH_REVOLUTION = 22.5f;
+        // divide revolution into 16ths. range 1-16 (1 and 16 will both map to North)
+        int windDirectionSixteenths = (int)(((float)windDegrees/DEGREES_PER_SIXTEENTH_REVOLUTION)) + 1;
+        // divide revolution into 8ths. range 0-7
+        int windCompassPointIndex = (windDirectionSixteenths / 2) % 8;
+        switch (windCompassPointIndex) {
+            case 0: {
+                windDirectionCompassPoint = "N";
+                break;
+            }
+            case 1: {
+                windDirectionCompassPoint = "NE";
+                break;
+            }
+            case 2: {
+                windDirectionCompassPoint = "E";
+                break;
+            }
+            case 3: {
+                windDirectionCompassPoint = "SE";
+                break;
+            }
+            case 4: {
+                windDirectionCompassPoint = "S";
+                break;
+            }
+            case 5: {
+                windDirectionCompassPoint = "SW";
+                break;
+            }
+            case 6: {
+                windDirectionCompassPoint = "W";
+                break;
+            }
+            case 7: {
+                windDirectionCompassPoint = "NW";
+                break;
+            }
+            default:
+                windDirectionCompassPoint = "";
+        }
+        return windDirectionCompassPoint;
+    }
+
 }
