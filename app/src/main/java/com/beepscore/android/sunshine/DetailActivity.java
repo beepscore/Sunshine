@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beepscore.android.sunshine.data.WeatherContract;
@@ -92,6 +93,7 @@ public class DetailActivity extends AppCompatActivity {
 
         private Uri uri = null;
 
+        private ImageView descImageView = null;
         private TextView dayTextView = null;
         private TextView dateTextView = null;
         private TextView descTextView = null;
@@ -127,6 +129,7 @@ public class DetailActivity extends AppCompatActivity {
                 humidityTextView = (TextView)rootView.findViewById(R.id.humidity_text_view);
                 pressureTextView = (TextView)rootView.findViewById(R.id.pressure_text_view);
                 windTextView = (TextView)rootView.findViewById(R.id.wind_text_view);
+                descImageView = (ImageView)rootView.findViewById(R.id.description_image_view);
 
                 dayForecast = intent.getStringExtra(Intent.EXTRA_TEXT);
                 uri = intent.getData();
@@ -280,6 +283,8 @@ public class DetailActivity extends AppCompatActivity {
                      + " km/H "
                      + String.valueOf(weatherWindDegrees);
              windTextView.setText(windString);
+
+             descImageView.setImageResource(R.drawable.art_clouds);
          }
 
         @Override
