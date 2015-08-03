@@ -258,6 +258,7 @@ public class DetailActivity extends AppCompatActivity {
              }
              if (weatherDesc != null) {
                  descTextView.setText(weatherDesc);
+                 descImageView.setImageResource(imageResourceForWeatherDescription(weatherDesc));
              }
 
              String temperatureMax = Utility.formatTemperature(weatherTemperatureMax, true)
@@ -284,7 +285,6 @@ public class DetailActivity extends AppCompatActivity {
                      + String.valueOf(weatherWindDegrees);
              windTextView.setText(windString);
 
-             descImageView.setImageResource(R.drawable.art_clouds);
          }
 
         @Override
@@ -295,5 +295,39 @@ public class DetailActivity extends AppCompatActivity {
 
         ////////////////////////////////////////////////////////////////////////////
 
+        /*
+         * uses response main
+         * http://openweathermap.org/current#current_JSON
+         * TODO: Consider switch on weather condition codes within numeric range
+         * http://openweathermap.org/weather-conditions
+         */
+        private int imageResourceForWeatherDescription(String weatherDescription) {
+            int imageResource = -1;
+            switch (weatherDescription) {
+                case "Clear": {
+                    imageResource = R.drawable.art_clear;
+                    break;
+                }
+                case "Clouds": {
+                    imageResource = R.drawable.art_clouds;
+                    break;
+                }
+                case "Extreme": {
+                    imageResource = R.drawable.art_storm;
+                    break;
+                }
+                case "Rain": {
+                    imageResource = R.drawable.art_rain;
+                    break;
+                }
+                case "Snow": {
+                    imageResource = R.drawable.art_snow;
+                    break;
+                }
+                default:
+                    imageResource = R.drawable.ic_launcher;
+            }
+            return imageResource;
+        }
     }
 }
