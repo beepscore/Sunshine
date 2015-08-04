@@ -70,11 +70,11 @@ public class WeatherHelper {
      */
     public static String windDirectionCompassPointForWindDegrees(double windDegrees) {
         String windDirectionCompassPoint = "";
-        final float DEGREES_PER_SIXTEENTH_REVOLUTION = 22.5f;
-        // divide revolution into 16ths. range 1-16 (1 and 16 will both map to North)
-        int windDirectionSixteenths = (int)(((float)windDegrees/DEGREES_PER_SIXTEENTH_REVOLUTION)) + 1;
-        // divide revolution into 8ths. range 0-7
-        int windCompassPointIndex = (windDirectionSixteenths / 2) % 8;
+        final float DEGREES_PER_EIGHTH_REVOLUTION = 45.f;
+        // divide revolution into 8ths. range 0-8 (0 and 8 will both map to North)
+        int windDirectionEighths = Math.round(((float)windDegrees/DEGREES_PER_EIGHTH_REVOLUTION));
+        // range 0-7
+        int windCompassPointIndex = windDirectionEighths % 8;
         switch (windCompassPointIndex) {
             case 0: {
                 windDirectionCompassPoint = "N";
