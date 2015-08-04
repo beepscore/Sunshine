@@ -159,10 +159,10 @@ public class DetailActivity extends AppCompatActivity {
             // Attach an intent to this ShareActionProvider.
             // You can update this at any time, such as when
             // the user selects a new piece of data they might like to share.
-            if (mShareActionProvider != null) {
+            if (dayForecast != null) {
                 mShareActionProvider.setShareIntent(createShareForecastIntent(dayForecast));
             } else {
-                Log.d(LOG_TAG, "Share Action Provider is null.");
+                Log.d(LOG_TAG, "dayForecast is null.");
             }
 
             super.onCreateOptionsMenu(menu, inflater);
