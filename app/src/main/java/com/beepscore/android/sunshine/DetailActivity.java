@@ -132,15 +132,13 @@ public class DetailActivity extends AppCompatActivity {
                 descImageView = (ImageView)rootView.findViewById(R.id.description_image_view);
 
                 dayForecast = intent.getStringExtra(Intent.EXTRA_TEXT);
-                uri = intent.getData();
-                if (uri != null) {
-                    // Use a CursorLoader (not CursorAdapter) to load data
-                    // Prepare the loader.
-                    // Either re-connect with an existing one or start a new one.
-                    // http://developer.android.com/guide/components/loaders.html
-                    // http://android-developer-tutorials.blogspot.com/2013/03/using-cursorloader-in-android.html
-                    getLoaderManager().initLoader(LOADER_ID, null, this);
-                }
+
+                // Use a CursorLoader (not CursorAdapter) to load data
+                // Prepare the loader.
+                // Either re-connect with an existing one or start a new one.
+                // http://developer.android.com/guide/components/loaders.html
+                // http://android-developer-tutorials.blogspot.com/2013/03/using-cursorloader-in-android.html
+                getLoaderManager().initLoader(LOADER_ID, null, this);
             }
 
             return rootView;
@@ -202,6 +200,13 @@ public class DetailActivity extends AppCompatActivity {
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             // Called when a new Loader needs to be created.
             // This sample only has one Loader, so we don't care about the ID.
+
+            Intent intent = getActivity().getIntent();
+            if (intent == null) {
+                return null;
+            }
+
+            this.uri = intent.getData();
 
             // Sort order:  Ascending, by date.
             String sortOrder = ForecastFragment.COL_WEATHER_DATE + " ASC";
