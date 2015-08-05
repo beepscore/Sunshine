@@ -13,6 +13,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private final String FORECASTFRAGMENT_TAG = "FORECASTFRAGMENT_TAG";
     private String mLocation;
 
     ///////////////////////////////////////////////////////////////////////////
@@ -23,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "onCreate");
         setContentView(R.layout.activity_main);
 
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment, new ForecastFragment(), FORECASTFRAGMENT_TAG)
+                    .commit();
+        }
         mLocation = PreferenceHelper.getLocationPreferenceString(this);
     }
 
