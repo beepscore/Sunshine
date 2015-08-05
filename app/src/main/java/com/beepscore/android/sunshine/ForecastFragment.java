@@ -124,6 +124,17 @@ public class ForecastFragment extends Fragment
         return fragmentForecastView;
     }
 
+    // Lesson 4c says remove onStart to reduce excessive weather fetching.
+    // Lesson 6 will schedule updates in the background.
+    // Without onStart, on app first launch after install,
+    // app doesn't updateWeather until user chooses menu Refresh.
+    // On subsequent launches, app displayes weather.
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        updateWeather();
+//    }
+
     void onLocationChanged() {
         updateWeather();
         getLoaderManager().restartLoader(LOADER_ID, null, this);
