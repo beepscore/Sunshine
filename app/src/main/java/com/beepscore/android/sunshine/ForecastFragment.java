@@ -124,10 +124,9 @@ public class ForecastFragment extends Fragment
         return fragmentForecastView;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    void onLocationChanged() {
         updateWeather();
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
     private void updateWeather() {

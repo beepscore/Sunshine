@@ -42,6 +42,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         Log.d(LOG_TAG, " onResume");
         super.onResume();
+
+        String location = PreferenceHelper.getLocationPreferenceString(this);
+        // update the location in our second pane using the fragment manager
+        if (location != null
+                && !location.equals(mLocation)) {
+            ForecastFragment forecastFragment = (ForecastFragment)getSupportFragmentManager()
+                    .findFragmentByTag(FORECASTFRAGMENT_TAG);
+            if (forecastFragment != null) {
+                forecastFragment.onLocationChanged();
+            }
+            mLocation = location;
+        }
     }
 
     @Override
