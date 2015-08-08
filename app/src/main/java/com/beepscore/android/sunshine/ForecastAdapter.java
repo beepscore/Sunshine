@@ -27,7 +27,7 @@ public class ForecastAdapter extends CursorAdapter {
         super(context, c, flags);
     }
 
-    /*
+    /**
      *   Override method from abstract CursorAdapter
      *   @return a list item view without data values
      *   Remember that these views are reused as needed.
@@ -39,7 +39,7 @@ public class ForecastAdapter extends CursorAdapter {
         return view;
     }
 
-    /*
+    /**
      *   Override method from abstract CursorAdapter
      *  This is where we fill-in the views with the contents of the cursor.
      */
