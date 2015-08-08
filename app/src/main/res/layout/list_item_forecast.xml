@@ -16,7 +16,6 @@
         android:contentDescription="@string/weather_description_image" />
 
     <RelativeLayout
-        android:id="@+id/list_item_forecast_day_description"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="3"
@@ -36,7 +35,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/list_item_temperatures"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
