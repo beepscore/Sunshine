@@ -72,24 +72,24 @@ public class ForecastAdapter extends CursorAdapter {
 
         LinearLayout list_item_layout = (LinearLayout)view;
 
-        ImageView imageView = (ImageView)list_item_layout.findViewById(R.id.list_item_forecast_imageview);
+        ImageView imageView = (ImageView)list_item_layout.findViewById(R.id.list_item_icon);
         imageView.setImageResource(imageResourceForWeatherDescription(weatherDesc));
 
         RelativeLayout dayAndDescription = (RelativeLayout)list_item_layout.findViewById(R.id.list_item_forecast_day_description);
 
-        TextView dayView = (TextView)dayAndDescription.findViewById(R.id.list_item_forecast_day);
+        TextView dayView = (TextView)dayAndDescription.findViewById(R.id.list_item_date_textview);
         dayView.setText(weatherDay);
 
-        TextView descriptionView = (TextView)dayAndDescription.findViewById(R.id.list_item_forecast_description);
+        TextView descriptionView = (TextView)dayAndDescription.findViewById(R.id.list_item_forecast_textview);
         descriptionView.setText(weatherDesc);
 
         RelativeLayout temperaturesView = (RelativeLayout)list_item_layout.findViewById(R.id.list_item_temperatures);
-        TextView temperatureMaxTextView = (TextView)temperaturesView.findViewById(R.id.temperature_max_text_view);
+        TextView temperatureMaxTextView = (TextView)temperaturesView.findViewById(R.id.list_item_high_text_view);
         String temperatureMax = Utility.formatTemperature(weatherTemperatureMax, true)
                 + "°";
         temperatureMaxTextView.setText(temperatureMax);
 
-        TextView temperatureMinTextView = (TextView)temperaturesView.findViewById(R.id.temperature_min_text_view);
+        TextView temperatureMinTextView = (TextView)temperaturesView.findViewById(R.id.list_item_low_text_view);
         String temperatureMin = Utility.formatTemperature(weatherTemperatureMin, true)
                 + "°";
         temperatureMinTextView.setText(temperatureMin);

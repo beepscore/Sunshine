@@ -22,8 +22,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.beepscore.android.sunshine.data.WeatherContract;
-
 // References:
 // https://github.com/udacity/Sunshine-Version-2/blob/3.02_create_detail_activity/app/src/main/java/com/example/android/sunshine/app/DetailActivity.java
 
@@ -124,8 +122,8 @@ public class DetailActivity extends AppCompatActivity {
                 dateTextView = (TextView)rootView.findViewById(R.id.date_text_view);
                 dayTextView = (TextView)rootView.findViewById(R.id.day_text_view);
                 descTextView = (TextView)rootView.findViewById(R.id.description_text_view);
-                temperatureMaxTextView = (TextView)rootView.findViewById(R.id.temperature_max_text_view);
-                temperatureMinTextView = (TextView)rootView.findViewById(R.id.temperature_min_text_view);
+                temperatureMaxTextView = (TextView)rootView.findViewById(R.id.list_item_high_text_view);
+                temperatureMinTextView = (TextView)rootView.findViewById(R.id.list_item_low_text_view);
                 humidityTextView = (TextView)rootView.findViewById(R.id.humidity_text_view);
                 pressureTextView = (TextView)rootView.findViewById(R.id.pressure_text_view);
                 windTextView = (TextView)rootView.findViewById(R.id.wind_text_view);

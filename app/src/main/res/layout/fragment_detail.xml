@@ -42,7 +42,7 @@
             android:layout_height="fill_parent">
 
             <TextView
-                android:id="@+id/temperature_max_text_view"
+                android:id="@+id/list_item_high_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -50,7 +50,7 @@
                 android:text="temperature_max" />
 
             <TextView
-                android:id="@+id/temperature_min_text_view"
+                android:id="@+id/list_item_low_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
