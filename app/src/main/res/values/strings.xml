@@ -31,5 +31,6 @@
     <string name="title_activity_settings">Settings</string>
 
     <string name="weather">weather</string>
+    <string name="weatherDescriptionImage">weather description image</string>
 
 </resources>
