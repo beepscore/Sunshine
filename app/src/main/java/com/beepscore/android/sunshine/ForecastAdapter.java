@@ -44,7 +44,7 @@ public class ForecastAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        updateWeatherProperties(cursor);
+        updateWeatherProperties(context, cursor);
 
         ImageView imageView = (ImageView)view.findViewById(R.id.list_item_icon);
         imageView.setImageResource(imageResourceForWeatherDescription(weatherDesc));
@@ -66,8 +66,9 @@ public class ForecastAdapter extends CursorAdapter {
         temperatureMinTextView.setText(temperatureMin);
     }
 
-    private void updateWeatherProperties(Cursor cursor) {
-        weatherDay = Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
+    private void updateWeatherProperties(Context context, Cursor cursor) {
+        //weatherDay = Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
+        weatherDay = Utility.getFriendlyDayString(context, cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
         weatherDesc = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
         weatherTemperatureMax = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
         weatherTemperatureMin = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
