@@ -1,5 +1,6 @@
 package com.beepscore.android.sunshine;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -224,7 +225,7 @@ public class DetailActivity extends AppCompatActivity {
             String separator = " ";
             if (cursor != null
                     && cursor.moveToFirst()) {
-                updateWeatherProperties(cursor);
+                updateWeatherProperties(getActivity(), cursor);
                 updateUI();
 
                 if (mShareActionProvider != null) {
@@ -238,10 +239,10 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
-        private void updateWeatherProperties(Cursor cursor) {
+        private void updateWeatherProperties(Context context, Cursor cursor) {
             locationSetting = cursor.getString(ForecastFragment.COL_LOCATION_SETTING);
-            weatherDate = Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
-            weatherDay = Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
+            weatherDate = Utility.getFormattedMonthDay(context, cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
+            weatherDay = Utility.getDayName(context, cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
             weatherDesc = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
             weatherHumidity = cursor.getDouble(ForecastFragment.COL_HUMIDITY);
             weatherPressure = cursor.getDouble(ForecastFragment.COL_PRESSURE);
@@ -253,8 +254,8 @@ public class DetailActivity extends AppCompatActivity {
 
          //TODO bind adapter to views, then it will update views instead??
          private void updateUI() {
-             if (weatherDate != null) {
-                 dayTextView.setText(weatherDate);
+             if (weatherDay != null) {
+                 dayTextView.setText(weatherDay);
              }
              if (weatherDate != null) {
                  dateTextView.setText(weatherDate);
