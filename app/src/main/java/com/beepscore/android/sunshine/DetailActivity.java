@@ -264,12 +264,10 @@ public class DetailActivity extends AppCompatActivity {
                  descImageView.setImageResource(imageResourceForWeatherDescription(weatherDesc));
              }
 
-             String temperatureMax = Utility.formatTemperature(weatherTemperatureMax, true)
-                     + "°";
+             String temperatureMax = Utility.formatTemperature(weatherTemperatureMax, Utility.isMetric(getActivity()));
              temperatureMaxTextView.setText(temperatureMax);
 
-             String temperatureMin = Utility.formatTemperature(weatherTemperatureMin, true)
-                     + "°";
+             String temperatureMin = Utility.formatTemperature(weatherTemperatureMin, Utility.isMetric(getActivity()));
              temperatureMinTextView.setText(temperatureMin);
 
              String humidityString = "Humidity: "

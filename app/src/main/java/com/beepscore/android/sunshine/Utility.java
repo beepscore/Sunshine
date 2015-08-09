@@ -43,14 +43,20 @@ public class Utility {
                 .equals(context.getString(R.string.pref_units_metric));
     }
 
+    /**
+     * @param isMetric true for Celsius, false for Farenheit
+     * @return temperature String in preferred units, format similar to "15 °C" or "59 °F"
+     */
     static String formatTemperature(double temperature, boolean isMetric) {
         double temp;
+        String formattedTemperature;
         if ( !isMetric ) {
-            temp = 9*temperature/5+32;
+            temp = ((9/5) * temperature) + 32;
+            formattedTemperature = String.format("%.0f", temp) + " °F";
         } else {
-            temp = temperature;
+            formattedTemperature = String.format("%.0f", temperature) + " °C";
         }
-        return String.format("%.0f", temp);
+        return formattedTemperature;
     }
 
     /**

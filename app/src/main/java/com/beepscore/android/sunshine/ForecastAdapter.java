@@ -56,13 +56,11 @@ public class ForecastAdapter extends CursorAdapter {
         descriptionView.setText(weatherDesc);
 
         TextView temperatureMaxTextView = (TextView)view.findViewById(R.id.list_item_high_text_view);
-        String temperatureMax = Utility.formatTemperature(weatherTemperatureMax, true)
-                + "°";
+        String temperatureMax = Utility.formatTemperature(weatherTemperatureMax, Utility.isMetric(context));
         temperatureMaxTextView.setText(temperatureMax);
 
         TextView temperatureMinTextView = (TextView)view.findViewById(R.id.list_item_low_text_view);
-        String temperatureMin = Utility.formatTemperature(weatherTemperatureMin, true)
-                + "°";
+        String temperatureMin = Utility.formatTemperature(weatherTemperatureMin, Utility.isMetric(context));
         temperatureMinTextView.setText(temperatureMin);
     }
 
