@@ -55,6 +55,9 @@ public class ForecastAdapter extends CursorAdapter {
             layoutId = R.layout.list_item_forecast;
         }
         View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+        // tag can store any object
+        view.setTag(viewHolder);
 
         return view;
     }
@@ -68,23 +71,20 @@ public class ForecastAdapter extends CursorAdapter {
 
         updateWeatherProperties(context, cursor);
 
+        ViewHolder viewHolder = (ViewHolder)view.getTag();
+
         // TODO: Consider use weatherId to get weather icon
-        ImageView imageView = (ImageView)view.findViewById(R.id.list_item_icon);
-        imageView.setImageResource(imageResourceForWeatherDescription(weatherDesc));
+        viewHolder.iconView.setImageResource(imageResourceForWeatherDescription(weatherDesc));
 
-        TextView dayView = (TextView)view.findViewById(R.id.list_item_date_textview);
-        dayView.setText(weatherDay);
+        viewHolder.dateView.setText(weatherDay);
 
-        TextView descriptionView = (TextView)view.findViewById(R.id.list_item_forecast_textview);
-        descriptionView.setText(weatherDesc);
+        viewHolder.descriptionView.setText(weatherDesc);
 
-        TextView temperatureMaxTextView = (TextView)view.findViewById(R.id.list_item_high_text_view);
         String temperatureMax = Utility.formatTemperature(weatherTemperatureMax, Utility.isMetric(context));
-        temperatureMaxTextView.setText(temperatureMax);
+        viewHolder.temperatureMaxView.setText(temperatureMax);
 
-        TextView temperatureMinTextView = (TextView)view.findViewById(R.id.list_item_low_text_view);
         String temperatureMin = Utility.formatTemperature(weatherTemperatureMin, Utility.isMetric(context));
-        temperatureMinTextView.setText(temperatureMin);
+        viewHolder.temperatureMinView.setText(temperatureMin);
     }
 
     private void updateWeatherProperties(Context context, Cursor cursor) {
@@ -129,4 +129,25 @@ public class ForecastAdapter extends CursorAdapter {
         return imageResource;
     }
 
+    /**
+     * View holder for list item view
+     * Searches view hierarchy and caches children as properties to eliminate repeated searching
+     * http://developer.android.com/training/improving-layouts/smooth-scrolling.html
+     * http://developer.android.com/training/contacts-provider/display-contact-badge.html#ListView
+     */
+    public static class ViewHolder {
+        public final ImageView iconView;
+        public final TextView dateView;
+        public final TextView descriptionView;
+        public final TextView temperatureMaxView;
+        public final TextView temperatureMinView;
+
+        public ViewHolder(View view) {
+            iconView = (ImageView) view.findViewById(R.id.list_item_icon);
+            dateView = (TextView) view.findViewById(R.id.list_item_date_textview);
+            descriptionView = (TextView) view.findViewById(R.id.list_item_forecast_textview);
+            temperatureMaxView = (TextView) view.findViewById(R.id.list_item_high_text_view);
+            temperatureMinView = (TextView) view.findViewById(R.id.list_item_low_text_view);
+        }
+    }
 }
