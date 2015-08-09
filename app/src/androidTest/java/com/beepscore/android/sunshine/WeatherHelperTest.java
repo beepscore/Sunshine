@@ -18,12 +18,6 @@ public class WeatherHelperTest extends ApplicationTestCase<Application> {
         assertEquals(expected, actual);
     }
 
-    public void testDegreesCToDegreesF() {
-        assertEquals(32.0, WeatherHelper.degreesCToDegreesF(0), 0.001);
-        assertEquals(212.0, WeatherHelper.degreesCToDegreesF(100), 0.001);
-        assertEquals(59.0, WeatherHelper.degreesCToDegreesF(15), 0.001);
-    }
-
     public void testWindDirectionCompassPointForWindDegrees() {
         assertEquals("N", WeatherHelper.windDirectionCompassPointForWindDegrees(0.0));
         assertEquals("N", WeatherHelper.windDirectionCompassPointForWindDegrees(22.));

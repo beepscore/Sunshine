@@ -44,19 +44,22 @@ public class Utility {
     }
 
     /**
-     * @param isMetric true for Celsius, false for Farenheit
+     * @param temperature in Celsius
+     * @param isMetric preferred units for return. true for Celsius, false for Farenheit
      * @return temperature String in preferred units, format similar to "15 °C" or "59 °F"
      */
     static String formatTemperature(double temperature, boolean isMetric) {
-        double temp;
         String formattedTemperature;
         if ( !isMetric ) {
-            temp = ((9/5) * temperature) + 32;
-            formattedTemperature = String.format("%.0f", temp) + " °F";
+            formattedTemperature = String.format("%.0f", degreesCToDegreesF(temperature)) + " °F";
         } else {
             formattedTemperature = String.format("%.0f", temperature) + " °C";
         }
         return formattedTemperature;
+    }
+
+    protected static double degreesCToDegreesF(double degreesC) {
+        return (((9.0/5.0) * degreesC) + 32);
     }
 
     /**

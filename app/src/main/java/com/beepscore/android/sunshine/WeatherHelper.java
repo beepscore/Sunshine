@@ -59,10 +59,6 @@ public class WeatherHelper {
         return uri;
     }
 
-    protected static double degreesCToDegreesF(double degreesC) {
-        return (((9.0/5.0) * degreesC) + 32);
-    }
-
     /*
      * @param windDegrees compass direction wind is coming from
      * e.g. 0 degrees is N, increases clockwise
