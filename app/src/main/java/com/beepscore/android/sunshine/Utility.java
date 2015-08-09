@@ -53,6 +53,11 @@ public class Utility {
         return String.format("%.0f", temp);
     }
 
+    /**
+     *
+     * @param dateInMillis
+     * @return date String in format similar to "Aug 9, 2015"
+     */
     static String formatDate(long dateInMillis) {
         Date date = new Date(dateInMillis);
         return DateFormat.getDateInstance().format(date);
@@ -70,13 +75,13 @@ public class Utility {
      * @param context Context to use for resource localization
      * @param dateInMillis The date in milliseconds
      * @return a user-friendly representation of the date.
+     * The day string for forecast uses the following logic:
+     * For today: "Today, June 8"
+     * For tomorrow:  "Tomorrow"
+     * For the next 5 days: "Wednesday" (just the day name)
+     * For all days after that: "Mon Jun 8"
      */
     public static String getFriendlyDayString(Context context, long dateInMillis) {
-        // The day string for forecast uses the following logic:
-        // For today: "Today, June 8"
-        // For tomorrow:  "Tomorrow"
-        // For the next 5 days: "Wednesday" (just the day name)
-        // For all days after that: "Mon Jun 8"
 
         Time time = new Time();
         time.setToNow();
