@@ -16,6 +16,7 @@ import android.widget.TextView;
  */
 public class ForecastAdapter extends CursorAdapter {
 
+    private int weatherId;
     private String weatherDay = "";
     private String weatherDesc = "";
     private double weatherTemperatureMax;
@@ -46,6 +47,7 @@ public class ForecastAdapter extends CursorAdapter {
 
         updateWeatherProperties(context, cursor);
 
+        // TODO: Consider use weatherId to get weather icon
         ImageView imageView = (ImageView)view.findViewById(R.id.list_item_icon);
         imageView.setImageResource(imageResourceForWeatherDescription(weatherDesc));
 
@@ -65,6 +67,11 @@ public class ForecastAdapter extends CursorAdapter {
     }
 
     private void updateWeatherProperties(Context context, Cursor cursor) {
+
+        // get weatherId as shown in Lesson 5 gist
+        // https://gist.github.com/udacityandroid/b23e847ec824b62877d4
+        weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_ID);
+
         //weatherDay = Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
         weatherDay = Utility.getFriendlyDayString(context, cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
         weatherDesc = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
