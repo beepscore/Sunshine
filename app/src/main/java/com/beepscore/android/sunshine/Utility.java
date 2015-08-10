@@ -48,18 +48,36 @@ public class Utility {
      * @param isMetric preferred units for return. true for Celsius, false for Farenheit
      * @return temperature String in preferred units, format similar to "15 °C" or "59 °F"
      */
-    static String formatTemperature(double temperature, boolean isMetric) {
-        String formattedTemperature;
+    static String formatTemperature(Context context, double temperature, boolean isMetric) {
+        double temperatureInPreferredUnits;
         if ( !isMetric ) {
-            formattedTemperature = String.format("%.0f", degreesCToDegreesF(temperature)) + " °F";
+            temperatureInPreferredUnits = degreesCToDegreesF(temperature);
         } else {
-            formattedTemperature = String.format("%.0f", temperature) + " °C";
+            temperatureInPreferredUnits = temperature;
         }
-        return formattedTemperature;
+        // This appears awkward but Lesson 5 requires use an xliff string for easier localization
+        String formattedTemperatureAndUnit = context.getString(R.string.format_temperature,
+                temperatureInPreferredUnits,
+                getTemperatureUnit(isMetric));
+        return formattedTemperatureAndUnit;
     }
 
     protected static double degreesCToDegreesF(double degreesC) {
         return (((9.0/5.0) * degreesC) + 32);
+    }
+
+    /**
+     * @param isMetric preferred units for return. true for Celsius, false for Farenheit
+     * @return temperature unit String in preferred units, "°C" or "°F"
+     */
+    static String getTemperatureUnit(boolean isMetric) {
+        String temperatureUnit;
+        if ( !isMetric ) {
+            temperatureUnit = "°F";
+        } else {
+            temperatureUnit = "°C";
+        }
+        return temperatureUnit;
     }
 
     /**
