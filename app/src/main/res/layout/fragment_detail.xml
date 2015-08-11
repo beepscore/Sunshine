@@ -14,7 +14,6 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="day"
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
 
@@ -24,7 +23,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="date"
         />
 
     <LinearLayout
@@ -47,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="48dp"
-                android:text="temperature_max" />
+                />
 
             <TextView
                 android:id="@+id/list_item_low_text_view"
@@ -55,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="30dp"
-                android:text="temperature_min" />
+                />
 
         </LinearLayout>
 
@@ -77,33 +75,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="description" />
+                />
         </LinearLayout>
 
     </LinearLayout>
 
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
         android:id="@+id/humidity_text_view"
-        android:text="humidity"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        />
-    <TextView
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+    <TextView
         android:id="@+id/pressure_text_view"
-        android:text="pressure"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        />
-    <TextView
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+    <TextView
         android:id="@+id/wind_text_view"
-        android:text="wind"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
 
