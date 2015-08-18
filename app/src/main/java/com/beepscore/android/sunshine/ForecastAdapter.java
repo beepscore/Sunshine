@@ -49,7 +49,7 @@ public class ForecastAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         int viewType = getItemViewType(cursor.getPosition());
         int layoutId = -1;
-        if (viewType == 0) {
+        if (viewType == VIEW_TYPE_TODAY) {
             layoutId = R.layout.list_item_forecast_today;
         } else {
             layoutId = R.layout.list_item_forecast;
@@ -73,7 +73,12 @@ public class ForecastAdapter extends CursorAdapter {
 
         ViewHolder viewHolder = (ViewHolder)view.getTag();
 
-        viewHolder.iconView.setImageResource(WeatherHelper.getIconResourceForWeatherCondition(weatherConditionId));
+        int viewType = getItemViewType(cursor.getPosition());
+        if (viewType == VIEW_TYPE_TODAY) {
+            viewHolder.iconView.setImageResource(WeatherHelper.getArtResourceForWeatherCondition(weatherConditionId));
+        } else {
+            viewHolder.iconView.setImageResource(WeatherHelper.getIconResourceForWeatherCondition(weatherConditionId));
+        }
 
         viewHolder.dateView.setText(weatherDay);
 
