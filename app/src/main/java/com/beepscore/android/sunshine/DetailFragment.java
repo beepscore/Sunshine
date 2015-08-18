@@ -34,10 +34,12 @@ public class DetailFragment extends Fragment
     // ShareActionProvider shares weather as a String
     // e.g. "Tue 6/24 - Foggy - 21/8 #SunshineApp"
     private ShareActionProvider mShareActionProvider;
+
     private String locationSetting = "";
     private String weatherDate = "";
     private String weatherDay = "";
     private String weatherDesc = "";
+    private int weatherConditionId = -1;
     private double weatherHumidity;
     private double weatherTemperatureMax;
     private double weatherTemperatureMin;
@@ -205,6 +207,7 @@ public class DetailFragment extends Fragment
         weatherDate = Utility.getFormattedMonthDay(context, cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
         weatherDay = Utility.getDayName(context, cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
         weatherDesc = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
+        weatherConditionId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
         weatherHumidity = cursor.getDouble(ForecastFragment.COL_HUMIDITY);
         weatherPressure = cursor.getDouble(ForecastFragment.COL_PRESSURE);
         weatherTemperatureMax = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
@@ -223,7 +226,10 @@ public class DetailFragment extends Fragment
         }
         if (weatherDesc != null) {
             descTextView.setText(weatherDesc);
-            descImageView.setImageResource(imageResourceForWeatherDescription(weatherDesc));
+        }
+
+        if (weatherConditionId != -1) {
+            descImageView.setImageResource(WeatherHelper.getArtResourceForWeatherCondition(weatherConditionId));
         }
 
         String temperatureMax = Utility.formatTemperature(getActivity(),
@@ -260,40 +266,4 @@ public class DetailFragment extends Fragment
         // We need to make sure we are no longer using it.
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-
-    /*
-     * uses response main
-     * http://openweathermap.org/current#current_JSON
-     * TODO: Consider switch on weather condition codes within numeric range
-     * http://openweathermap.org/weather-conditions
-     */
-    private int imageResourceForWeatherDescription(String weatherDescription) {
-        int imageResource = -1;
-        switch (weatherDescription) {
-            case "Clear": {
-                imageResource = R.drawable.art_clear;
-                break;
-            }
-            case "Clouds": {
-                imageResource = R.drawable.art_clouds;
-                break;
-            }
-            case "Extreme": {
-                imageResource = R.drawable.art_storm;
-                break;
-            }
-            case "Rain": {
-                imageResource = R.drawable.art_rain;
-                break;
-            }
-            case "Snow": {
-                imageResource = R.drawable.art_snow;
-                break;
-            }
-            default:
-                imageResource = R.drawable.ic_launcher;
-        }
-        return imageResource;
-    }
 }

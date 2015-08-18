@@ -20,7 +20,7 @@ public class ForecastAdapter extends CursorAdapter {
     private static final int VIEW_TYPE_FUTURE_DAY = 1;
     private static final int VIEW_TYPE_COUNT = 2;
 
-    private int weatherId;
+    private int weatherConditionId;
     private String weatherDay = "";
     private String weatherDesc = "";
     private double weatherTemperatureMax;
@@ -73,8 +73,7 @@ public class ForecastAdapter extends CursorAdapter {
 
         ViewHolder viewHolder = (ViewHolder)view.getTag();
 
-        // TODO: Consider use weatherId to get weather icon
-        viewHolder.iconView.setImageResource(imageResourceForWeatherDescription(weatherDesc));
+        viewHolder.iconView.setImageResource(WeatherHelper.getIconResourceForWeatherCondition(weatherConditionId));
 
         viewHolder.dateView.setText(weatherDay);
 
@@ -93,44 +92,15 @@ public class ForecastAdapter extends CursorAdapter {
 
     private void updateWeatherProperties(Context context, Cursor cursor) {
 
-        // get weatherId as shown in Lesson 5 gist
+        // get weatherConditionId as shown in Lesson 5 gist
         // https://gist.github.com/udacityandroid/b23e847ec824b62877d4
-        weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_ID);
+        weatherConditionId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
 
         //weatherDay = Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
         weatherDay = Utility.getFriendlyDayString(context, cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
         weatherDesc = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
         weatherTemperatureMax = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
         weatherTemperatureMin = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
-    }
-
-    private int imageResourceForWeatherDescription(String weatherDescription) {
-        int imageResource = -1;
-        switch (weatherDescription) {
-            case "Clear": {
-                imageResource = R.drawable.ic_clear;
-                break;
-            }
-            case "Clouds": {
-                imageResource = R.drawable.ic_cloudy;
-                break;
-            }
-            case "Extreme": {
-                imageResource = R.drawable.ic_storm;
-                break;
-            }
-            case "Rain": {
-                imageResource = R.drawable.ic_rain;
-                break;
-            }
-            case "Snow": {
-                imageResource = R.drawable.ic_snow;
-                break;
-            }
-            default:
-                imageResource = R.drawable.ic_launcher;
-        }
-        return imageResource;
     }
 
     /**

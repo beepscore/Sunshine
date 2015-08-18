@@ -58,7 +58,7 @@ public class TestUtilities extends AndroidTestCase {
         weatherValues.put(WeatherContract.WeatherEntry.COLUMN_MIN_TEMP, 65);
         weatherValues.put(WeatherContract.WeatherEntry.COLUMN_SHORT_DESC, "Asteroids");
         weatherValues.put(WeatherContract.WeatherEntry.COLUMN_WIND_SPEED, 5.5);
-        weatherValues.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_ID, 321);
+        weatherValues.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_CONDITION_ID, 321);
 
         return weatherValues;
     }
