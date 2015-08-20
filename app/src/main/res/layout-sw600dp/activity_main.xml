@@ -6,7 +6,7 @@
               android:baselineAligned="false"
               android:divider="?android:attr/dividerHorizontal"
               android:orientation="horizontal"
-              tools:context="com.beepscore.android.sunshine.MainActivity">
+              tools:context="com.beepscore.android.sunshine.app.MainActivity">
 
 <!--
 This layout is a two-pane layout for the Items master/detail flow.

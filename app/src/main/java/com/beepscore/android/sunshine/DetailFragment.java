@@ -162,6 +162,7 @@ public class DetailFragment extends Fragment
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // Called when a new Loader needs to be created.
         // This sample only has one Loader, so we don't care about the ID.
+        Log.v(LOG_TAG, "In onCreateLoader");
 
         Intent intent = getActivity().getIntent();
         if (intent == null) {
@@ -169,6 +170,9 @@ public class DetailFragment extends Fragment
         }
 
         this.uri = intent.getData();
+        if (this.uri == null) {
+            return null;
+        }
 
         // Sort order:  Ascending, by date.
         String sortOrder = ForecastFragment.COL_WEATHER_DATE + " ASC";
