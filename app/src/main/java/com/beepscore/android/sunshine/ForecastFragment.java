@@ -1,6 +1,5 @@
 package com.beepscore.android.sunshine;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -24,6 +23,18 @@ import com.beepscore.android.sunshine.data.WeatherContract;
  */
 public class ForecastFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(Uri dateUri);
+    }
 
     /*
      * projection of columns we want to get from database
@@ -110,19 +121,18 @@ public class ForecastFragment extends Fragment
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
+
                     String locationSetting = Utility.getPreferredLocation(getActivity());
-                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
-                            ));
-                    intent.putExtra(Intent.EXTRA_TEXT, dayForecast);
-                    startActivity(intent);
+                    long dateLong = cursor.getLong(COL_WEATHER_DATE);
+                    Uri weatherLocationDateUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                            locationSetting, dateLong);
+                    ((Callback)getActivity()).onItemSelected(weatherLocationDateUri);
                 }
             }
         });
 
-        return fragmentForecastView;
-    }
+    return fragmentForecastView;
+}
 
     // Lesson 4c says remove onStart to reduce excessive weather fetching.
     // Lesson 6 will schedule updates in the background.
@@ -169,16 +179,6 @@ public class ForecastFragment extends Fragment
 
             // get new forecasts
             updateWeather();
-
-            // Reference Lesson 4c Handle the Settings Change
-            getLoaderManager().restartLoader(LOADER_ID, null, this);
-
-            return true;
-        }
-
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(getActivity(), SettingsActivity.class);
-            startActivity(intent);
             return true;
         }
 

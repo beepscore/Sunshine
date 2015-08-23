@@ -21,12 +21,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.beepscore.android.sunshine.data.WeatherContract;
+
 /**
  * Created by stevebaker on 8/9/15.
  */
 public class DetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    static final String DETAIL_URI = "URI";
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     private static final String FORECAST_SHARE_HASHTAG = "#SunshineApp";
 
@@ -76,13 +79,22 @@ public class DetailFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // setHasOptionsMenu to ensure options menu methods get called
+        setHasOptionsMenu(true);
+
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            uri = arguments.getParcelable(DetailFragment.DETAIL_URI);
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         // get the intent the activity was started with
         // http://stackoverflow.com/questions/11387740/where-how-to-getintent-getextras-in-an-android-fragment
         Intent intent = getActivity().getIntent();
 
-        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+        //if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+        if (intent != null) {
             dateTextView = (TextView) rootView.findViewById(R.id.date_text_view);
             dayTextView = (TextView) rootView.findViewById(R.id.day_text_view);
             descTextView = (TextView) rootView.findViewById(R.id.description_text_view);
@@ -93,15 +105,17 @@ public class DetailFragment extends Fragment
             windTextView = (TextView) rootView.findViewById(R.id.wind_text_view);
             descImageView = (ImageView) rootView.findViewById(R.id.description_image_view);
 
-            dayForecast = intent.getStringExtra(Intent.EXTRA_TEXT);
-
-            // Use a CursorLoader (not CursorAdapter) to load data
-            // Prepare the loader.
-            // Either re-connect with an existing one or start a new one.
-            // http://developer.android.com/guide/components/loaders.html
-            // http://android-developer-tutorials.blogspot.com/2013/03/using-cursorloader-in-android.html
-            getLoaderManager().initLoader(LOADER_ID, null, this);
+            if (intent.hasExtra(Intent.EXTRA_TEXT)) {
+                dayForecast = intent.getStringExtra(Intent.EXTRA_TEXT);
+            }
         }
+
+        // Use a CursorLoader (not CursorAdapter) to load data
+        // Prepare the loader.
+        // Either re-connect with an existing one or start a new one.
+        // http://developer.android.com/guide/components/loaders.html
+        // http://android-developer-tutorials.blogspot.com/2013/03/using-cursorloader-in-android.html
+        getLoaderManager().initLoader(LOADER_ID, null, this);
 
         return rootView;
     }
@@ -164,25 +178,23 @@ public class DetailFragment extends Fragment
         // This sample only has one Loader, so we don't care about the ID.
         Log.v(LOG_TAG, "In onCreateLoader");
 
-        Intent intent = getActivity().getIntent();
-        if (intent == null) {
-            return null;
+        if ( null != uri ) {
+            // Now create and return a CursorLoader that will take care of
+            // creating a Cursor for the data being displayed.
+
+            // Sort order:  Ascending, by date.
+            String sortOrder = ForecastFragment.COL_WEATHER_DATE + " ASC";
+
+            return new CursorLoader(
+                    getActivity(),
+                    this.uri,
+                    ForecastFragment.FORECAST_COLUMNS,
+                    null,
+                    null,
+                    sortOrder
+            );
         }
-
-        this.uri = intent.getData();
-        if (this.uri == null) {
-            return null;
-        }
-
-        // Sort order:  Ascending, by date.
-        String sortOrder = ForecastFragment.COL_WEATHER_DATE + " ASC";
-
-        return new CursorLoader(getActivity(),
-                this.uri,
-                ForecastFragment.FORECAST_COLUMNS,
-                null,
-                null,
-                sortOrder);
+        return null;
     }
 
     @Override
@@ -205,6 +217,13 @@ public class DetailFragment extends Fragment
             }
         }
     }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // called when the last Cursor provided to onLoadFinished() is about to be closed.
+        // We need to make sure we are no longer using it.
+    }
+    ////////////////////////////////////////////////////////////////////////////
 
     private void updateWeatherProperties(Context context, Cursor cursor) {
         locationSetting = cursor.getString(ForecastFragment.COL_LOCATION_SETTING);
@@ -264,10 +283,13 @@ public class DetailFragment extends Fragment
 
     }
 
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        // called when the last Cursor provided to onLoadFinished() is about to be closed.
-        // We need to make sure we are no longer using it.
+    void onLocationChanged(String newLocation) {
+        // replace the uri, since the location has changed
+        if (uri != null) {
+            long date = WeatherContract.WeatherEntry.getDateFromUri(uri);
+            Uri updatedUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(newLocation, date);
+            uri = updatedUri;
+            getLoaderManager().restartLoader(LOADER_ID, null, this);
+        }
     }
-
 }
