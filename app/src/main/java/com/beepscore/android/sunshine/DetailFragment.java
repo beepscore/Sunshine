@@ -56,7 +56,7 @@ public class DetailFragment extends Fragment
     // dayForecast used for sharing
     private String dayForecast = "";
 
-    private Uri uri = null;
+    private Uri mUri = null;
 
     private ImageView descImageView = null;
     private TextView dayTextView = null;
@@ -84,7 +84,7 @@ public class DetailFragment extends Fragment
         // Note this Bundle is separate from the onSaveInstanceState Bundle
         Bundle arguments = getArguments();
         if (arguments != null) {
-            uri = arguments.getParcelable(DetailFragment.DETAIL_URI);
+            mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
         }
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
@@ -175,7 +175,7 @@ public class DetailFragment extends Fragment
         // This sample only has one Loader, so we don't care about the ID.
         Log.v(LOG_TAG, "In onCreateLoader");
 
-        if ( null != uri ) {
+        if ( null != mUri) {
             // Now create and return a CursorLoader that will take care of
             // creating a Cursor for the data being displayed.
 
@@ -184,7 +184,7 @@ public class DetailFragment extends Fragment
 
             return new CursorLoader(
                     getActivity(),
-                    this.uri,
+                    mUri,
                     ForecastFragment.FORECAST_COLUMNS,
                     null,
                     null,
@@ -281,11 +281,11 @@ public class DetailFragment extends Fragment
     }
 
     void onLocationChanged(String newLocation) {
-        // replace the uri, since the location has changed
-        if (uri != null) {
-            long date = WeatherContract.WeatherEntry.getDateFromUri(uri);
+        // replace the mUri, since the location has changed
+        if (mUri != null) {
+            long date = WeatherContract.WeatherEntry.getDateFromUri(mUri);
             Uri updatedUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(newLocation, date);
-            uri = updatedUri;
+            mUri = updatedUri;
             getLoaderManager().restartLoader(LOADER_ID, null, this);
         }
     }
