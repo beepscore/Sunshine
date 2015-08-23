@@ -139,8 +139,6 @@ public class DetailFragment extends Fragment
         } else {
             Log.d(LOG_TAG, "dayForecast is null.");
         }
-
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.beepscore.android.sunshine;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -161,7 +162,6 @@ public class ForecastFragment extends Fragment
         // Inflate the menu; this adds items to the action bar if it is present.
         // http://stackoverflow.com/questions/15653737/oncreateoptionsmenu-inside-fragments
         inflater.inflate(R.menu.forecastfragment, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -179,6 +179,12 @@ public class ForecastFragment extends Fragment
 
             // get new forecasts
             updateWeather();
+            return true;
+        }
+
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
