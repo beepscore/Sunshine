@@ -67,6 +67,9 @@ public class SettingsActivity extends PreferenceActivity
         return true;
     }
 
+    // TargetApi annotation only adds method if api is Jelly Bean or later
+    // avoids error from undefined method
+    // getParentActivityIntent added in API level 16, didn't exist before Jelly Bean
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     /**
@@ -74,6 +77,8 @@ public class SettingsActivity extends PreferenceActivity
      * check deployment target, may not need this code
      */
     public Intent getParentActivityIntent() {
+        // FLAG_ACTIVITY_CLEAR_TOP indicates if MainActivity is already running
+        // use it instead of instantiating a new MainActivity
         return super.getParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }
 
