@@ -21,7 +21,9 @@ public class DetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
 
-            // Use fragment.setArguments to pass info from the activity to the fragment
+            // Activity was started with an Intent that holds info in intent data.
+            // Pass activity's intent data to fragment via fragment arguments.
+            // Use fragment.setArguments to pass info.
             Bundle arguments = new Bundle();
             arguments.putParcelable(DetailFragment.DETAIL_URI, getIntent().getData());
 
