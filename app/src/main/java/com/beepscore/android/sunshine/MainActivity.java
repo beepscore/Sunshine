@@ -55,19 +55,27 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         Log.d(LOG_TAG, " onResume");
 
+        // Android calls onResume after resuming from onPause
+        // if user taps Settings, that pauses MainActivity
+        // User might set a new location
+        // Then when user leaves Settings, Android calls onResume
+        // Check if location has changed.
+        // If it has, call fragment onLocationChanged methods so they can update themselves
+
         String location = PreferenceHelper.getLocationPreferenceString(this);
         if (location != null
                 && !location.equals(mLocation)) {
-
+            // location has changed, update it
             mLocation = location;
 
+            // update forecastFragment
             ForecastFragment forecastFragment = (ForecastFragment)getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_forecast);
             if (forecastFragment != null) {
                 forecastFragment.onLocationChanged();
             }
 
-            // update the location in our second pane using the fragment manager
+            // if app is showing two panes, detailFragment is present. Update detailFragment
             DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
             if ( null != df ) {
                 df.onLocationChanged(location);
