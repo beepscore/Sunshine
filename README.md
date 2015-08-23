@@ -85,3 +85,26 @@ Instead in app enter location St Petersburg,us
 US zip code 988053 returns Castroreale IT.
 Instead enter location Seattle,us
 
+## Phone and Tablet UI
+### Phone
+App uses a one pane layout.
+MainActivity shows ForecastFragment.
+If the user taps on a row, DetailActivity shows DetailFragment.
+### Tablet
+App uses two pane Master/Detail layout.
+MainActivity shows ForecastFragment and DetailFragment.
+DetailActivity isn't used.
+
+## Passing information
+### Callback
+ForecastFragment declares a callback interface to send info to an implementing actiivty.
+This decouples ForecastFragment from a particular activity (e.g. MainActivity)
+This also decouples the fragment from other fragments (e.g. DetailFragment)
+
+MainActivity implements the interface.
+
+### Fragment arguments
+Every fragment has a property named arguments of type Bundle.
+This Bundle is separate from the savedInstanceState Bundle.
+MainActivity and DetailActivity may instantiate DetailFragment
+These activities use detailFragment.setArguments to pass info to detailFragment.

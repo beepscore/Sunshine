@@ -26,9 +26,12 @@ public class ForecastFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
-     * A callback interface that all activities containing this fragment must
-     * implement. This mechanism allows activities to be notified of item
-     * selections.
+     * A callback interface that all activities containing this fragment must implement.
+     * This mechanism allows activities to be notified of item selections.
+     * This mechanism enables passing information from this fragment to
+     * the activity that has implemented the Callback interface.
+     * This decouples ForecastFragment from a particular activity (e.g. MainActivity)
+     * This also decouples the fragment from other fragments (e.g. DetailFragment)
      */
     public interface Callback {
         /**
@@ -127,6 +130,9 @@ public class ForecastFragment extends Fragment
                     long dateLong = cursor.getLong(COL_WEATHER_DATE);
                     Uri weatherLocationDateUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
                             locationSetting, dateLong);
+
+                    // Use callback to pass information from ForecastFragment
+                    // to Callback implementing Activity
                     ((Callback)getActivity()).onItemSelected(weatherLocationDateUri);
                 }
             }

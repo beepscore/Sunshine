@@ -79,9 +79,10 @@ public class DetailFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // setHasOptionsMenu to ensure options menu methods get called
-        setHasOptionsMenu(true);
-
+        // The instantiating activity sets the DetailFragment arguments as a way to pass information to it.
+        // This decouples DetailFragment from a particular activity.
+        // onCreateView can re-read fragment arguments to restore view after device rotation.
+        // Note this Bundle is separate from the onSaveInstanceState Bundle
         Bundle arguments = getArguments();
         if (arguments != null) {
             uri = arguments.getParcelable(DetailFragment.DETAIL_URI);

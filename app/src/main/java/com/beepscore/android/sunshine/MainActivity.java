@@ -148,9 +148,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemSelected(Uri contentUri) {
         if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
+            // In two-pane mode, show the detail view in this activity
+            // by adding or replacing the detail fragment using a fragment transaction.
+
+            // Every fragment has a property named arguments of type Bundle.
+            // This Bundle is separate from the savedInstanceState Bundle.
+            // Use fragment.setArguments to pass info from the activity to the fragment
+
             Bundle args = new Bundle();
             args.putParcelable(DetailFragment.DETAIL_URI, contentUri);
 
