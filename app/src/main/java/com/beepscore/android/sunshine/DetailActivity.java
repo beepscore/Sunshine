@@ -21,6 +21,7 @@ public class DetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
 
+            // Use fragment.setArguments to pass info from the activity to the fragment
             Bundle arguments = new Bundle();
             arguments.putParcelable(DetailFragment.DETAIL_URI, getIntent().getData());
 
