@@ -156,8 +156,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemSelected(Uri contentUri) {
         if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity
-            // by adding or replacing the detail fragment using a fragment transaction.
+            // Two-pane mode, in this activity show DetailFragment view
 
             // Every fragment has a property named arguments of type Bundle.
             // This Bundle is separate from the savedInstanceState Bundle.
@@ -169,10 +168,12 @@ public class MainActivity extends AppCompatActivity
             DetailFragment fragment = new DetailFragment();
             fragment.setArguments(args);
 
+            // Use fragment transaction to replace the detail fragment
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.weather_detail_container, fragment, DETAILFRAGMENT_TAG)
                     .commit();
         } else {
+            // single pane mode, start DetailActivity to show DetailFragment view
             Intent intent = new Intent(this, DetailActivity.class)
                     .setData(contentUri);
             startActivity(intent);
