@@ -105,6 +105,15 @@ MainActivity implements the interface.
 
 ### Fragment arguments
 Every fragment has a property named arguments of type Bundle.
-This Bundle is separate from the savedInstanceState Bundle.
 MainActivity and DetailActivity may instantiate DetailFragment
 These activities use detailFragment.setArguments to pass info to detailFragment.
+
+#### Fragment arguments versus savedInstanceState
+Fragment arguments Bundle is separate from savedInstanceState Bundle.
+Fragment arguments is set when fragment is initialized and after that they are read only.
+savedInstanceState Bundle is read/write.
+savedInstanceState is passed in to onSaveInstanceState()
+and app may put key/value pairs into it
+to store and update information after the app has been running.
+Can be used to restore fragment after device rotation or system kill.
+For example can use it in onCreate or onCreateView.

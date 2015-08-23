@@ -81,7 +81,6 @@ public class DetailFragment extends Fragment
 
         // The instantiating activity sets the DetailFragment arguments as a way to pass information to it.
         // This decouples DetailFragment from a particular activity.
-        // onCreateView can re-read fragment arguments to restore view after device rotation.
         // Note this Bundle is separate from the onSaveInstanceState Bundle
         Bundle arguments = getArguments();
         if (arguments != null) {
