@@ -93,7 +93,6 @@ public class DetailFragment extends Fragment
         // http://stackoverflow.com/questions/11387740/where-how-to-getintent-getextras-in-an-android-fragment
         Intent intent = getActivity().getIntent();
 
-        //if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
         if (intent != null) {
             dateTextView = (TextView) rootView.findViewById(R.id.date_text_view);
             dayTextView = (TextView) rootView.findViewById(R.id.day_text_view);
