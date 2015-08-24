@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
     <style name="ChoiceMode" parent="AppTheme">
+        <item name="android:choiceMode">singleChoice</item>
     </style>
 
 </resources>
