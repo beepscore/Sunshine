@@ -86,7 +86,7 @@ public class ForecastFragment extends Fragment
     private ListView mListView = null;
     private String dayForecast = "";
 
-    static final String POSITION = "POSITION";
+    static final String SELECTED_KEY = "POSITION";
     protected int mPosition = 0;
 
     // public empty constructor
@@ -122,8 +122,9 @@ public class ForecastFragment extends Fragment
         listView.setAdapter(mForecastAdapter);
         mListView = listView;
 
-        if (savedInstanceState != null) {
-            mPosition = savedInstanceState.getInt(POSITION);
+        if ((savedInstanceState != null)
+                && savedInstanceState.containsKey(SELECTED_KEY)) {
+            mPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -167,7 +168,7 @@ public class ForecastFragment extends Fragment
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putInt(POSITION, mPosition);
+        savedInstanceState.putInt(SELECTED_KEY, mPosition);
     }
 
     ///////////////////////////////////////////////////////////////////////////
