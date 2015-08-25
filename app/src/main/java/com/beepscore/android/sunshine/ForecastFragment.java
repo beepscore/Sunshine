@@ -83,7 +83,11 @@ public class ForecastFragment extends Fragment
 
     private final static int LOADER_ID = 1;
     private ForecastAdapter mForecastAdapter = null;
+    private ListView mListView = null;
     private String dayForecast = "";
+
+    static final String POSITION = "POSITION";
+    protected int mPosition = 0;
 
     // public empty constructor
     public ForecastFragment() {
@@ -116,11 +120,19 @@ public class ForecastFragment extends Fragment
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
         ListView listView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
+        mListView = listView;
+
+        if (savedInstanceState != null) {
+            mPosition = savedInstanceState.getInt(POSITION);
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView adapterView, View view, int position, long l) {
+
+                mPosition = position;
+
                 // CursorAdapter returns a cursor at the correct position for getItem(), or null
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
@@ -151,6 +163,14 @@ public class ForecastFragment extends Fragment
 //        super.onStart();
 //        updateWeather();
 //    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt(POSITION, mPosition);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
 
     void onLocationChanged() {
         updateWeather();
@@ -226,6 +246,7 @@ public class ForecastFragment extends Fragment
         // Swap the new cursor in.
         // The framework will take care of closing the old cursor once we return.
         mForecastAdapter.swapCursor(cursor);
+        mListView.setSelection(mPosition);
         dayForecast = getDayForecast(cursor);
     }
 
