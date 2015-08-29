@@ -42,6 +42,14 @@ public class MainActivity extends AppCompatActivity
         } else {
             mTwoPane = false;
         }
+
+        ForecastFragment forecastFragment = (ForecastFragment)(getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_forecast));
+
+        // on one pane (e.g. phone), use today layout
+        // on two panes (e.g. tablet), don't use today layout
+        forecastFragment.getForecastAdapter().setUseTodayLayout(!mTwoPane);
+
     }
 
     @Override
@@ -172,6 +180,8 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.weather_detail_container, fragment, DETAILFRAGMENT_TAG)
                     .commit();
+
+
         } else {
             // single pane mode, start DetailActivity to show DetailFragment view
             Intent intent = new Intent(this, DetailActivity.class)

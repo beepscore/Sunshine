@@ -281,4 +281,8 @@ public class ForecastFragment extends Fragment
         return dayForecastString;
     }
 
+    public ForecastAdapter getForecastAdapter() {
+        return mForecastAdapter;
+    }
+
 }
