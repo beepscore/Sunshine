@@ -95,14 +95,14 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             />
         <TextView
-            android:id="@+id/pressure_text_view"
+            android:id="@+id/wind_text_view"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceLarge"
             />
         <TextView
-            android:id="@+id/wind_text_view"
+            android:id="@+id/pressure_text_view"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
