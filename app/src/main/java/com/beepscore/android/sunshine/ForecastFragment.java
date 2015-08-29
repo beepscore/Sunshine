@@ -89,6 +89,8 @@ public class ForecastFragment extends Fragment
     static final String SELECTED_KEY = "POSITION";
     protected int mPosition = 0;
 
+    private boolean mUseTodayLayout;
+
     // public empty constructor
     public ForecastFragment() {
     }
@@ -114,8 +116,10 @@ public class ForecastFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // cursor isn't ready yet, so use null
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
 
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
         ListView listView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
@@ -281,8 +285,20 @@ public class ForecastFragment extends Fragment
         return dayForecastString;
     }
 
-    public ForecastAdapter getForecastAdapter() {
-        return mForecastAdapter;
+    public void setUseTodayLayout(boolean useTodayLayout) {
+
+        mUseTodayLayout = useTodayLayout;
+
+        // Note: this setter method has a side effect!
+        // Pass call to mForecastAdapter
+        // Don't expose private mForecastAdapter to other classes.
+
+        // This is a public method,
+        // and another class could call it before mForecastAdapter is initialized.
+        // So use a guard clause
+        if (mForecastAdapter != null) {
+            mForecastAdapter.setUseTodayLayout(useTodayLayout);
+        }
     }
 
 }

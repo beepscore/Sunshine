@@ -19,13 +19,14 @@ public class ForecastAdapter extends CursorAdapter {
     private static final int VIEW_TYPE_TODAY = 0;
     private static final int VIEW_TYPE_FUTURE_DAY = 1;
     private static final int VIEW_TYPE_COUNT = 2;
-    private boolean mUseTodayLayout;
 
     private int weatherConditionId;
     private String weatherDay = "";
     private String weatherDesc = "";
     private double weatherTemperatureMax;
     private double weatherTemperatureMin;
+
+    private boolean mUseTodayLayout;
 
     public ForecastAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);

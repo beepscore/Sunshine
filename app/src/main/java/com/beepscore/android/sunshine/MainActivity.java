@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
 
         // on one pane (e.g. phone), use today layout
         // on two panes (e.g. tablet), don't use today layout
-        forecastFragment.getForecastAdapter().setUseTodayLayout(!mTwoPane);
+        forecastFragment.setUseTodayLayout(!mTwoPane);
 
     }
 
