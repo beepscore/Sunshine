@@ -274,10 +274,11 @@ public class DetailFragment extends Fragment
 
         String windString = "Wind: "
                 + String.valueOf((int)weatherWindSpeed)
-                + " km/H "
+                + " km/hr "
                 + WeatherHelper.windDirectionCompassPointForWindDegrees(weatherWindDegrees);
         windTextView.setText(windString);
-
+        windTextView.setContentDescription(WeatherHelper.windContentDescriptionForSpeedAndDegrees(weatherWindSpeed,
+                weatherWindDegrees));
     }
 
     void onLocationChanged(String newLocation) {

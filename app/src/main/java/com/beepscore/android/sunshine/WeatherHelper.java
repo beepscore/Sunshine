@@ -110,6 +110,66 @@ public class WeatherHelper {
         return windDirectionCompassPoint;
     }
 
+    /*
+     * @param windDegrees compass direction wind is coming from
+     * e.g. 0 degrees is N, increases clockwise
+     * @return compass direction wind is coming from e.g. northwest, south
+     * suitable for accessibility text to speech
+     */
+    public static String windWordDirectionCompassPointForWindDegrees(double windDegrees) {
+        String windDirectionCompassPoint = "";
+        final float DEGREES_PER_EIGHTH_REVOLUTION = 45.f;
+        // divide revolution into 8ths. range 0-8 (0 and 8 will both map to North)
+        int windDirectionEighths = Math.round(((float)windDegrees/DEGREES_PER_EIGHTH_REVOLUTION));
+        // range 0-7
+        int windCompassPointIndex = windDirectionEighths % 8;
+        switch (windCompassPointIndex) {
+            case 0: {
+                windDirectionCompassPoint = "north";
+                break;
+            }
+            case 1: {
+                windDirectionCompassPoint = "northeast";
+                break;
+            }
+            case 2: {
+                windDirectionCompassPoint = "east";
+                break;
+            }
+            case 3: {
+                windDirectionCompassPoint = "southeast";
+                break;
+            }
+            case 4: {
+                windDirectionCompassPoint = "south";
+                break;
+            }
+            case 5: {
+                windDirectionCompassPoint = "southwest";
+                break;
+            }
+            case 6: {
+                windDirectionCompassPoint = "west";
+                break;
+            }
+            case 7: {
+                windDirectionCompassPoint = "northwest";
+                break;
+            }
+            default:
+                windDirectionCompassPoint = "";
+        }
+        return windDirectionCompassPoint;
+    }
+
+    public static String windContentDescriptionForSpeedAndDegrees(double windSpeed,
+                                                                  double windDegrees) {
+        String description = "Wind: "
+                + String.valueOf((int)windSpeed)
+                + " km per hr "
+                + WeatherHelper.windWordDirectionCompassPointForWindDegrees(windDegrees);
+        return description;
+    }
     ///////////////////////////////////////////////////////////////////////////
 
     /**
