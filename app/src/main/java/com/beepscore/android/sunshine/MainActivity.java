@@ -50,6 +50,11 @@ public class MainActivity extends AppCompatActivity
         // on two panes (e.g. tablet), don't use today layout
         forecastFragment.setUseTodayLayout(!mTwoPane);
 
+        if (mTwoPane == false) {
+            // remove shadow below aciton bar
+            getSupportActionBar().setElevation(0);
+        }
+
     }
 
     @Override
