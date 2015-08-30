@@ -246,6 +246,7 @@ public class DetailFragment extends Fragment
         }
         if (weatherDesc != null) {
             descTextView.setText(weatherDesc);
+            descImageView.setContentDescription(weatherDesc);
         }
 
         if (weatherConditionId != -1) {
