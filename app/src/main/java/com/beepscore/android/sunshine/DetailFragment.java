@@ -263,17 +263,17 @@ public class DetailFragment extends Fragment
         temperatureMinTextView.setText(temperatureMin);
 
         String humidityString = "Humidity: "
-                + String.valueOf(weatherHumidity)
+                + String.valueOf((int)weatherHumidity)
                 + " %";
         humidityTextView.setText(humidityString);
 
         String pressureString = "Pressure: "
-                + String.valueOf(weatherPressure)
+                + String.valueOf((int)weatherPressure)
                 + " hPa";
         pressureTextView.setText(pressureString);
 
         String windString = "Wind: "
-                + String.valueOf(weatherWindSpeed)
+                + String.valueOf((int)weatherWindSpeed)
                 + " km/H "
                 + WeatherHelper.windDirectionCompassPointForWindDegrees(weatherWindDegrees);
         windTextView.setText(windString);
