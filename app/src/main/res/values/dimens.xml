@@ -3,6 +3,6 @@
     <dimen name="activity_margin">16dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="detail_temperature_max_size">48sp</dimen>
-    <dimen name="detail_temperature_min_size">30sp</dimen>
+    <dimen name="detail_temperature_max_size">80sp</dimen>
+    <dimen name="detail_temperature_min_size">48sp</dimen>
 </resources>
