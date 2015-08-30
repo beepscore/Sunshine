@@ -1,6 +1,7 @@
 package com.beepscore.android.sunshine;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -64,5 +65,17 @@ public class MyView extends View {
         }
 
         setMeasuredDimension(myWidth, myHeight);
+    }
+
+    /**
+     * Note onDraw is called every time view is drawn, possibly many times per second
+     * For performance, minimize creating and destroying objects within onDraw
+     * Instead, can create them as class instance variables
+     * @param canvas
+     */
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        // add any custom drawing code below
     }
 }
