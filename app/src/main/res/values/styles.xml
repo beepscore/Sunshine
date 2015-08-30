@@ -2,11 +2,14 @@
 
 <!-- Base application theme. -->
 <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <!-- ActionBar (aka app bar) uses colorPrimary -->
     <item name="colorPrimary">@color/sunshine_blue</item>
+    <!-- StatusBar uses colorPrimaryDark -->
     <item name="colorPrimaryDark">@color/sunshine_dark_blue</item>
 </style>
 
 <!-- Main activity theme. -->
+<!-- Can use AndroidManifest.xml to set activity theme -->
 <style name="ForecastTheme" parent="AppTheme">
     <item name="actionBarStyle">@style/ActionBar.Solid.Sunshine.NoTitle</item>
 </style>
