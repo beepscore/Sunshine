@@ -2,10 +2,11 @@ package com.beepscore.android.sunshine;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
 
 /**
  * Created by stevebaker on 8/30/15.
@@ -14,6 +15,8 @@ import android.view.View;
  */
 public class MyView extends View {
 
+    Context mContext = null;
+    AccessibilityManager mAccessibilityManager = null;
     Paint mBackgroundPaint = null;
     Paint mNeedlePaint = null;
     Paint mTextPaint = null;
@@ -28,6 +31,7 @@ public class MyView extends View {
      */
     public MyView(Context context) {
         super(context);
+        mContext = context;
         init();
     }
 
@@ -36,6 +40,7 @@ public class MyView extends View {
      */
     public MyView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         init();
     }
 
@@ -45,6 +50,7 @@ public class MyView extends View {
      */
     public MyView(Context context, AttributeSet attrs, int defaultStyleAttr) {
         super(context, attrs, defaultStyleAttr);
+        mContext = context;
         init();
     }
 
@@ -60,6 +66,10 @@ public class MyView extends View {
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTextSize(22f);
         mTextPaint.setColor(getResources().getColor(android.R.color.black));
+
+        // http://stackoverflow.com/questions/18119332/the-method-getinstancecontext-is-undefined-for-the-type-accessibilitymanager
+        // http://developer.android.com/reference/android/view/accessibility/AccessibilityManager.html
+        mAccessibilityManager = (AccessibilityManager) mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
     }
 
     /**
@@ -152,5 +162,22 @@ public class MyView extends View {
         canvas.drawText("NW", cx + text_offset_x + (text_radius * (float)Math.sin(315./DEGREES_PER_RADIAN)),
                 cy + text_offset_y - (text_radius * (float)Math.cos(315./DEGREES_PER_RADIAN)),
                 mTextPaint);
+
+        //TODO: fixme
+        // Added this code per Lesson 5 Custom view accessibility but not working
+        // Instead in DetailFragment updateUI call setContentDescription, that works.
+        if (mAccessibilityManager.isEnabled()) {
+            sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED);
+        }
+    }
+
+    //TODO: fixme
+    // Added this code per Lesson 5 Custom view accessibility but not working
+    // Instead in DetailFragment updateUI call setContentDescription, that works.
+    @Override
+    public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent ev) {
+        String windSpeedDir = WeatherHelper.windDirectionCompassPointForWindDegrees(mWindDegrees);
+        ev.getText().add(windSpeedDir);
+        return true;
     }
 }

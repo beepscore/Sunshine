@@ -287,6 +287,9 @@ public class DetailFragment extends Fragment
         // invalidate to redraw view in 2 pane mode
         // not needed in single pane mode
         windCompassView.invalidate();
+
+        // accessibility
+        windCompassView.setContentDescription(windTextView.getContentDescription());
     }
 
     void onLocationChanged(String newLocation) {
