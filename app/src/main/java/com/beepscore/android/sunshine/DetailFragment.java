@@ -284,6 +284,9 @@ public class DetailFragment extends Fragment
                 weatherWindDegrees));
 
         windCompassView.mWindDegrees = weatherWindDegrees;
+        // invalidate to redraw view in 2 pane mode
+        // not needed in single pane mode
+        windCompassView.invalidate();
     }
 
     void onLocationChanged(String newLocation) {
