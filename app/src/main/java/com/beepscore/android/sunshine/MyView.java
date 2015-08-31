@@ -127,7 +127,7 @@ public class MyView extends View {
         float stopY = cy - (radius * (float)Math.cos(mWindDegrees/DEGREES_PER_RADIAN));
         canvas.drawLine(cx, cy, stopX, stopY, mNeedlePaint);
 
-        float text_radius = 1.3f * radius;
+        float text_radius = 1.4f * radius;
         canvas.drawText("N", cx + text_offset_x + (text_radius * (float)Math.sin(0./DEGREES_PER_RADIAN)),
                 cy + text_offset_y - (text_radius * (float)Math.cos(0./DEGREES_PER_RADIAN)),
                 mTextPaint);
