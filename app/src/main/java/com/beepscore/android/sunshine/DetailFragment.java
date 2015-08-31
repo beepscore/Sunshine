@@ -67,6 +67,7 @@ public class DetailFragment extends Fragment
     private TextView temperatureMaxTextView = null;
     private TextView temperatureMinTextView = null;
     private TextView windTextView = null;
+    private MyView windCompassView = null;
 
     private final static int LOADER_ID = 2;
 
@@ -102,6 +103,7 @@ public class DetailFragment extends Fragment
             humidityTextView = (TextView) rootView.findViewById(R.id.humidity_text_view);
             pressureTextView = (TextView) rootView.findViewById(R.id.pressure_text_view);
             windTextView = (TextView) rootView.findViewById(R.id.wind_text_view);
+            windCompassView = (MyView) rootView.findViewById(R.id.wind_compass_view);
             descImageView = (ImageView) rootView.findViewById(R.id.description_image_view);
 
             if (intent.hasExtra(Intent.EXTRA_TEXT)) {
@@ -280,6 +282,8 @@ public class DetailFragment extends Fragment
         windTextView.setText(windString);
         windTextView.setContentDescription(WeatherHelper.windContentDescriptionForSpeedAndDegrees(weatherWindSpeed,
                 weatherWindDegrees));
+
+        windCompassView.mWindDegrees = weatherWindDegrees;
     }
 
     void onLocationChanged(String newLocation) {
