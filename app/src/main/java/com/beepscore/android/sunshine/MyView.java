@@ -52,7 +52,7 @@ public class MyView extends View {
         mBackgroundPaint.setColor(Color.parseColor("#7777cc"));
 
         mNeedlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mNeedlePaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        mNeedlePaint.setStrokeWidth(8);
         mBackgroundPaint.setColor(Color.parseColor("#cc7777"));
     }
 
