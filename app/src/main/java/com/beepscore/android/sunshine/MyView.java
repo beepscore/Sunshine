@@ -16,6 +16,8 @@ public class MyView extends View {
 
     Paint mBackgroundPaint = null;
     Paint mNeedlePaint = null;
+    Paint mTextPaint = null;
+
     /**
      * Set mWindDegrees to orient needle
      */
@@ -49,11 +51,15 @@ public class MyView extends View {
     private void init() {
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        mBackgroundPaint.setColor(Color.parseColor("#7777cc"));
+        mBackgroundPaint.setColor(getResources().getColor(R.color.sunshine_light_blue));
 
         mNeedlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mNeedlePaint.setStrokeWidth(8);
-        mBackgroundPaint.setColor(Color.parseColor("#cc7777"));
+        mNeedlePaint.setColor(getResources().getColor(R.color.sunshine_dark_blue));
+
+        mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mTextPaint.setTextSize(22f);
+        mTextPaint.setColor(getResources().getColor(android.R.color.black));
     }
 
     /**
@@ -110,39 +116,41 @@ public class MyView extends View {
         final float cx = width / 2;
         final float cy = height / 2;
         final float radius = width / 4;
+        final float text_offset_x = -10.f;
+        final float text_offset_y = 10.f;
         canvas.drawCircle(cx, cy, radius, mBackgroundPaint);
 
         // use DEGREES_PER_RADIAN instead of inverse to maintain more accuracy
         final double DEGREES_PER_RADIAN = 180. / Math.PI;
         // coordinate system start at 0, x right Y down
-        float stopX = cx + (radius * (float)Math.sin(mWindDegrees/DEGREES_PER_RADIAN));
+        float stopX = cx + (radius * (float)Math.sin(mWindDegrees / DEGREES_PER_RADIAN));
         float stopY = cy - (radius * (float)Math.cos(mWindDegrees/DEGREES_PER_RADIAN));
         canvas.drawLine(cx, cy, stopX, stopY, mNeedlePaint);
 
         float text_radius = 1.3f * radius;
-        canvas.drawText("N", cx + (text_radius * (float)Math.sin(0./DEGREES_PER_RADIAN)),
-                cy - (text_radius * (float)Math.cos(0./DEGREES_PER_RADIAN)),
-                mNeedlePaint);
-        canvas.drawText("NE", cx + (text_radius * (float)Math.sin(45./DEGREES_PER_RADIAN)),
-                cy - (text_radius * (float)Math.cos(45./DEGREES_PER_RADIAN)),
-                mNeedlePaint);
-        canvas.drawText("E", cx + (text_radius * (float)Math.sin(90./DEGREES_PER_RADIAN)),
-                cy - (text_radius * (float)Math.cos(90./DEGREES_PER_RADIAN)),
-                mNeedlePaint);
-        canvas.drawText("SE", cx + (text_radius * (float)Math.sin(135./DEGREES_PER_RADIAN)),
-                cy - (text_radius * (float)Math.cos(135./DEGREES_PER_RADIAN)),
-                mNeedlePaint);
-        canvas.drawText("S", cx + (text_radius * (float)Math.sin(180./DEGREES_PER_RADIAN)),
-                cy - (text_radius * (float)Math.cos(180./DEGREES_PER_RADIAN)),
-                mNeedlePaint);
-        canvas.drawText("SW", cx + (text_radius * (float)Math.sin(225./DEGREES_PER_RADIAN)),
-                cy - (text_radius * (float)Math.cos(225./DEGREES_PER_RADIAN)),
-                mNeedlePaint);
-        canvas.drawText("W", cx + (text_radius * (float)Math.sin(270./DEGREES_PER_RADIAN)),
-                cy - (text_radius * (float)Math.cos(270./DEGREES_PER_RADIAN)),
-                mNeedlePaint);
-        canvas.drawText("NW", cx + (text_radius * (float)Math.sin(315./DEGREES_PER_RADIAN)),
-                cy - (text_radius * (float)Math.cos(315./DEGREES_PER_RADIAN)),
-                mNeedlePaint);
+        canvas.drawText("N", cx + text_offset_x + (text_radius * (float)Math.sin(0./DEGREES_PER_RADIAN)),
+                cy + text_offset_y - (text_radius * (float)Math.cos(0./DEGREES_PER_RADIAN)),
+                mTextPaint);
+        canvas.drawText("NE", cx + text_offset_x + (text_radius * (float)Math.sin(45./DEGREES_PER_RADIAN)),
+                cy + text_offset_y - (text_radius * (float)Math.cos(45./DEGREES_PER_RADIAN)),
+                mTextPaint);
+        canvas.drawText("E", cx + text_offset_x + (text_radius * (float)Math.sin(90./DEGREES_PER_RADIAN)),
+                cy + text_offset_y - (text_radius * (float)Math.cos(90./DEGREES_PER_RADIAN)),
+                mTextPaint);
+        canvas.drawText("SE", cx + text_offset_x + (text_radius * (float)Math.sin(135./DEGREES_PER_RADIAN)),
+                cy + text_offset_y - (text_radius * (float)Math.cos(135./DEGREES_PER_RADIAN)),
+                mTextPaint);
+        canvas.drawText("S", cx + text_offset_x + (text_radius * (float)Math.sin(180./DEGREES_PER_RADIAN)),
+                cy + text_offset_y - (text_radius * (float)Math.cos(180./DEGREES_PER_RADIAN)),
+                mTextPaint);
+        canvas.drawText("SW", cx + text_offset_x + (text_radius * (float)Math.sin(225./DEGREES_PER_RADIAN)),
+                cy + text_offset_y - (text_radius * (float)Math.cos(225./DEGREES_PER_RADIAN)),
+                mTextPaint);
+        canvas.drawText("W", cx + text_offset_x + (text_radius * (float)Math.sin(270./DEGREES_PER_RADIAN)),
+                cy + text_offset_y - (text_radius * (float)Math.cos(270./DEGREES_PER_RADIAN)),
+                mTextPaint);
+        canvas.drawText("NW", cx + text_offset_x + (text_radius * (float)Math.sin(315./DEGREES_PER_RADIAN)),
+                cy + text_offset_y - (text_radius * (float)Math.cos(315./DEGREES_PER_RADIAN)),
+                mTextPaint);
     }
 }
