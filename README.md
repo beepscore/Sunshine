@@ -20,6 +20,10 @@ Nexus 4 running Android 5.1.1
 
 # Results
 
+## To run unit tests
+If necessary, add configuration for unit tests, e.g. named appTests.
+Run configuration.
+
 ## Replace launcher icon images ic_launcher.png
 Default app contains default ic_launcher.png
 res/mipmap-mdpi 48x48
