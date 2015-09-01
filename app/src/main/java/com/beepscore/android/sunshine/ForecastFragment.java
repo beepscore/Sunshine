@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.beepscore.android.sunshine.data.WeatherContract;
+import com.beepscore.android.sunshine.service.SunshineService;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -183,9 +184,18 @@ public class ForecastFragment extends Fragment
     }
 
     private void updateWeather() {
-        FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
         String location = Utility.getPreferredLocation(getActivity());
-        weatherTask.execute(location);
+
+        // Before Lesson 6, called FetchWeatherTask execute
+        //FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
+        //weatherTask.execute(location);
+        // Now start SunshineService instead.
+
+        // http://developer.android.com/guide/components/services.html
+        // http://www.vogella.com/tutorials/AndroidServices/article.html#services_declare
+        Intent intent = new Intent(getActivity(), SunshineService.class);
+        intent.putExtra(getString(R.string.location), location);
+        getActivity().startService(intent);
     }
 
     @Override
