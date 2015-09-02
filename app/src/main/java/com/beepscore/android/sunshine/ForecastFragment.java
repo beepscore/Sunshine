@@ -186,11 +186,6 @@ public class ForecastFragment extends Fragment
     private void updateWeather() {
         String location = Utility.getPreferredLocation(getActivity());
 
-        // Before Lesson 6, called FetchWeatherTask execute
-        //FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
-        //weatherTask.execute(location);
-        // Now start SunshineService instead.
-
         // http://developer.android.com/guide/components/services.html
         // http://www.vogella.com/tutorials/AndroidServices/article.html#services_declare
         Intent intent = new Intent(getActivity(), SunshineService.class);

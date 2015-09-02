@@ -335,7 +335,7 @@ public class SunshineService extends IntentService {
                 inserted = this.getContentResolver().bulkInsert(weatherUri, weatherContentValues);
             }
 
-            Log.d(LOG_TAG, "FetchWeatherTask Complete. " + inserted + " Inserted");
+            Log.d(LOG_TAG, "getWeatherDataFromJson Complete. " + inserted + " Inserted");
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
