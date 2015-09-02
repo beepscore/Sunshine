@@ -129,7 +129,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
      * This method has side effect inserts values in content provider
      * @param forecastJsonStr the complete forecast in JSON format
      */
-    private void getWeatherDataFromJson(String forecastJsonStr,
+    public void getWeatherDataFromJson(String forecastJsonStr,
                                             String locationSetting)
             throws JSONException {
 

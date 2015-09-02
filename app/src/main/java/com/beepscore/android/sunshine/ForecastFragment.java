@@ -194,7 +194,7 @@ public class ForecastFragment extends Fragment
         // http://developer.android.com/guide/components/services.html
         // http://www.vogella.com/tutorials/AndroidServices/article.html#services_declare
         Intent intent = new Intent(getActivity(), SunshineService.class);
-        intent.putExtra(getString(R.string.location), location);
+        intent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, location);
         getActivity().startService(intent);
     }
 
