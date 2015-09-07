@@ -1,5 +1,8 @@
 package com.beepscore.android.sunshine;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +29,8 @@ import com.beepscore.android.sunshine.service.SunshineService;
  */
 public class ForecastFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
     /**
      * A callback interface that all activities containing this fragment must implement.
@@ -188,9 +194,33 @@ public class ForecastFragment extends Fragment
 
         // http://developer.android.com/guide/components/services.html
         // http://www.vogella.com/tutorials/AndroidServices/article.html#services_declare
-        Intent intent = new Intent(getActivity(), SunshineService.class);
-        intent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, location);
-        getActivity().startService(intent);
+        Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
+        alarmIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, location);
+
+        PendingIntent pendingIntent = getPendingIntentForExplicitIntent(alarmIntent);
+        configureAlarm(pendingIntent);
+    }
+
+    private PendingIntent getPendingIntentForExplicitIntent(Intent intent) {
+        // http://developer.android.com/reference/android/app/PendingIntent.html
+        // http://stackoverflow.com/questions/3146883/combine-two-intent-flags
+        // wont use request code, don't care about value
+        int REQUEST_CODE_DONT_CARE = 0;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),
+                REQUEST_CODE_DONT_CARE,
+                intent,
+                PendingIntent.FLAG_ONE_SHOT);
+        return pendingIntent;
+    }
+
+    private void configureAlarm(PendingIntent pendingIntent) {
+        // https://developer.android.com/training/scheduling/alarms.html#set
+        AlarmManager alarmMgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        int FIVE_SEC_MSEC = 5 * 1000;
+        Log.d(LOG_TAG, "configureAlarm");
+        alarmMgr.set(AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + FIVE_SEC_MSEC,
+                pendingIntent);
     }
 
     @Override
