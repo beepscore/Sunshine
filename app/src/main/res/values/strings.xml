@@ -49,7 +49,7 @@
 
     <!-- Account type (for sync-adapter authenticator) -->
     <!-- SyncAdapter related -->
-    <string name="sync_account_type">sunshine.example.com</string>
-    <string name="content_authority">com.example.android.sunshine.app</string>
+    <string name="sync_account_type">sunshine.beepscore.com</string>
+    <string name="content_authority">com.beepscore.android.sunshine.app</string>
 
 </resources>
