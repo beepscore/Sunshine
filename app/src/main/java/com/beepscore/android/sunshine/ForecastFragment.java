@@ -23,6 +23,7 @@ import android.widget.ListView;
 
 import com.beepscore.android.sunshine.data.WeatherContract;
 import com.beepscore.android.sunshine.service.SunshineService;
+import com.beepscore.android.sunshine.sync.SunshineSyncAdapter;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -192,6 +193,7 @@ public class ForecastFragment extends Fragment
     private void updateWeather() {
         String location = Utility.getPreferredLocation(getActivity());
 
+        /*
         // http://developer.android.com/guide/components/services.html
         // http://www.vogella.com/tutorials/AndroidServices/article.html#services_declare
         Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
@@ -199,6 +201,9 @@ public class ForecastFragment extends Fragment
 
         PendingIntent pendingIntent = getPendingIntentForExplicitIntent(alarmIntent);
         configureAlarm(pendingIntent);
+        */
+
+        SunshineSyncAdapter.syncImmediately(getActivity());
     }
 
     private PendingIntent getPendingIntentForExplicitIntent(Intent intent) {
