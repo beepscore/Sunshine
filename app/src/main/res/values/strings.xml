@@ -47,4 +47,9 @@
     <string name="format_temperature"><xliff:g id="temperature">%1.0f</xliff:g><xliff:g id="temperature_unit">%2$s</xliff:g></string>
     <string name="weather_description_image_content_description">weather description image</string>
 
+    <!-- Account type (for sync-adapter authenticator) -->
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">sunshine.example.com</string>
+    <string name="content_authority">com.example.android.sunshine.app</string>
+
 </resources>
