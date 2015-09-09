@@ -22,7 +22,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.beepscore.android.sunshine.data.WeatherContract;
-import com.beepscore.android.sunshine.service.SunshineService;
 import com.beepscore.android.sunshine.sync.SunshineSyncAdapter;
 
 /**
