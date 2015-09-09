@@ -9,6 +9,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
+import com.beepscore.android.sunshine.sync.SunshineSyncAdapter;
+
 /**
  * A {@link PreferenceActivity} that presents a set of application settings.
  * <p>
@@ -64,6 +66,8 @@ public class SettingsActivity extends PreferenceActivity
             // e.g. EditText preference such as location will use this
             preference.setSummary(stringValue);
         }
+
+        SunshineSyncAdapter.syncImmediately(getApplicationContext());
         return true;
     }
 
