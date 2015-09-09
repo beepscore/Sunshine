@@ -20,24 +20,19 @@ import android.database.Cursor;
 import android.test.AndroidTestCase;
 
 import com.beepscore.android.sunshine.data.WeatherContract;
+import com.beepscore.android.sunshine.sync.SunshineSyncAdapter;
 
-public class TestSunshineService extends AndroidTestCase{
+public class TestSunshineSyncAdapter extends AndroidTestCase{
     static final String ADD_LOCATION_SETTING = "Sunnydale, CA";
     static final String ADD_LOCATION_CITY = "Sunnydale";
     static final double ADD_LOCATION_LAT = 34.425833;
     static final double ADD_LOCATION_LON = -119.714167;
 
     /*
-        Students: uncomment testAddLocation after you have written the AddLocation function.
         This test will only run on API level 11 and higher because of a requirement in the
         content provider.
      */
 
-    // TODO // FIXME
-    // After moving code from FetchWeatherTask to SunshineService
-    // and deleting FetchWeatherTask, testAddLocation is broken
-    // problem with ContentResolver or ContentProvider?
-    /*
     @TargetApi(11)
     public void testAddLocation() {
         // start from a clean state
@@ -45,8 +40,8 @@ public class TestSunshineService extends AndroidTestCase{
                 WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
                 new String[]{ADD_LOCATION_SETTING});
 
-        SunshineService sunshineService = new SunshineService();
-        long locationId = sunshineService.addLocation(ADD_LOCATION_SETTING,
+        SunshineSyncAdapter sunshineSyncAdapter = new SunshineSyncAdapter(getContext(), true);
+        long locationId = sunshineSyncAdapter.addLocation(ADD_LOCATION_SETTING,
                 ADD_LOCATION_CITY,
                 ADD_LOCATION_LAT,
                 ADD_LOCATION_LON);
@@ -93,7 +88,7 @@ public class TestSunshineService extends AndroidTestCase{
                     locationCursor.moveToNext());
 
             // add the location again
-            long newLocationId = sunshineService.addLocation(ADD_LOCATION_SETTING, ADD_LOCATION_CITY,
+            long newLocationId = sunshineSyncAdapter.addLocation(ADD_LOCATION_SETTING, ADD_LOCATION_CITY,
                     ADD_LOCATION_LAT, ADD_LOCATION_LON);
 
             assertEquals("Error: inserting a location again should return the same ID",
@@ -109,5 +104,5 @@ public class TestSunshineService extends AndroidTestCase{
                 acquireContentProviderClient(WeatherContract.LocationEntry.CONTENT_URI).
                 getLocalContentProvider().shutdown();
     }
-    */
+
 }

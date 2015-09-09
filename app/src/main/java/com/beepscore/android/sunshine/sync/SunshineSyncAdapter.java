@@ -288,7 +288,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
      * @param lon the longitude of the city
      * @return the row ID of the added location.
      */
-    long addLocation(String locationSetting, String cityName, double lat, double lon) {
+    public long addLocation(String locationSetting, String cityName, double lat, double lon) {
 
         Cursor locationCursor = getLocationCursor(locationSetting);
         long locationRowId = -1;
