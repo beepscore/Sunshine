@@ -37,10 +37,13 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
     // Interval at which to sync with the weather, in seconds.
     // seconds = hours * 60 minutes/hour * 60 seconds/minute
-    // use a short interval for manual testing
-    public static final int SYNC_INTERVAL = 30;
-    //public static final int SYNC_INTERVAL = 3 * 60 * 60;
-    public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
+    // use a short interval for manual testing.
+    // SYNC_INTERVAL = 30 resulted in about 1 call to onPerformSync every ~ 60 seconds.
+    // Maybe inexact timers are very lenient??
+    // Maybe downloading and parsing caused it to not be ready after 30 seconds?? Sounds wrong.
+    // public static final int SYNC_INTERVAL = 30;
+    public static final int SYNC_INTERVAL = 3 * 60 * 60;
+    public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     public SunshineSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
