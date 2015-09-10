@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.beepscore.android.sunshine.sync.SunshineSyncAdapter;
+
 
 public class MainActivity extends AppCompatActivity
         implements ForecastFragment.Callback {
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setElevation(0);
         }
 
+        SunshineSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override
