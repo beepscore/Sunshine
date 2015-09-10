@@ -36,8 +36,10 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = SunshineSyncAdapter.class.getSimpleName();
 
     // Interval at which to sync with the weather, in seconds.
-    // 60 seconds (1 minute) * 180 = 3 hours
-    public static final int SYNC_INTERVAL = 60 * 180;
+    // seconds = hours * 60 minutes/hour * 60 seconds/minute
+    // use a short interval for manual testing
+    public static final int SYNC_INTERVAL = 30;
+    //public static final int SYNC_INTERVAL = 3 * 60 * 60;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
 
     public SunshineSyncAdapter(Context context, boolean autoInitialize) {
