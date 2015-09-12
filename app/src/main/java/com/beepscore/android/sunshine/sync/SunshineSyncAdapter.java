@@ -258,7 +258,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
     /**
      * Parses forecastJsonStr
-     * This method has side effect inserts values in content provider
+     * This method has side effects
+     * inserts values in content provider and calls notifyWeather
      * @param forecastJsonStr the complete forecast in JSON format
      */
     public void getWeatherDataFromJson(String forecastJsonStr,
@@ -393,6 +394,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 inserted = getContext().getContentResolver().bulkInsert(weatherUri, weatherContentValues);
             }
 
+            notifyWeather();
             Log.d(LOG_TAG, "getWeatherDataFromJson Complete. " + inserted + " Inserted");
 
         } catch (JSONException e) {
