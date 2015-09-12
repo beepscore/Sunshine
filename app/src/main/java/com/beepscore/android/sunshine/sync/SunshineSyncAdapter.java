@@ -386,15 +386,16 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             }
 
             int inserted = 0;
-            // add to database
             if ( cVVector.size() > 0 ) {
-                // Student: call bulkInsert to add the weatherEntries to the database here
+                // add to database
+                // call bulkInsert to add the weatherEntries to the database
                 Uri weatherUri = WeatherContract.WeatherEntry.CONTENT_URI;
                 ContentValues[] weatherContentValues = cVVector.toArray(new ContentValues[0]);
                 inserted = getContext().getContentResolver().bulkInsert(weatherUri, weatherContentValues);
+                
+                notifyWeather();
             }
 
-            notifyWeather();
             Log.d(LOG_TAG, "getWeatherDataFromJson Complete. " + inserted + " Inserted");
 
         } catch (JSONException e) {
