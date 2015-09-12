@@ -2,6 +2,7 @@ package com.beepscore.android.sunshine.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Notification;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -15,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -392,7 +394,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 Uri weatherUri = WeatherContract.WeatherEntry.CONTENT_URI;
                 ContentValues[] weatherContentValues = cVVector.toArray(new ContentValues[0]);
                 inserted = getContext().getContentResolver().bulkInsert(weatherUri, weatherContentValues);
-                
+
                 notifyWeather();
             }
 
@@ -519,9 +521,20 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                         Utility.formatTemperature(context, high, isMetric),
                         Utility.formatTemperature(context, low, isMetric));
 
-                //build your notification here.
+                ///////////////////////////////////////////////////////////////
+                // TODO: build your notification here.
                 // can include iconId, title, contentText
+                // create explicit intent for what the notification should open
 
+                // use TaskStackBuilder to create an artificial "backstack" for user to tap Back
+
+                // use NotificationManager to show notification
+
+                // http://developer.android.com/guide/topics/ui/notifiers/notifications.html
+                // http://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html
+                // Notification notification = new NotificationCompat.Builder().
+
+                ///////////////////////////////////////////////////////////////
 
                 //refreshing last sync
                 SharedPreferences.Editor editor = prefs.edit();
