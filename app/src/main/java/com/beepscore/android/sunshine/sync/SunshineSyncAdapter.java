@@ -7,17 +7,20 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 
 import com.beepscore.android.sunshine.R;
 import com.beepscore.android.sunshine.Utility;
+import com.beepscore.android.sunshine.WeatherHelper;
 import com.beepscore.android.sunshine.data.WeatherContract;
 
 import org.json.JSONArray;
@@ -470,6 +473,60 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         Uri locationRowUri = getContext().getContentResolver().insert(locationUri, contentValues);
         long locationRowId = Long.valueOf(locationRowUri.getLastPathSegment());
         return locationRowId;
+    }
+
+    private void notifyWeather() {
+        Context context = getContext();
+        //checking the last update and notify if it' the first of the day
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String lastNotificationKey = context.getString(R.string.pref_last_notification);
+        long lastSync = prefs.getLong(lastNotificationKey, 0);
+
+        if (System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS) {
+            // Last sync was more than 1 day ago, let's send a notification with the weather.
+            String locationQuery = Utility.getPreferredLocation(context);
+
+            Uri weatherUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationQuery, System.currentTimeMillis());
+
+            // we'll query our contentProvider, as always
+            Cursor cursor = context.getContentResolver().query(weatherUri, NOTIFY_WEATHER_PROJECTION, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                int weatherId = cursor.getInt(INDEX_WEATHER_ID);
+                double high = cursor.getDouble(INDEX_MAX_TEMP);
+                double low = cursor.getDouble(INDEX_MIN_TEMP);
+                String desc = cursor.getString(INDEX_SHORT_DESC);
+
+                // fix sample code to match method class
+                //int iconId = Utility.getIconResourceForWeatherCondition(weatherId);
+                int iconId = WeatherHelper.getIconResourceForWeatherCondition(weatherId);
+                String title = context.getString(R.string.app_name);
+
+                // Define the text of the forecast.
+
+                // String contentText = String.format(context.getString(R.string.format_notification),
+                //         desc,
+                //         Utility.formatTemperature(context, high),
+                //         Utility.formatTemperature(context, low));
+                // see gist comments
+                // https://gist.github.com/udacityandroid/e5eb3afa254ca750e083
+                boolean isMetric = Utility.isMetric(context);
+                String contentText = String.format(context.getString(R.string.format_notification),
+                        desc,
+                        Utility.formatTemperature(context, high, isMetric),
+                        Utility.formatTemperature(context, low, isMetric));
+
+                //build your notification here.
+                // can include iconId, title, contentText
+
+
+                //refreshing last sync
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putLong(lastNotificationKey, System.currentTimeMillis());
+                editor.commit();
+            }
+        }
+
     }
 
 }

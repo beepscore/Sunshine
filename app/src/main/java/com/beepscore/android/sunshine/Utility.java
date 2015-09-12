@@ -48,7 +48,7 @@ public class Utility {
      * @param isMetric preferred units for return. true for Celsius, false for Farenheit
      * @return temperature String in preferred units, format similar to "15 °C" or "59 °F"
      */
-    static String formatTemperature(Context context, double temperature, boolean isMetric) {
+    public static String formatTemperature(Context context, double temperature, boolean isMetric) {
         double temperatureInPreferredUnits;
         if ( !isMetric ) {
             temperatureInPreferredUnits = degreesCToDegreesF(temperature);
