@@ -491,10 +491,12 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         String lastNotificationKey = context.getString(R.string.pref_last_notification);
         long lastSync = prefs.getLong(lastNotificationKey, 0);
 
-//        if (System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS) {
         // In Sunshine, can tap Settings / Refresh to generate a notification
-        int SHORT_TIME_FOR_TESTING = 5000;
-        if (System.currentTimeMillis() - lastSync >= SHORT_TIME_FOR_TESTING) {
+
+        //int TIME_BETWEEN_NOTIFICATIONS_MIN_MSEC = DAY_IN_MILLIS;
+        // for testing use a short time
+        int TIME_BETWEEN_NOTIFICATIONS_MIN_MSEC = 10000;
+        if (System.currentTimeMillis() - lastSync >= TIME_BETWEEN_NOTIFICATIONS_MIN_MSEC) {
 
             // Last sync was more than 1 day ago, let's send a notification with the weather.
             String locationQuery = Utility.getPreferredLocation(context);
