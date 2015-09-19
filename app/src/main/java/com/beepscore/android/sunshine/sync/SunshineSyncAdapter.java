@@ -3,11 +3,14 @@ package com.beepscore.android.sunshine.sync;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
@@ -20,6 +23,7 @@ import android.support.v4.app.NotificationCompat;
 import android.text.format.Time;
 import android.util.Log;
 
+import com.beepscore.android.sunshine.MainActivity;
 import com.beepscore.android.sunshine.R;
 import com.beepscore.android.sunshine.Utility;
 import com.beepscore.android.sunshine.WeatherHelper;
@@ -482,12 +486,16 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void notifyWeather() {
         Context context = getContext();
-        //checking the last update and notify if it' the first of the day
+        //check the last update and notify if it's the first of the day
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String lastNotificationKey = context.getString(R.string.pref_last_notification);
         long lastSync = prefs.getLong(lastNotificationKey, 0);
 
-        if (System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS) {
+//        if (System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS) {
+        // In Sunshine, can tap Settings / Refresh to generate a notification
+        int SHORT_TIME_FOR_TESTING = 5000;
+        if (System.currentTimeMillis() - lastSync >= SHORT_TIME_FOR_TESTING) {
+
             // Last sync was more than 1 day ago, let's send a notification with the weather.
             String locationQuery = Utility.getPreferredLocation(context);
 
@@ -523,16 +531,32 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 ///////////////////////////////////////////////////////////////
                 // TODO: build your notification here.
-                // can include iconId, title, contentText
-                // create explicit intent for what the notification should open
-
-                // use TaskStackBuilder to create an artificial "backstack" for user to tap Back
-
-                // use NotificationManager to show notification
-
+                // http://www.vogella.com/tutorials/AndroidNotifications/article.html
                 // http://developer.android.com/guide/topics/ui/notifiers/notifications.html
+
+                // create explicit intent for what the notification should open
+                Intent intent = new Intent(context, MainActivity.class);
+
+                // pIntent is triggered if the notification is selected
+                // use System.currentTimeMillis() to have a unique ID for the pending intent
+                PendingIntent pIntent = PendingIntent.getActivity(context,
+                        (int) System.currentTimeMillis(), intent, 0);
+
+                // TODO: use TaskStackBuilder to create an artificial "backstack" for user to tap Back
+                // back to previous app?
+
                 // http://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html
-                // Notification notification = new NotificationCompat.Builder().
+                Notification notification = new NotificationCompat.Builder(context)
+                        .setContentTitle(title)
+                        .setContentText(contentText)
+                        .setSmallIcon(iconId)
+                        .setContentIntent(pIntent)
+                        .setAutoCancel(true)
+                        //.addAction(iconId, "Back", pIntent2)
+                        .build();
+
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(0, notification);
 
                 ///////////////////////////////////////////////////////////////
 
