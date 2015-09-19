@@ -545,7 +545,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 taskStackBuilder.addNextIntent(intent);
                 // pIntent is triggered if the notification is selected
                 // use System.currentTimeMillis() to have a unique ID for the pending intent
-                PendingIntent pIntent = taskStackBuilder.getPendingIntent((int) System.currentTimeMillis(), 0);
+                PendingIntent pIntent = taskStackBuilder.getPendingIntent((int) System.currentTimeMillis(),
+                        PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // http://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html
                 Notification notification = new NotificationCompat.Builder(context)
