@@ -556,7 +556,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                         .build();
 
                 NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.notify(0, notification);
+                notificationManager.notify(WEATHER_NOTIFICATION_ID, notification);
 
                 ///////////////////////////////////////////////////////////////
 
