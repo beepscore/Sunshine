@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -532,20 +533,19 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                         Utility.formatTemperature(context, low, isMetric));
 
                 ///////////////////////////////////////////////////////////////
-                // TODO: build your notification here.
+                // Build notification
                 // http://www.vogella.com/tutorials/AndroidNotifications/article.html
                 // http://developer.android.com/guide/topics/ui/notifiers/notifications.html
 
-                // create explicit intent for what the notification should open
+                // explicit intent for what the notification should open
                 Intent intent = new Intent(context, MainActivity.class);
 
+                // Create an artificial "backstack" for user to tap Back
+                TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
+                taskStackBuilder.addNextIntent(intent);
                 // pIntent is triggered if the notification is selected
                 // use System.currentTimeMillis() to have a unique ID for the pending intent
-                PendingIntent pIntent = PendingIntent.getActivity(context,
-                        (int) System.currentTimeMillis(), intent, 0);
-
-                // TODO: use TaskStackBuilder to create an artificial "backstack" for user to tap Back
-                // back to previous app?
+                PendingIntent pIntent = taskStackBuilder.getPendingIntent((int) System.currentTimeMillis(), 0);
 
                 // http://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html
                 Notification notification = new NotificationCompat.Builder(context)
@@ -554,7 +554,6 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                         .setSmallIcon(iconId)
                         .setContentIntent(pIntent)
                         .setAutoCancel(true)
-                        //.addAction(iconId, "Back", pIntent2)
                         .build();
 
                 NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
