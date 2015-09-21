@@ -31,6 +31,21 @@ public class PreferenceHelper {
                 context.getString(R.string.pref_units_metric));
     }
 
+    public static long getLastSyncPreference(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String keyName = context.getString(R.string.pref_last_notification);
+        long lastSync = preferences.getLong(keyName, 0);
+        return lastSync;
+    }
+
+    public static void setLastSyncPreference(Context context, long timeMsec) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        String keyName = context.getString(R.string.pref_last_notification);
+        editor.putLong(keyName, timeMsec);
+        editor.commit();
+    }
+
     public static Boolean getIsNotificationPreference(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String keyName = context.getString(R.string.pref_weather_notification_key);

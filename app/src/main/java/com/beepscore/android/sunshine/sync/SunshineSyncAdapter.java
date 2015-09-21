@@ -488,12 +488,11 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void notifyWeather() {
         Context context = getContext();
-        //check the last update and notify if it's the first of the day
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String lastNotificationKey = context.getString(R.string.pref_last_notification);
-        long lastSync = prefs.getLong(lastNotificationKey, 0);
 
         // In Sunshine, can tap Settings / Refresh to generate a notification
+
+        //check the last update and notify if it's the first of the day
+        long lastSync = PreferenceHelper.getLastSyncPreference(context);
 
         //int TIME_BETWEEN_NOTIFICATIONS_MIN_MSEC = DAY_IN_MILLIS;
         // for testing use a short time
@@ -565,10 +564,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 ///////////////////////////////////////////////////////////////
 
-                //refreshing last sync
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putLong(lastNotificationKey, System.currentTimeMillis());
-                editor.commit();
+                PreferenceHelper.setLastSyncPreference(context, System.currentTimeMillis());
             }
         }
 
