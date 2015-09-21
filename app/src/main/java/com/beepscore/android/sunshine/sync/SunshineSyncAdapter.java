@@ -25,6 +25,7 @@ import android.text.format.Time;
 import android.util.Log;
 
 import com.beepscore.android.sunshine.MainActivity;
+import com.beepscore.android.sunshine.PreferenceHelper;
 import com.beepscore.android.sunshine.R;
 import com.beepscore.android.sunshine.Utility;
 import com.beepscore.android.sunshine.WeatherHelper;
@@ -497,7 +498,9 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         //int TIME_BETWEEN_NOTIFICATIONS_MIN_MSEC = DAY_IN_MILLIS;
         // for testing use a short time
         int TIME_BETWEEN_NOTIFICATIONS_MIN_MSEC = 10000;
-        if (System.currentTimeMillis() - lastSync >= TIME_BETWEEN_NOTIFICATIONS_MIN_MSEC) {
+
+        if (PreferenceHelper.getIsNotificationPreference(context)
+                && (System.currentTimeMillis() - lastSync >= TIME_BETWEEN_NOTIFICATIONS_MIN_MSEC)) {
 
             // Last sync was more than 1 day ago, let's send a notification with the weather.
             String locationQuery = Utility.getPreferredLocation(context);
