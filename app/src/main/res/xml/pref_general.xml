@@ -18,7 +18,7 @@
         android:entryValues="@array/pref_units_values" />
 
     <CheckBoxPreference
-        android:key="@string/pref_weather_notification_key"
+        android:key="@string/enable_notifications"
         android:title="@string/pref_weather_notification_title"
         android:defaultValue="true"
         />

@@ -48,7 +48,7 @@ public class PreferenceHelper {
 
     public static Boolean getIsNotificationPreference(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String keyName = context.getString(R.string.pref_weather_notification_key);
+        String keyName = context.getString(R.string.enable_notifications);
         // Use local variable for easier debugging inspection
         // if no key-value pair for keyName, use false
         Boolean isNotificationPreference = preferences.getBoolean(keyName, false);

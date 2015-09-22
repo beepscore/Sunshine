@@ -58,7 +58,7 @@
     </string>
     <!-- Strings related to Notification preference -->
     <string name="pref_last_notification">last_notification</string>
-    <string name="pref_weather_notification_key" translatable="false">weather_notification</string>
+    <string name="enable_notifications" translatable="false">weather_notification</string>
     <string name="pref_weather_notification_title">Notification</string>
 
 </resources>
