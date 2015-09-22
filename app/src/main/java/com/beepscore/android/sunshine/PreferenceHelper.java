@@ -46,13 +46,13 @@ public class PreferenceHelper {
         editor.commit();
     }
 
-    public static Boolean getIsNotificationPreference(Context context) {
+    public static Boolean getEnableNotificationPreference(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String keyName = context.getString(R.string.enable_notifications);
         // Use local variable for easier debugging inspection
         // if no key-value pair for keyName, use false
-        Boolean isNotificationPreference = preferences.getBoolean(keyName, false);
-        return isNotificationPreference;
+        Boolean enabled = preferences.getBoolean(keyName, false);
+        return enabled;
     }
 
 }
