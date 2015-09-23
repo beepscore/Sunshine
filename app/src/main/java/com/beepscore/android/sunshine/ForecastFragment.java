@@ -229,8 +229,8 @@ public class ForecastFragment extends Fragment
         if (id == R.id.action_refresh) {
 
             // delete old forecasts
-            Uri weatherUri = WeatherContract.WeatherEntry.CONTENT_URI;
-            int numberOfRowsDeleted = getActivity().getContentResolver().delete(weatherUri, null, null);
+            //Uri weatherUri = WeatherContract.WeatherEntry.CONTENT_URI;
+            //int numberOfRowsDeleted = getActivity().getContentResolver().delete(weatherUri, null, null);
 
             // Note console log shows warning
             // Attempted to finish an input event but the input event receiver has already been disposed.
