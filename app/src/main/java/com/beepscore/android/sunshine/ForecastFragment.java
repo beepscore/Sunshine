@@ -169,7 +169,7 @@ public class ForecastFragment extends Fragment
     // Lesson 6 will schedule updates in the background.
     // Without onStart, on app first launch after install,
     // app doesn't updateWeather until user chooses menu Refresh.
-    // On subsequent launches, app displayes weather.
+    // On subsequent launches, app displays weather.
 //    @Override
 //    public void onStart() {
 //        super.onStart();
