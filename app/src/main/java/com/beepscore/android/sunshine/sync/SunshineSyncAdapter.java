@@ -28,6 +28,7 @@ import com.beepscore.android.sunshine.R;
 import com.beepscore.android.sunshine.Utility;
 import com.beepscore.android.sunshine.WeatherHelper;
 import com.beepscore.android.sunshine.data.WeatherContract;
+import com.beepscore.android.sunshine.data.WeatherProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,6 +175,16 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                               SyncResult syncResult) {
 
         Log.d(LOG_TAG, "onPerformSync");
+
+        WeatherProvider weatherProvider = (WeatherProvider)provider.getLocalContentProvider();
+
+        // evaluates to content://com.beepscore.android.sunshine/weather
+        Uri weatherUri = WeatherContract.WeatherEntry.CONTENT_URI;
+
+        long normalizedDate = WeatherContract.normalizeDate(System.currentTimeMillis());
+
+        int numberOfRowsDeleted = weatherProvider.deleteOlderThanDate(weatherUri, normalizedDate);
+        Log.d(LOG_TAG, "numberOfRowsDeleted " + String.valueOf(numberOfRowsDeleted));
 
         String locationQuery = Utility.getPreferredLocation(getContext());
 

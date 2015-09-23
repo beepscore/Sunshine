@@ -69,6 +69,10 @@ public class WeatherProvider extends ContentProvider {
                     "." + WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ? AND " +
                     WeatherContract.WeatherEntry.COLUMN_DATE + " = ? ";
 
+    //date < ?
+    private static final String sBeforeDateSelection =
+            WeatherContract.WeatherEntry.COLUMN_DATE + " < ? ";
+
     private Cursor getWeatherByLocationSetting(Uri uri, String[] projection, String sortOrder) {
         String locationSetting = WeatherContract.WeatherEntry.getLocationSettingFromUri(uri);
         long startDate = WeatherContract.WeatherEntry.getStartDateFromUri(uri);
@@ -262,6 +266,7 @@ public class WeatherProvider extends ContentProvider {
         return returnUri;
     }
 
+    // https://developer.android.com/reference/android/content/ContentResolver.html#delete%28android.net.Uri,%20java.lang.String,%20java.lang.String[]%29
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -285,6 +290,16 @@ public class WeatherProvider extends ContentProvider {
         if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
+        return rowsDeleted;
+    }
+
+    public int deleteOlderThanDate(Uri uri, long normalizedDate) {
+
+        String[] selectionArgs = new String[]{Long.toString(normalizedDate)};
+
+        int rowsDeleted = delete(uri,
+                sBeforeDateSelection,
+                selectionArgs);
         return rowsDeleted;
     }
 
