@@ -70,7 +70,7 @@ public class WeatherProvider extends ContentProvider {
                     WeatherContract.WeatherEntry.COLUMN_DATE + " = ? ";
 
     //date < ?
-    private static final String sBeforeDateSelection =
+    public static final String sBeforeDateSelection =
             WeatherContract.WeatherEntry.COLUMN_DATE + " < ? ";
 
     private Cursor getWeatherByLocationSetting(Uri uri, String[] projection, String sortOrder) {
@@ -290,16 +290,6 @@ public class WeatherProvider extends ContentProvider {
         if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        return rowsDeleted;
-    }
-
-    public int deleteOlderThanDate(Uri uri, long normalizedDate) {
-
-        String[] selectionArgs = new String[]{Long.toString(normalizedDate)};
-
-        int rowsDeleted = delete(uri,
-                sBeforeDateSelection,
-                selectionArgs);
         return rowsDeleted;
     }
 

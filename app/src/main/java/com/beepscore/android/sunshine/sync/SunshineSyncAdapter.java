@@ -176,16 +176,6 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
         Log.d(LOG_TAG, "onPerformSync");
 
-        WeatherProvider weatherProvider = (WeatherProvider)provider.getLocalContentProvider();
-
-        // evaluates to content://com.beepscore.android.sunshine/weather
-        Uri weatherUri = WeatherContract.WeatherEntry.CONTENT_URI;
-
-        long normalizedDate = WeatherContract.normalizeDate(System.currentTimeMillis());
-
-        int numberOfRowsDeleted = weatherProvider.deleteOlderThanDate(weatherUri, normalizedDate);
-        Log.d(LOG_TAG, "numberOfRowsDeleted " + String.valueOf(numberOfRowsDeleted));
-
         String locationQuery = Utility.getPreferredLocation(getContext());
 
         if (locationQuery == null) {
@@ -404,11 +394,22 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
             int inserted = 0;
             if ( cVVector.size() > 0 ) {
+
                 // add to database
-                // call bulkInsert to add the weatherEntries to the database
+                // evaluates to content://com.beepscore.android.sunshine/weather
                 Uri weatherUri = WeatherContract.WeatherEntry.CONTENT_URI;
+
                 ContentValues[] weatherContentValues = cVVector.toArray(new ContentValues[0]);
+                // call bulkInsert to add the weatherEntries to the database
                 inserted = getContext().getContentResolver().bulkInsert(weatherUri, weatherContentValues);
+
+                // delete old data
+                String[] selectionArgs = new String[]{Long.toString(dayTime.setJulianDay(julianStartDay))};
+
+                int numberOfRowsDeleted = getContext().getContentResolver().delete(weatherUri,
+                        WeatherProvider.sBeforeDateSelection,
+                        selectionArgs);
+                Log.d(LOG_TAG, "numberOfRowsDeleted " + String.valueOf(numberOfRowsDeleted));
 
                 notifyWeather();
             }
