@@ -148,6 +148,10 @@ public class MainActivity extends AppCompatActivity
         showMapForUri(geoLocation);
     }
 
+    /**
+     * @param locationPreference is like "94043" or "seattle"
+     * return geoLocation like geo:?q=94043 or geo:?q=seattle
+     */
     protected Uri getGeoLocation(String locationPreference) {
         // Uri builder escapes any spaces in locationPreference string to %20
         Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
