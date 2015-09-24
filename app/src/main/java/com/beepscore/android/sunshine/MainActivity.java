@@ -132,46 +132,13 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (id == R.id.action_map) {
-            openPreferredLocationInMap();
-            return true;
-        }
+        //int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void openPreferredLocationInMap() {
-        String locationPreference = PreferenceHelper.getLocationPreferenceString(this);
-        Uri geoLocation = getGeoLocation(locationPreference);
-        showMapForUri(geoLocation);
-    }
-
-    /**
-     * @param locationPreference is like "94043" or "seattle"
-     * return geoLocation like geo:?q=94043 or geo:?q=seattle
-     */
-    protected Uri getGeoLocation(String locationPreference) {
-        // Uri builder escapes any spaces in locationPreference string to %20
-        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
-                .appendQueryParameter("q", locationPreference)
-                .build();
-        return geoLocation;
-    }
-
-    // https://developer.android.com/guide/components/intents-common.html
-    private void showMapForUri(Uri geoLocation) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(geoLocation);
-        // if device doesn't have any apps to handle this intent, startActivity would crash
-        // so check resolveActivity before attempting to startActivity
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-    }
-
     ///////////////////////////////////////////////////////////////////////////
+
     // ForecastFragment.Callback
     @Override
     public void onItemSelected(Uri contentUri) {

@@ -193,6 +193,39 @@ public class ForecastFragment extends Fragment
         SunshineSyncAdapter.syncImmediately(getActivity());
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+
+    private void openPreferredLocationInMap() {
+        String locationPreference = PreferenceHelper.getLocationPreferenceString(getActivity());
+        Uri geoLocation = getGeoLocation(locationPreference);
+        showMapForUri(geoLocation);
+    }
+
+    /**
+     * @param locationPreference is like "94043" or "seattle"
+     * return geoLocation like geo:?q=94043 or geo:?q=seattle
+     */
+    protected Uri getGeoLocation(String locationPreference) {
+        // Uri builder escapes any spaces in locationPreference string to %20
+        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                .appendQueryParameter("q", locationPreference)
+                .build();
+        return geoLocation;
+    }
+
+    // https://developer.android.com/guide/components/intents-common.html
+    private void showMapForUri(Uri geoLocation) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+        // if device doesn't have any apps to handle this intent, startActivity would crash
+        // so check resolveActivity before attempting to startActivity
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+
     private PendingIntent getPendingIntentForExplicitIntent(Intent intent) {
         // http://developer.android.com/reference/android/app/PendingIntent.html
         // http://stackoverflow.com/questions/3146883/combine-two-intent-flags
@@ -243,6 +276,11 @@ public class ForecastFragment extends Fragment
         if (id == R.id.action_settings) {
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
             startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.action_map) {
+            openPreferredLocationInMap();
             return true;
         }
 
