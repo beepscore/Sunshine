@@ -92,8 +92,6 @@ public class ForecastFragment extends Fragment
     private ForecastAdapter mForecastAdapter = null;
     private ListView mListView = null;
     private String dayForecast = "";
-    private String mCoordLatitude = "0";
-    private String mCoordLongitude = "0";
 
     static final String SELECTED_KEY = "POSITION";
     protected int mPosition = 0;
@@ -198,13 +196,19 @@ public class ForecastFragment extends Fragment
     ///////////////////////////////////////////////////////////////////////////
     // Map methods
 
-    /*
     private void openPreferredLocationInMap() {
-        String locationPreference = PreferenceHelper.getLocationPreferenceString(getActivity());
-        Uri geoLocation = getGeoLocation(locationPreference);
-        showMapForUri(geoLocation);
+        if (null != mForecastAdapter) {
+            Cursor cursor = mForecastAdapter.getCursor();
+            if (null != cursor) {
+                //cursor.moveToFirst();
+                cursor.moveToPosition(0);
+                String coordLatitude = cursor.getString(COL_COORD_LAT);
+                String coordLongitude  = cursor.getString(COL_COORD_LONG);
+                Uri geoLocation = getGeoLocationForLatLon(coordLatitude, coordLongitude);
+                showMapForUri(geoLocation);
+            }
+        }
     }
-    */
 
     /**
      * @param locationPreference is like "94043" or "seattle"
@@ -216,11 +220,6 @@ public class ForecastFragment extends Fragment
                 .appendQueryParameter("q", locationPreference)
                 .build();
         return geoLocation;
-    }
-
-    private void openLocationInMap() {
-        Uri geoLocation = getGeoLocationForLatLon(mCoordLatitude, mCoordLongitude);
-        showMapForUri(geoLocation);
     }
 
     /**
@@ -303,7 +302,7 @@ public class ForecastFragment extends Fragment
         }
 
         if (id == R.id.action_map) {
-            openLocationInMap();
+            openPreferredLocationInMap();
             return true;
         }
 
@@ -341,8 +340,6 @@ public class ForecastFragment extends Fragment
         mForecastAdapter.swapCursor(cursor);
         mListView.setSelection(mPosition);
         dayForecast = getDayForecast(cursor);
-        mCoordLatitude = cursor.getString(COL_COORD_LAT);
-        mCoordLongitude = cursor.getString(COL_COORD_LONG);
     }
 
     @Override
