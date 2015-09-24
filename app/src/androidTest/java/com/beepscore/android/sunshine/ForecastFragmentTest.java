@@ -1,6 +1,7 @@
 package com.beepscore.android.sunshine;
 
 import android.app.Application;
+import android.net.Uri;
 import android.test.ApplicationTestCase;
 
 import java.text.NumberFormat;
@@ -25,4 +26,20 @@ public class ForecastFragmentTest extends ApplicationTestCase<Application> {
         assertEquals("25", formatter.format(24.51));
     }
 
+    public void testGetGeoLocation() {
+        ForecastFragment forecastFragment = new ForecastFragment();
+
+        assertEquals(Uri.parse("geo:?q=boise%2Cus"), forecastFragment.getGeoLocation("boise,us"));
+        assertEquals(Uri.parse("geo:?q=boise%2C%20us"), forecastFragment.getGeoLocation("boise, us"));
+        assertEquals(Uri.parse("geo:?q=st%20petersburg%2C%20us"), forecastFragment.getGeoLocation("st petersburg, us"));
+    }
+
+    public void testGetGeoLocationForLatLon() {
+        ForecastFragment forecastFragment = new ForecastFragment();
+
+        assertEquals(Uri.parse("geo:1.2,-34.5"), forecastFragment.getGeoLocationForLatLon("1.2", "-34.5"));
+
+        // for Seattle, latitude is like "47.6062", longitude is like "-122.332"
+        assertEquals(Uri.parse("geo:47.6062,-122.332"), forecastFragment.getGeoLocationForLatLon("47.6062", "-122.332"));
+    }
 }
