@@ -281,19 +281,19 @@ public class ForecastFragment extends Fragment
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_refresh) {
-
-            // delete old forecasts
-            //Uri weatherUri = WeatherContract.WeatherEntry.CONTENT_URI;
-            //int numberOfRowsDeleted = getActivity().getContentResolver().delete(weatherUri, null, null);
-
-            // Note console log shows warning
-            // Attempted to finish an input event but the input event receiver has already been disposed.
-
-            // get new forecasts
-            updateWeather();
-            return true;
-        }
+//        if (id == R.id.action_refresh) {
+//
+//            // delete old forecasts
+//            //Uri weatherUri = WeatherContract.WeatherEntry.CONTENT_URI;
+//            //int numberOfRowsDeleted = getActivity().getContentResolver().delete(weatherUri, null, null);
+//
+//            // Note console log shows warning
+//            // Attempted to finish an input event but the input event receiver has already been disposed.
+//
+//            // get new forecasts
+//            updateWeather();
+//            return true;
+//        }
 
         if (id == R.id.action_settings) {
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
