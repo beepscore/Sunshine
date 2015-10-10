@@ -28,7 +28,7 @@ public class WeatherHelper {
      * @return uri
      * http://openweathermap.org/API#forecast
      */
-    protected static Uri weatherUri(String postalCode,
+    public static Uri weatherUri(String postalCode,
                                     String format, String units, Integer numberOfDays) {
 
         final String SCHEME = "http";
@@ -42,6 +42,11 @@ public class WeatherHelper {
         final String UNITS_PARAM = "units";
         final String COUNT_PARAM = "cnt";
 
+        // Starting ~2015-10-09 OpenWeatherMap requests should contain parameter APPID with value api key
+        final String APPID = "APPID";
+        // each developer should get their own api key
+        final String API_KEY = "7f35b927c7d3222c01127d9b7a75adc3";
+
         // http://stackoverflow.com/questions/19167954/use-uri-builder-in-android-or-create-url-with-variables
         Uri.Builder builder = new Uri.Builder();
         builder.scheme(SCHEME)
@@ -53,7 +58,8 @@ public class WeatherHelper {
                 .appendQueryParameter(QUERY_PARAM, postalCode)
                 .appendQueryParameter(MODE_PARAM, format)
                 .appendQueryParameter(UNITS_PARAM, units)
-                .appendQueryParameter(COUNT_PARAM, Integer.toString(numberOfDays));
+                .appendQueryParameter(COUNT_PARAM, Integer.toString(numberOfDays))
+                .appendQueryParameter(APPID, API_KEY);
 
         Uri uri = builder.build();
         return uri;
