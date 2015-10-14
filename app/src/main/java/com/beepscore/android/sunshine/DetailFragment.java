@@ -80,9 +80,10 @@ public class DetailFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // The instantiating activity sets the DetailFragment arguments as a way to pass information to it.
-        // This decouples DetailFragment from a particular activity.
-        // Note fragment arguments Bundle is separate from method argument savedInstanceState Bundle
+        // The instantiating activity sets this fragment's arguments
+        // as a way to pass information to it.
+        // This decouples the fragment from a particular activity.
+        // Note the Bundle from getArguments() is separate from Bundle savedInstanceState
         Bundle arguments = getArguments();
         if (arguments != null) {
             mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
