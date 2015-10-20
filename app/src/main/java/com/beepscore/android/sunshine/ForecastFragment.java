@@ -91,7 +91,6 @@ public class ForecastFragment extends Fragment
     private final static int LOADER_ID = 1;
     private ForecastAdapter mForecastAdapter = null;
     private ListView mListView = null;
-    private View mEmptyView;
     private String dayForecast = "";
 
     static final String SELECTED_KEY = "POSITION";
@@ -134,8 +133,8 @@ public class ForecastFragment extends Fragment
         listView.setAdapter(mForecastAdapter);
         mListView = listView;
 
-        mEmptyView = fragmentForecastView.findViewById(R.id.empty_view);
-        mListView.setEmptyView(mEmptyView);
+        View emptyView = fragmentForecastView.findViewById(R.id.empty_view);
+        mListView.setEmptyView(emptyView);
 
         if ((savedInstanceState != null)
                 && savedInstanceState.containsKey(SELECTED_KEY)) {
