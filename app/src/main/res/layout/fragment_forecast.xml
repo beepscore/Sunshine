@@ -9,4 +9,10 @@
         android:layout_height="match_parent"
         style="@style/ForecastListStyle"
         android:id="@+id/listview_forecast"/>
+
+    <TextView android:id="@+id/empty_view"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:text="@string/no_weather_info_available"/>
+
 </FrameLayout>

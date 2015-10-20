@@ -197,15 +197,20 @@ public class WeatherProvider extends ContentProvider {
             }
             // "weather"
             case WEATHER: {
-                retCursor = mOpenHelper.getReadableDatabase().query(
-                        WeatherContract.WeatherEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder
-                );
+                if ((selection == null)
+                        && (selectionArgs == null)) {
+                    retCursor = null;
+                } else {
+                    retCursor = mOpenHelper.getReadableDatabase().query(
+                            WeatherContract.WeatherEntry.TABLE_NAME,
+                            projection,
+                            selection,
+                            selectionArgs,
+                            null,
+                            null,
+                            sortOrder
+                    );
+                }
                 break;
             }
             // "location"
@@ -225,8 +230,10 @@ public class WeatherProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-        // set cursor to observe content provider for any changes in uri or descendants
-        retCursor.setNotificationUri(getContext().getContentResolver(), uri);
+        if (retCursor != null) {
+            // set cursor to observe content provider for any changes in uri or descendants
+            retCursor.setNotificationUri(getContext().getContentResolver(), uri);
+        }
         return retCursor;
     }
 

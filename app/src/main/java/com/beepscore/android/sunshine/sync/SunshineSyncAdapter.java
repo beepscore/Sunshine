@@ -225,6 +225,10 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 return;
             }
             forecastJsonStr = buffer.toString();
+            if (forecastJsonStr.contains("Error: Not found city")) {
+                Log.e(LOG_TAG, "Error: Not found city");
+                return;
+            }
             getWeatherDataFromJson(forecastJsonStr, locationQuery);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
