@@ -61,5 +61,6 @@
     <string name="enable_notifications" translatable="false">weather_notification</string>
     <string name="pref_weather_notification_title">Notification</string>
 
-    <string name="no_weather_info_available">No Weather Information Available</string>
+    <!-- Empty Weather Database -->
+    <string name="empty_forecast_list">No Weather Information Available</string>
 </resources>

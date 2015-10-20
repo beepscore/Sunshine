@@ -129,19 +129,18 @@ public class ForecastFragment extends Fragment
         mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
 
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
-        ListView listView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
-        listView.setAdapter(mForecastAdapter);
-        mListView = listView;
-
-        View emptyView = fragmentForecastView.findViewById(R.id.empty_view);
+        mListView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
+        View emptyView = fragmentForecastView.findViewById(R.id.listview_forecast_empty);
         mListView.setEmptyView(emptyView);
+
+        mListView.setAdapter(mForecastAdapter);
 
         if ((savedInstanceState != null)
                 && savedInstanceState.containsKey(SELECTED_KEY)) {
             mPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView adapterView, View view, int position, long l) {

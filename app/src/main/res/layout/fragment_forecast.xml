@@ -10,9 +10,15 @@
         style="@style/ForecastListStyle"
         android:id="@+id/listview_forecast"/>
 
-    <TextView android:id="@+id/empty_view"
+    <TextView android:id="@+id/listview_forecast_empty"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:text="@string/no_weather_info_available"/>
+              android:text="@string/empty_forecast_list"
+              android:gravity="center_horizontal"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+        />
 
 </FrameLayout>
