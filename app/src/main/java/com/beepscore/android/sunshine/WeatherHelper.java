@@ -43,9 +43,13 @@ public class WeatherHelper {
         final String COUNT_PARAM = "cnt";
 
         // Starting ~2015-10-09 OpenWeatherMap requests should contain parameter APPID with value api key
+        // Developer must register for an account and generate an api key.
+        // NOTE: OpenWeatherMap may periodically expire the api key.
+        // Server may respond with:
+        // "Please see http://openweathermap.org/faq#error401 for more info."
+        // If so, log in to OpenWeatherMap account, generate a new key, and embed in this test app.
         final String APPID = "APPID";
-        // each developer should get their own api key
-        final String API_KEY = "7f35b927c7d3222c01127d9b7a75adc3";
+        final String API_KEY = "0cae3251d167781f238285ca9aef0a2f";
 
         // http://stackoverflow.com/questions/19167954/use-uri-builder-in-android-or-create-url-with-variables
         Uri.Builder builder = new Uri.Builder();
