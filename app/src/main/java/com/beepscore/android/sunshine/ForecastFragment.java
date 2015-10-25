@@ -342,19 +342,14 @@ public class ForecastFragment extends Fragment
         // Swap the new cursor in.
         // The framework will take care of closing the old cursor once we return.
         mForecastAdapter.swapCursor(cursor);
-        if ((cursor == null)
-                || (cursor.getCount() == 0)) {
-            NetworkUtils networkUtils = new NetworkUtils();
-            if (networkUtils.hasConnectivity(getActivity())) {
-                mEmptyView.setText(getString(R.string.empty_forecast_list));
-            } else {
-                mEmptyView.setText(getString(R.string.network_not_reachable));
-            }
-        } else {
+        if (mPosition != ListView.INVALID_POSITION) {
+            // if we don't need to restart the loader,
+            // and there's a desired position to restore to, do so now.
             mListView.setSelection(mPosition);
             mListView.smoothScrollToPosition(mPosition);
             dayForecast = getDayForecast(cursor);
         }
+        updateEmptyView();
     }
 
     @Override
@@ -400,6 +395,18 @@ public class ForecastFragment extends Fragment
         // So use a guard clause
         if (mForecastAdapter != null) {
             mForecastAdapter.setUseTodayLayout(useTodayLayout);
+        }
+    }
+
+    private void updateEmptyView() {
+        if ((mForecastAdapter == null)
+                || (mForecastAdapter.getCount() == 0)) {
+            mEmptyView = (TextView)getView().findViewById(R.id.listview_forecast_empty);
+            if (NetworkUtils.isNetworkAvailable(getActivity())) {
+                mEmptyView.setText(getString(R.string.empty_forecast_list));
+            } else {
+                mEmptyView.setText(getString(R.string.network_not_reachable));
+            }
         }
     }
 

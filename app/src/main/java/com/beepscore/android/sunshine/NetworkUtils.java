@@ -16,7 +16,7 @@ public class NetworkUtils {
      * @param context Context used to get the ConnectivityManager
      * @return true if network has connectivity (i.e. is reachable), else return false
      */
-    boolean hasConnectivity(Context context) {
+    static public boolean isNetworkAvailable(Context context) {
 
         // http://developer.android.com/reference/android/net/ConnectivityManager.html
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
