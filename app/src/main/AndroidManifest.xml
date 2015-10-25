@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.beepscore.android.sunshine" >
 
+    <!-- Necessary to perform network access -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Enables check network state, app can notify user if network is not reachable -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- Permissions required by the sync adapter -->
