@@ -63,4 +63,5 @@
 
     <!-- Empty Weather Database -->
     <string name="empty_forecast_list">No Weather Information Available</string>
+    <string name="network_not_reachable">Network not reachable</string>
 </resources>

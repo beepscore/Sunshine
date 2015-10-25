@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.beepscore.android.sunshine.data.WeatherContract;
 import com.beepscore.android.sunshine.sync.SunshineSyncAdapter;
@@ -91,6 +92,7 @@ public class ForecastFragment extends Fragment
     private final static int LOADER_ID = 1;
     private ForecastAdapter mForecastAdapter = null;
     private ListView mListView = null;
+    private TextView mEmptyView = null;
     private String dayForecast = "";
 
     static final String SELECTED_KEY = "POSITION";
@@ -130,8 +132,8 @@ public class ForecastFragment extends Fragment
 
         View fragmentForecastView = inflater.inflate(R.layout.fragment_forecast, container, false);
         mListView = (ListView)fragmentForecastView.findViewById(R.id.listview_forecast);
-        View emptyView = fragmentForecastView.findViewById(R.id.listview_forecast_empty);
-        mListView.setEmptyView(emptyView);
+        mEmptyView = (TextView)fragmentForecastView.findViewById(R.id.listview_forecast_empty);
+        mListView.setEmptyView(mEmptyView);
 
         mListView.setAdapter(mForecastAdapter);
 
@@ -340,9 +342,19 @@ public class ForecastFragment extends Fragment
         // Swap the new cursor in.
         // The framework will take care of closing the old cursor once we return.
         mForecastAdapter.swapCursor(cursor);
-        mListView.setSelection(mPosition);
-        mListView.smoothScrollToPosition(mPosition);
-        dayForecast = getDayForecast(cursor);
+        if ((cursor == null)
+                || (cursor.getCount() == 0)) {
+            NetworkUtils networkUtils = new NetworkUtils();
+            if (networkUtils.hasConnectivity(getActivity())) {
+                mEmptyView.setText(getString(R.string.empty_forecast_list));
+            } else {
+                mEmptyView.setText(getString(R.string.network_not_reachable));
+            }
+        } else {
+            mListView.setSelection(mPosition);
+            mListView.smoothScrollToPosition(mPosition);
+            dayForecast = getDayForecast(cursor);
+        }
     }
 
     @Override
