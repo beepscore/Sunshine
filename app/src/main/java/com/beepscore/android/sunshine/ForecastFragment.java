@@ -401,11 +401,13 @@ public class ForecastFragment extends Fragment
     private void updateEmptyView() {
         if ((mForecastAdapter == null)
                 || (mForecastAdapter.getCount() == 0)) {
-            mEmptyView = (TextView)getView().findViewById(R.id.listview_forecast_empty);
-            if (NetworkUtils.isNetworkAvailable(getActivity())) {
-                mEmptyView.setText(getString(R.string.empty_forecast_list));
-            } else {
-                mEmptyView.setText(getString(R.string.network_not_reachable));
+            TextView emptyView = (TextView)getView().findViewById(R.id.listview_forecast_empty);
+            if (emptyView != null) {
+                if (NetworkUtils.isNetworkAvailable(getActivity())) {
+                    emptyView.setText(getString(R.string.empty_forecast_list));
+                } else {
+                    emptyView.setText(getString(R.string.network_not_reachable));
+                }
             }
         }
     }
