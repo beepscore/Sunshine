@@ -341,6 +341,7 @@ public class ForecastFragment extends Fragment
         // The framework will take care of closing the old cursor once we return.
         mForecastAdapter.swapCursor(cursor);
         mListView.setSelection(mPosition);
+        mListView.smoothScrollToPosition(mPosition);
         dayForecast = getDayForecast(cursor);
     }
 
