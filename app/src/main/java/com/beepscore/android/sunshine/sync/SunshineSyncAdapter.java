@@ -48,20 +48,6 @@ import java.util.Vector;
 public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = SunshineSyncAdapter.class.getSimpleName();
 
-    // https://sites.google.com/a/android.com/tools/tech-docs/support-annotations
-    // http://developer.android.com/reference/android/support/annotation/IntDef.html
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN, LOCATION_STATUS_SERVER_INVALID, LOCATION_STATUS_UNKNOWN})
-
-    public @interface LocationStatus {}
-    public static final int LOCATION_STATUS_OK = 0;
-    public static final int LOCATION_STATUS_SERVER_DOWN = 1;
-    public static final int LOCATION_STATUS_SERVER_INVALID = 2;
-    public static final int LOCATION_STATUS_UNKNOWN = 3;
-    @LocationStatus
-    public abstract int getLocationStatus();
-    public abstract void setLocationStatus(@LocationStatus int locationStatus);
-
     // Interval at which to sync with the weather, in seconds.
     // seconds = hours * 60 minutes/hour * 60 seconds/minute
     // use a short interval for manual testing.
@@ -78,6 +64,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
             WeatherContract.WeatherEntry.COLUMN_SHORT_DESC
     };
+
     // these indices must match the projection
     private static final int INDEX_WEATHER_ID = 0;
     private static final int INDEX_MAX_TEMP = 1;
@@ -87,6 +74,20 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     private static final int WEATHER_NOTIFICATION_ID = 3004;
 
+    // https://sites.google.com/a/android.com/tools/tech-docs/support-annotations
+    // http://developer.android.com/reference/android/support/annotation/IntDef.html
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN, LOCATION_STATUS_SERVER_INVALID, LOCATION_STATUS_UNKNOWN})
+
+    public @interface LocationStatus {}
+    public static final int LOCATION_STATUS_OK = 0;
+    public static final int LOCATION_STATUS_SERVER_DOWN = 1;
+    public static final int LOCATION_STATUS_SERVER_INVALID = 2;
+    public static final int LOCATION_STATUS_UNKNOWN = 3;
+    @LocationStatus
+    public abstract int getLocationStatus();
+    public abstract void setLocationStatus(@LocationStatus int locationStatus);
+    
     public SunshineSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
     }
