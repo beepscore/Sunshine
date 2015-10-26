@@ -11,12 +11,14 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -85,9 +87,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int LOCATION_STATUS_SERVER_INVALID = 2;
     public static final int LOCATION_STATUS_UNKNOWN = 3;
     @LocationStatus
-    public abstract int getLocationStatus();
-    public abstract void setLocationStatus(@LocationStatus int locationStatus);
-    
+
     public SunshineSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
     }
@@ -584,6 +584,24 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             }
         }
 
+    }
+
+    public @LocationStatus int getLocationStatus(Context context) {
+        // In SharedPreferences get value for key
+        // http://stackoverflow.com/questions/2614719/how-do-i-get-the-sharedpreferences-from-a-preferenceactivity-in-android
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String locationStatusKey = context.getString(R.string.pref_location_status_key);
+        // if no key-value pair for locationStatusKey, default to LOCATION_STATUS_UNKNOWN
+        return preferences.getInt(locationStatusKey, LOCATION_STATUS_UNKNOWN);
+    }
+
+    public void setLocationStatus(Context context, @LocationStatus int locationStatus) {
+        // In SharedPreferences set key/value pair
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        String locationStatusKey = context.getString(R.string.pref_location_status_key);
+        editor.putInt(locationStatusKey, locationStatus);
+        editor.commit();
     }
 
 }
