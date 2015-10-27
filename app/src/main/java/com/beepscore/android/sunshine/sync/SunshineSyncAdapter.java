@@ -246,7 +246,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
             if (buffer.length() == 0) {
                 // Stream was empty.  No point in parsing.
-                setLocationStatus(getContext(), LOCATION_STATUS_UNKNOWN);
+                setLocationStatus(getContext(), LOCATION_STATUS_SERVER_DOWN);
                 return;
             }
             forecastJsonStr = buffer.toString();
@@ -261,11 +261,11 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (UnknownHostException e) {
             // UnknownHostException extends IOException
             Log.e(LOG_TAG, "UnknownHostException ", e);
-            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID);
+            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_DOWN);
         } catch (FileNotFoundException e) {
             // FileNotFoundException extends IOException
             Log.e(LOG_TAG, "FileNotFoundException ", e);
-            setLocationStatus(getContext(), LOCATION_STATUS_UNKNOWN);
+            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_DOWN);
         } catch (SocketException e) {
             // SocketException extends IOException
             Log.e(LOG_TAG, "SocketException ", e);
@@ -276,11 +276,11 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             Log.e(LOG_TAG, "IOException ", e);
             // If the code didn't successfully get the weather data, there's no point in attempting
             // to parse it.
-            setLocationStatus(getContext(), LOCATION_STATUS_UNKNOWN);
+            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_DOWN);
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
-            setLocationStatus(getContext(), LOCATION_STATUS_UNKNOWN);
+            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID);
         } finally {
             Log.v(LOG_TAG, "location status " + getLocationStatus(getContext()));
             if (urlConnection != null) {
@@ -448,10 +448,12 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             }
 
             Log.d(LOG_TAG, "getWeatherDataFromJson Complete. " + inserted + " Inserted");
+            setLocationStatus(getContext(), LOCATION_STATUS_OK);
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
+            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID);
         }
     }
 
