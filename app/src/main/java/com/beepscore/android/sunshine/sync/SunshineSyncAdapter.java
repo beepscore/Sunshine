@@ -38,13 +38,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.HttpURLConnection;
+import java.net.SocketException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.Vector;
 
 public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
@@ -212,6 +215,9 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         String units = "metric";
         int numDays = 14;
 
+        // assume ok, then error or exception can re-set
+        setLocationStatus(getContext(), LOCATION_STATUS_OK);
+
         try {
             Uri builtUri = WeatherHelper.weatherUri(locationQuery, format, units, numDays);
             URL url = new URL(builtUri.toString());
@@ -225,7 +231,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
-                // Nothing to do.
+                setLocationStatus(getContext(), LOCATION_STATUS_UNKNOWN);
                 return;
             }
             reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -240,22 +246,43 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
             if (buffer.length() == 0) {
                 // Stream was empty.  No point in parsing.
+                setLocationStatus(getContext(), LOCATION_STATUS_UNKNOWN);
                 return;
             }
             forecastJsonStr = buffer.toString();
             if (forecastJsonStr.contains("Error: Not found city")) {
                 Log.e(LOG_TAG, "Error: Not found city");
+                setLocationStatus(getContext(), LOCATION_STATUS_UNKNOWN);
                 return;
             }
+
             getWeatherDataFromJson(forecastJsonStr, locationQuery);
+
+        } catch (UnknownHostException e) {
+            // UnknownHostException extends IOException
+            Log.e(LOG_TAG, "UnknownHostException ", e);
+            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID);
+        } catch (FileNotFoundException e) {
+            // FileNotFoundException extends IOException
+            Log.e(LOG_TAG, "FileNotFoundException ", e);
+            setLocationStatus(getContext(), LOCATION_STATUS_UNKNOWN);
+        } catch (SocketException e) {
+            // SocketException extends IOException
+            Log.e(LOG_TAG, "SocketException ", e);
+            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_DOWN);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error ", e);
+            // catch any remaining IOExceptions not already caught above
+            // for example if forecastJsonStr == null
+            Log.e(LOG_TAG, "IOException ", e);
             // If the code didn't successfully get the weather data, there's no point in attempting
             // to parse it.
+            setLocationStatus(getContext(), LOCATION_STATUS_UNKNOWN);
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
+            setLocationStatus(getContext(), LOCATION_STATUS_UNKNOWN);
         } finally {
+            Log.v(LOG_TAG, "location status " + getLocationStatus(getContext()));
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
