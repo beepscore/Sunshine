@@ -32,7 +32,16 @@ public class WeatherHelper {
                                     String format, String units, Integer numberOfDays) {
 
         final String SCHEME = "http";
+
+        ////////////////////////////////////////////////////////////////
+        // use google.com to test app with a service that returns invalid result
+        //final String BASE_URL = "google.com";
+        // use google.com/ping to test app with a service that returns empty result
+        //final String BASE_URL = "google.com/ping";
+
         final String BASE_URL = "api.openweathermap.org";
+        ////////////////////////////////////////////////////////////////
+
         final String DATA = "data";
         final String API_VERSION = "2.5";
         final String FORECAST = "forecast";
