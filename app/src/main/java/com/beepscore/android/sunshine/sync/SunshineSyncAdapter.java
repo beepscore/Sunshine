@@ -622,12 +622,22 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         return preferences.getInt(locationStatusKey, LOCATION_STATUS_UNKNOWN);
     }
 
+    /**
+     * Sets the location status into shared preferences.
+     * This should not be called from the UI thread
+     * because it uses commit to write to the shared preferences.
+     * @param context
+     * @param locationStatus
+     */
     public void setLocationStatus(Context context, @LocationStatus int locationStatus) {
         // In SharedPreferences set key/value pair
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
         String locationStatusKey = context.getString(R.string.pref_location_status_key);
         editor.putInt(locationStatusKey, locationStatus);
+
+        // use commit() for background thread
+        // for foreground thread use apply()
         editor.commit();
     }
 
