@@ -34,8 +34,10 @@ public class WeatherHelper {
         final String SCHEME = "http";
 
         ////////////////////////////////////////////////////////////////
-        // use google.com to test app with a service that returns invalid result
+        // use google.com to test app with a service that returns invalid result FileNotFoundException
         //final String BASE_URL = "google.com";
+        // use google.com? to test app with a service that returns invalid result UnknownHostException
+        //final String BASE_URL = "google.com?";
         // use google.com/ping to test app with a service that returns empty result
         //final String BASE_URL = "google.com/ping";
 
