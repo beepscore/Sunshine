@@ -13,7 +13,7 @@ public class WeatherHelperTest extends ApplicationTestCase<Application> {
     }
 
     public void testWeatherUri() {
-        Uri expected = Uri.parse("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7&APPID=7f35b927c7d3222c01127d9b7a75adc3");
+        Uri expected = Uri.parse("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7&APPID=0cae3251d167781f238285ca9aef0a2f");
         Uri actual = WeatherHelper.weatherUri("94043", "json", "metric", 7);
         assertEquals(expected, actual);
     }
