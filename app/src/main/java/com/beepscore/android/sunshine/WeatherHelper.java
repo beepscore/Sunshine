@@ -2,6 +2,8 @@ package com.beepscore.android.sunshine;
 
 import android.net.Uri;
 
+import com.beepscore.android.sunshine.BuildConfig;
+
 /**
  * Created by stevebaker on 6/22/15.
  */
@@ -53,14 +55,7 @@ public class WeatherHelper {
         final String UNITS_PARAM = "units";
         final String COUNT_PARAM = "cnt";
 
-        // Starting ~2015-10-09 OpenWeatherMap requests should contain parameter APPID with value api key
-        // Developer must register for an account and generate an api key.
-        // NOTE: OpenWeatherMap may periodically expire the api key.
-        // Server may respond with:
-        // "Please see http://openweathermap.org/faq#error401 for more info."
-        // If so, log in to OpenWeatherMap account, generate a new key, and embed in this test app.
-        final String APPID = "APPID";
-        final String API_KEY = "0cae3251d167781f238285ca9aef0a2f";
+        final String APPID_PARAM = "APPID";
 
         // http://stackoverflow.com/questions/19167954/use-uri-builder-in-android-or-create-url-with-variables
         Uri.Builder builder = new Uri.Builder();
@@ -74,7 +69,7 @@ public class WeatherHelper {
                 .appendQueryParameter(MODE_PARAM, format)
                 .appendQueryParameter(UNITS_PARAM, units)
                 .appendQueryParameter(COUNT_PARAM, Integer.toString(numberOfDays))
-                .appendQueryParameter(APPID, API_KEY);
+                .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY);
 
         Uri uri = builder.build();
         return uri;

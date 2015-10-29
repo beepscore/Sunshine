@@ -6,19 +6,38 @@ Do Lesson 1, 2 Sunshine.
 ## Udacity Sunshine repository
 <https://github.com/udacity/Sunshine-Version-2>
 
-Online course "Android nanodegree" from Udacity/Google  
+### Online course "Android nanodegree" from Udacity/Google  
 <https://www.udacity.com/course/android-developer-nanodegree--nd801>  
 Developing Android Apps: Fundamentals
 Lesson 1: Create project sunshine
 <https://www.udacity.com/course/viewer#!/c-ud853-nd/l-1395568821/e-3603098832/m-3640878702>
 
-Discussion Forum
+### Discussion Forum
 <http://discussions.udacity.com/c/nd801-2015-05-28/developing-android-apps-android-fundamentals>
+
+## openweathermap
+http://openweathermap.org/appid#use
+
 
 ## Android device
 Nexus 4 running Android 5.1.1
 
 # Results
+
+## API Key
+Starting ~2015-10-09 OpenWeatherMap requests should contain parameter APPID with value api key
+Developer must register for an account and generate an api key.
+NOTE: OpenWeatherMap may periodically expire the api key.
+Server may respond with:
+"Please see http://openweathermap.org/faq#error401 for more info."
+If so, log in to OpenWeatherMap account and generate a new key.
+
+In USER_HOME.gradle (i.e. on OS X ~/.gradle) add file gradle.properties with entry
+
+    MyOpenWeatherMapApiKey="<UNIQUE_API_KEY>"
+    
+This keeps api key outside of project repo, but app includes it at build time.
+https://docs.google.com/document/d/1e8LXahedBlCW1_dp_FyvQ3ugUAwUBJDuJCoKf3tgNVs/pub?embedded=true
 
 ## To run unit tests
 If necessary, add configuration for unit tests, e.g. named appTests.
