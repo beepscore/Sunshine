@@ -197,20 +197,15 @@ public class WeatherProvider extends ContentProvider {
             }
             // "weather"
             case WEATHER: {
-                if ((selection == null)
-                        && (selectionArgs == null)) {
-                    retCursor = null;
-                } else {
-                    retCursor = mOpenHelper.getReadableDatabase().query(
-                            WeatherContract.WeatherEntry.TABLE_NAME,
-                            projection,
-                            selection,
-                            selectionArgs,
-                            null,
-                            null,
-                            sortOrder
-                    );
-                }
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        WeatherContract.WeatherEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
                 break;
             }
             // "location"
