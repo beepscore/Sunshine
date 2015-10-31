@@ -4,8 +4,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -29,7 +31,8 @@ import com.beepscore.android.sunshine.sync.SunshineSyncAdapter;
  * A placeholder fragment containing a simple view.
  */
 public class ForecastFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor> {
+        implements LoaderManager.LoaderCallbacks<Cursor>,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
@@ -109,6 +112,20 @@ public class ForecastFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPause() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref.unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref.registerOnSharedPreferenceChangeListener(this);
+        super.onResume();
     }
 
     @Override
@@ -349,7 +366,16 @@ public class ForecastFragment extends Fragment
             mListView.smoothScrollToPosition(mPosition);
             dayForecast = getDayForecast(cursor);
         }
-        updateEmptyView();
+        if ((mForecastAdapter == null)
+                || (mForecastAdapter.getCount() == 0)) {
+            if (!NetworkUtils.isNetworkAvailable(getActivity())) {
+                updateEmptyView(getString(R.string.network_not_reachable));
+            } else {
+                updateEmptyView(getString(R.string.empty_forecast_list));
+            }
+        } else {
+            updateEmptyView(getString(R.string.ok));
+        }
     }
 
     @Override
@@ -398,15 +424,43 @@ public class ForecastFragment extends Fragment
         }
     }
 
-    private void updateEmptyView() {
-        if ((mForecastAdapter == null)
-                || (mForecastAdapter.getCount() == 0)) {
-            TextView emptyView = (TextView)getView().findViewById(R.id.listview_forecast_empty);
-            if (emptyView != null) {
-                if (NetworkUtils.isNetworkAvailable(getActivity())) {
-                    emptyView.setText(getString(R.string.empty_forecast_list));
-                } else {
-                    emptyView.setText(getString(R.string.network_not_reachable));
+    /**
+     *
+     * @param text Use text argument to "tell, don't ask"
+     */
+    private void updateEmptyView(String text) {
+        TextView emptyView = (TextView)getView().findViewById(R.id.listview_forecast_empty);
+        if (emptyView != null) {
+            emptyView.setText(text);
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                          String key) {
+
+        String locationStatusKey = getActivity().getString(R.string.pref_location_status_key);
+        if (key.equals(locationStatusKey)) {
+            int locationStatus = LocationStatusUtils.getLocationStatus(getActivity());
+            switch (locationStatus) {
+                case LocationStatusUtils.LOCATION_STATUS_OK: {
+                    updateEmptyView(getString(R.string.location_status_ok));
+                    break;
+                }
+                case LocationStatusUtils.LOCATION_STATUS_SERVER_DOWN: {
+                    updateEmptyView(getString(R.string.location_status_server_down));
+                    break;
+                }
+                case LocationStatusUtils.LOCATION_STATUS_SERVER_INVALID: {
+                    updateEmptyView(getString(R.string.location_status_server_invalid));
+                    break;
+                }
+                case LocationStatusUtils.LOCATION_STATUS_UNKNOWN: {
+                    updateEmptyView(getString(R.string.location_status_unknown));
+                    break;
+                }
+                default: {
+                    // do nothing
                 }
             }
         }
