@@ -369,7 +369,7 @@ public class ForecastFragment extends Fragment
         if ((mForecastAdapter == null)
                 || (mForecastAdapter.getCount() == 0)) {
             if (!NetworkUtils.isNetworkAvailable(getActivity())) {
-                updateEmptyView(getString(R.string.network_not_reachable));
+                updateEmptyView(getString(R.string.empty_forecast_list_no_network));
             } else {
                 updateEmptyView(getString(R.string.empty_forecast_list));
             }
@@ -448,11 +448,11 @@ public class ForecastFragment extends Fragment
                     break;
                 }
                 case LocationStatusUtils.LOCATION_STATUS_SERVER_DOWN: {
-                    updateEmptyView(getString(R.string.location_status_server_down));
+                    updateEmptyView(getString(R.string.empty_forecast_list_server_down));
                     break;
                 }
                 case LocationStatusUtils.LOCATION_STATUS_SERVER_INVALID: {
-                    updateEmptyView(getString(R.string.location_status_server_invalid));
+                    updateEmptyView(getString(R.string.empty_forecast_list_server_error));
                     break;
                 }
                 case LocationStatusUtils.LOCATION_STATUS_UNKNOWN: {

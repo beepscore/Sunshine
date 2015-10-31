@@ -66,10 +66,10 @@
 
     <!-- Empty Weather Database -->
     <string name="empty_forecast_list">No Weather Information Available</string>
-    <string name="network_not_reachable">Network not reachable</string>
+    <string name="empty_forecast_list_no_network">Network not reachable</string>
     <string name="location_status_ok">Location status ok</string>
-    <string name="location_status_server_down">Server down</string>
-    <string name="location_status_server_invalid">Server invalid</string>
+    <string name="empty_forecast_list_server_down">Server down</string>
+    <string name="empty_forecast_list_server_error">Server invalid</string>
     <string name="location_status_unknown">Location status unknown</string>
     <string name="ok">ok</string>
 </resources>
