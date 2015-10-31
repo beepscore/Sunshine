@@ -366,16 +366,8 @@ public class ForecastFragment extends Fragment
             mListView.smoothScrollToPosition(mPosition);
             dayForecast = getDayForecast(cursor);
         }
-        if ((mForecastAdapter == null)
-                || (mForecastAdapter.getCount() == 0)) {
-            if (!NetworkUtils.isNetworkAvailable(getActivity())) {
-                updateEmptyView(getString(R.string.empty_forecast_list_no_network));
-            } else {
-                updateEmptyView(getString(R.string.empty_forecast_list));
-            }
-        } else {
-            updateEmptyView(getString(R.string.ok));
-        }
+        int locationStatus = LocationStatusUtils.getLocationStatus(getActivity());
+        updateEmptyView(locationStatus);
     }
 
     @Override
@@ -425,13 +417,35 @@ public class ForecastFragment extends Fragment
     }
 
     /**
-     *
-     * @param text Use text argument to "tell, don't ask"
+     * @param locationStatus Use argument to "tell, don't ask". Makes unit testing easier too.
      */
-    private void updateEmptyView(String text) {
-        TextView emptyView = (TextView)getView().findViewById(R.id.listview_forecast_empty);
-        if (emptyView != null) {
-            emptyView.setText(text);
+    private void updateEmptyView(int locationStatus) {
+        if ((mForecastAdapter == null)
+                || (mForecastAdapter.getCount() == 0)) {
+            TextView emptyView = (TextView)getView().findViewById(R.id.listview_forecast_empty);
+
+            if (emptyView != null) {
+
+                // default generic empty message
+                int message = R.string.empty_forecast_list;
+
+                switch (locationStatus) {
+                    case LocationStatusUtils.LOCATION_STATUS_SERVER_DOWN: {
+                        message = R.string.empty_forecast_list_server_down;
+                        break;
+                    }
+                    case LocationStatusUtils.LOCATION_STATUS_SERVER_INVALID: {
+                        message = R.string.empty_forecast_list_server_error;
+                        break;
+                    }
+                    default: {
+                        if (!NetworkUtils.isNetworkAvailable(getActivity())) {
+                            message = R.string.empty_forecast_list_no_network;
+                        }
+                    }
+                }
+                emptyView.setText(message);
+            }
         }
     }
 
@@ -442,27 +456,7 @@ public class ForecastFragment extends Fragment
         String locationStatusKey = getActivity().getString(R.string.pref_location_status_key);
         if (key.equals(locationStatusKey)) {
             int locationStatus = LocationStatusUtils.getLocationStatus(getActivity());
-            switch (locationStatus) {
-                case LocationStatusUtils.LOCATION_STATUS_OK: {
-                    updateEmptyView(getString(R.string.location_status_ok));
-                    break;
-                }
-                case LocationStatusUtils.LOCATION_STATUS_SERVER_DOWN: {
-                    updateEmptyView(getString(R.string.empty_forecast_list_server_down));
-                    break;
-                }
-                case LocationStatusUtils.LOCATION_STATUS_SERVER_INVALID: {
-                    updateEmptyView(getString(R.string.empty_forecast_list_server_error));
-                    break;
-                }
-                case LocationStatusUtils.LOCATION_STATUS_UNKNOWN: {
-                    updateEmptyView(getString(R.string.location_status_unknown));
-                    break;
-                }
-                default: {
-                    // do nothing
-                }
-            }
+            updateEmptyView(locationStatus);
         }
     }
 
