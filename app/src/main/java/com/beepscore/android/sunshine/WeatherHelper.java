@@ -2,8 +2,6 @@ package com.beepscore.android.sunshine;
 
 import android.net.Uri;
 
-import com.beepscore.android.sunshine.BuildConfig;
-
 /**
  * Created by stevebaker on 6/22/15.
  */
