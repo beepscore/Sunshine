@@ -4,9 +4,9 @@
                   android:layout_height="match_parent">
 
     <EditTextPreference
-        android:defaultValue="@string/pref_location_default"
         android:key="@string/pref_location_key"
         android:title="@string/pref_location_title"
+        android:defaultValue="@string/pref_location_default"
         android:inputType="text"
         android:singleLine="true" />
 
@@ -15,12 +15,12 @@
         android:dialogTitle="@string/pref_units_dialog_title"
         android:title="@string/pref_units_title"
         android:entries="@array/pref_units_entries"
-        android:entryValues="@array/pref_units_values" />
+        android:entryValues="@array/pref_units_values"
+        android:defaultValue="metric" />
 
     <CheckBoxPreference
         android:key="@string/enable_notifications"
         android:title="@string/pref_weather_notification_title"
-        android:defaultValue="true"
-        />
+        android:defaultValue="true" />
 
 </PreferenceScreen>
