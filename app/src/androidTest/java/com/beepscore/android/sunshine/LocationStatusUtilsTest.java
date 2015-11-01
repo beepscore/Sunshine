@@ -32,4 +32,20 @@ public class LocationStatusUtilsTest extends ApplicationTestCase<Application> {
         actual = LocationStatusUtils.getLocationStatus(getContext());
         assertEquals(fakeStatus, actual);
     }
+
+    public void testLocationStatusUnknown() {
+        int actual;
+        int fakeStatus;
+
+        // setup
+        fakeStatus = LocationStatusUtils.LOCATION_STATUS_SERVER_INVALID;
+        LocationStatusUtils.setLocationStatus(getContext(), fakeStatus);
+        actual = LocationStatusUtils.getLocationStatus(getContext());
+        assertEquals(fakeStatus, actual);
+
+        // test method and clean up at the same time
+        LocationStatusUtils.setLocationStatusUnknown(getContext());
+        actual = LocationStatusUtils.getLocationStatus(getContext());
+        assertEquals(LocationStatusUtils.LOCATION_STATUS_UNKNOWN, actual);
+    }
 }

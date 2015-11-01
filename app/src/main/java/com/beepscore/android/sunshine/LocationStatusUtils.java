@@ -53,4 +53,14 @@ public class LocationStatusUtils {
         editor.commit();
     }
 
+    /**
+     * Sets the location status into shared preferences as LOCATION_STATUS_UNKNOWN.
+     * This should not be called from the UI thread
+     * because it uses commit to write to the shared preferences.
+     * @param context
+     */
+    public static void setLocationStatusUnknown(Context context) {
+        LocationStatusUtils.setLocationStatus(context, LOCATION_STATUS_UNKNOWN);
+    }
+
 }
