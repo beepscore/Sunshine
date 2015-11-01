@@ -318,12 +318,22 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         final String OWM_MIN = "min";
 
         final String OWM_WEATHER = "weather";
-        final String OWM_WEATHER_CODE = "cod";
+        final String OWM_MESSAGE_CODE = "cod";
         final String OWM_DESCRIPTION = "main";
         final String OWM_WEATHER_ID = "id";
 
         try {
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
+
+            if (forecastJson.has(OWM_MESSAGE_CODE)) {
+                int owmStatusCode = forecastJson.getInt(OWM_MESSAGE_CODE);
+                // HTTP_NOT_FOUND == status code 404
+                if (owmStatusCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                    LocationStatusUtils.setLocationStatus(getContext(),
+                            LocationStatusUtils.LOCATION_STATUS_INVALID);
+                }
+            }
+
             JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
 
             JSONObject cityJson = forecastJson.getJSONObject(OWM_CITY);
