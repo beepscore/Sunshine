@@ -23,6 +23,7 @@ public class LocationStatusUtils {
     public static final int LOCATION_STATUS_SERVER_DOWN = 1;
     public static final int LOCATION_STATUS_SERVER_INVALID = 2;
     public static final int LOCATION_STATUS_UNKNOWN = 3;
+    public static final int LOCATION_STATUS_INVALID = 4;
     @LocationStatus
 
     public static int getLocationStatus(Context context) {
