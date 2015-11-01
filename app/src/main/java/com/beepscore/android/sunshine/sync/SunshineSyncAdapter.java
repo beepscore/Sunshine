@@ -327,10 +327,22 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
             if (forecastJson.has(OWM_MESSAGE_CODE)) {
                 int owmStatusCode = forecastJson.getInt(OWM_MESSAGE_CODE);
-                // HTTP_NOT_FOUND == status code 404
-                if (owmStatusCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    LocationStatusUtils.setLocationStatus(getContext(),
-                            LocationStatusUtils.LOCATION_STATUS_INVALID);
+
+                switch (owmStatusCode) {
+                    case HttpURLConnection.HTTP_OK: {
+                        break;
+                    }
+                    case HttpURLConnection.HTTP_NOT_FOUND: {
+                        // HTTP_NOT_FOUND == status code 404
+                        LocationStatusUtils.setLocationStatus(getContext(),
+                                LocationStatusUtils.LOCATION_STATUS_INVALID);
+                        return;
+                    }
+                    default: {
+                        LocationStatusUtils.setLocationStatus(getContext(),
+                                LocationStatusUtils.LOCATION_STATUS_SERVER_DOWN);
+                        return;
+                    }
                 }
             }
 
