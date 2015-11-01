@@ -51,7 +51,7 @@ public class LocationStatusUtils {
 
         // use commit() for background thread
         // for foreground thread use apply()
-        editor.commit();
+        editor.apply();
     }
 
     /**
