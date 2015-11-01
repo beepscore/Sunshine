@@ -453,14 +453,26 @@ public class ForecastFragment extends Fragment
         }
     }
 
+    // This gets called after the preference is changed, which is important because we
+    // start our synchronization here
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key) {
 
-        String locationStatusKey = getActivity().getString(R.string.pref_location_status_key);
-        if (key.equals(locationStatusKey)) {
+        if (key.equals(getString(R.string.pref_location_status_key))) {
             int locationStatus = LocationStatusUtils.getLocationStatus(getActivity());
             updateEmptyView(locationStatus);
+        }
+
+        if (key.equals(getString(R.string.pref_location_key))) {
+            LocationStatusUtils.setLocationStatusUnknown(getActivity());
+            SunshineSyncAdapter.syncImmediately(getActivity());
+        }
+
+        if (key.equals(getString(R.string.pref_units_key))) {
+            // units have changed. update lists of weather entries accordingly
+            getActivity().getContentResolver().notifyChange(WeatherContract.WeatherEntry.CONTENT_URI,
+                    null);
         }
     }
 
