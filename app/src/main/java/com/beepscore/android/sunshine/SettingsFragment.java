@@ -1,18 +1,21 @@
 package com.beepscore.android.sunshine;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
+import com.beepscore.android.sunshine.data.WeatherContract;
 import com.beepscore.android.sunshine.sync.SunshineSyncAdapter;
 
 /**
  * Created by stevebaker on 11/1/15.
  */
 public class SettingsFragment extends PreferenceFragment
-        implements Preference.OnPreferenceChangeListener {
+        implements Preference.OnPreferenceChangeListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String LOG_TAG = SettingsFragment.class.getSimpleName();
 
@@ -23,6 +26,20 @@ public class SettingsFragment extends PreferenceFragment
 
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
+    }
+
+    @Override
+    public void onPause() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref.unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref.registerOnSharedPreferenceChangeListener(this);
+        super.onResume();
     }
 
     /**
@@ -59,8 +76,26 @@ public class SettingsFragment extends PreferenceFragment
             // e.g. EditText preference such as location will use this
             preference.setSummary(stringValue);
         }
-        SunshineSyncAdapter.syncImmediately(getActivity());
+        //SunshineSyncAdapter.syncImmediately(getActivity());
         return true;
+    }
+
+    // This gets called after the preference is changed, which is important because we
+    // start our synchronization here
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                          String key) {
+
+        if (key.equals(getString(R.string.pref_location_key))) {
+            LocationStatusUtils.setLocationStatusUnknown(getActivity());
+            SunshineSyncAdapter.syncImmediately(getActivity());
+        }
+
+        if (key.equals(getString(R.string.pref_units_key))) {
+            // units have changed. update lists of weather entries accordingly
+            getActivity().getContentResolver().notifyChange(WeatherContract.WeatherEntry.CONTENT_URI,
+                    null);
+        }
     }
 
 }
