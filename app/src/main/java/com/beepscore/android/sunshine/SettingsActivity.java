@@ -8,6 +8,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.beepscore.android.sunshine.sync.SunshineSyncAdapter;
 
@@ -21,6 +22,8 @@ import com.beepscore.android.sunshine.sync.SunshineSyncAdapter;
  */
 public class SettingsActivity extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener {
+
+    private static final String LOG_TAG = SettingsActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class SettingsActivity extends PreferenceActivity
 
         // Trigger the listener immediately with the preference's
         // current value.
+        // TODO: This may be calling onPreferenceChange more frequently than desired
         onPreferenceChange(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
@@ -62,9 +66,17 @@ public class SettingsActivity extends PreferenceActivity
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
         } else {
-            // For other preferences, set the summary to the value's simple string representation.
+            // For non list preferences, set the summary to the value's simple string representation.
             // e.g. EditText preference such as location will use this
             preference.setSummary(stringValue);
+
+            if (preference.getTitle().toString().equals("Location")) {
+                Log.e(LOG_TAG, "preference "
+                        + preference.getTitle().toString()
+                        + " "
+                        + stringValue);
+                LocationStatusUtils.setLocationStatusUnknown(this);
+            }
         }
 
         SunshineSyncAdapter.syncImmediately(getApplicationContext());
