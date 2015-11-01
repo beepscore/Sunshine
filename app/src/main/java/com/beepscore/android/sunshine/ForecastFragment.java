@@ -438,6 +438,10 @@ public class ForecastFragment extends Fragment
                         message = R.string.empty_forecast_list_server_error;
                         break;
                     }
+                    case LocationStatusUtils.LOCATION_STATUS_INVALID: {
+                        message = R.string.empty_forecast_list_invalid_location;
+                        break;
+                    }
                     default: {
                         if (!NetworkUtils.isNetworkAvailable(getActivity())) {
                             message = R.string.empty_forecast_list_no_network;
