@@ -318,6 +318,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         final String OWM_MIN = "min";
 
         final String OWM_WEATHER = "weather";
+        final String OWM_WEATHER_CODE = "cod";
         final String OWM_DESCRIPTION = "main";
         final String OWM_WEATHER_ID = "id";
 
