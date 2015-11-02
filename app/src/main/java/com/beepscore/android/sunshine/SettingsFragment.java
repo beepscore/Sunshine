@@ -71,6 +71,26 @@ public class SettingsFragment extends PreferenceFragment
             if (prefIndex >= 0) {
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
+        } else if (preference.getKey().equals(getString(R.string.pref_location_key))) {
+            // In view row top line is preference title e.g. "Location"
+            // In view row bottom line is preference summary.
+            String locationSummary;
+            int locationStatus = LocationStatusUtils.getLocationStatus(getActivity());
+            switch (locationStatus) {
+                case LocationStatusUtils.LOCATION_STATUS_INVALID: {
+                    // e.g. "Invalid Location (Londan)"
+                    locationSummary = getString(R.string.pref_location_error_description, value);
+                    break;
+                }
+                case LocationStatusUtils.LOCATION_STATUS_UNKNOWN: {
+                    locationSummary = getString(R.string.pref_location_unknown_description, value);
+                    break;
+                }
+                default: {
+                    locationSummary = value.toString();
+                }
+            }
+            preference.setSummary(locationSummary);
         } else {
             // For non list preferences, set the summary to the value's simple string representation.
             // e.g. EditText preference such as location will use this
