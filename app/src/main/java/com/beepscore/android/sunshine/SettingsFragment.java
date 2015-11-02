@@ -22,8 +22,11 @@ public class SettingsFragment extends PreferenceFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Add 'general' preferences, defined in the XML file
         addPreferencesFromResource(R.xml.pref_general);
 
+        // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
+        // updated when the preference changes.
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
     }
@@ -51,17 +54,16 @@ public class SettingsFragment extends PreferenceFragment
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(this);
 
-        // Trigger the listener immediately with the preference's current value.
-        // TODO: This may be calling onPreferenceChange more frequently than desired
-        onPreferenceChange(preference,
+        // Set the preference summaries
+        setPreferenceSummary(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
                         .getString(preference.getKey(), ""));
     }
 
-    @Override
-    public boolean onPreferenceChange(Preference preference, Object value) {
+    private void setPreferenceSummary(Preference preference, Object value) {
         String stringValue = value.toString();
+        String key = preference.getKey();
 
         if (preference instanceof ListPreference) {
             // For list preferences, look up the correct display value in
@@ -71,32 +73,42 @@ public class SettingsFragment extends PreferenceFragment
             if (prefIndex >= 0) {
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
-        } else if (preference.getKey().equals(getString(R.string.pref_location_key))) {
+        } else if (key.equals(getString(R.string.pref_location_key))) {
             // In view row top line is preference title e.g. "Location"
             // In view row bottom line is preference summary.
-            String locationSummary;
-            int locationStatus = LocationStatusUtils.getLocationStatus(getActivity());
+            @LocationStatusUtils.LocationStatus int locationStatus = LocationStatusUtils.getLocationStatus(getActivity());
             switch (locationStatus) {
-                case LocationStatusUtils.LOCATION_STATUS_INVALID: {
-                    // e.g. "Invalid Location (Londan)"
-                    locationSummary = getString(R.string.pref_location_error_description, value);
+                case LocationStatusUtils.LOCATION_STATUS_OK: {
+                    preference.setSummary(stringValue);
                     break;
                 }
                 case LocationStatusUtils.LOCATION_STATUS_UNKNOWN: {
-                    locationSummary = getString(R.string.pref_location_unknown_description, value);
+                    preference.setSummary(getString(R.string.pref_location_unknown_description,
+                            value.toString()));
+                    break;
+                }
+                case LocationStatusUtils.LOCATION_STATUS_INVALID: {
+                    // e.g. "Invalid Location (Londan)"
+                    preference.setSummary(getString(R.string.pref_location_error_description,
+                            value.toString()));
                     break;
                 }
                 default: {
-                    locationSummary = value.toString();
+                    // Note --- if the server is down we still assume the value
+                    // is valid
+                    preference.setSummary(stringValue);
                 }
             }
-            preference.setSummary(locationSummary);
         } else {
-            // For non list preferences, set the summary to the value's simple string representation.
-            // e.g. EditText preference such as location will use this
+            // For other preferences, set the summary to the value's simple string representation.
             preference.setSummary(stringValue);
         }
-        //SunshineSyncAdapter.syncImmediately(getActivity());
+    }
+
+    // This gets called before the preference is changed
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object value) {
+        setPreferenceSummary(preference, value);
         return true;
     }
 
@@ -107,14 +119,18 @@ public class SettingsFragment extends PreferenceFragment
                                           String key) {
 
         if (key.equals(getString(R.string.pref_location_key))) {
+            // we've changed the location
+            // first clear locationStatus
             LocationStatusUtils.setLocationStatusUnknown(getActivity());
             SunshineSyncAdapter.syncImmediately(getActivity());
-        }
-
-        if (key.equals(getString(R.string.pref_units_key))) {
+        } else if (key.equals(getString(R.string.pref_units_key))) {
             // units have changed. update lists of weather entries accordingly
             getActivity().getContentResolver().notifyChange(WeatherContract.WeatherEntry.CONTENT_URI,
                     null);
+        } else if (key.equals(getString(R.string.pref_location_status_key)) ) {
+            // our location status has changed.  Update the summary accordingly
+            Preference locationPreference = findPreference(getString(R.string.pref_location_key));
+            bindPreferenceSummaryToValue(locationPreference);
         }
     }
 
