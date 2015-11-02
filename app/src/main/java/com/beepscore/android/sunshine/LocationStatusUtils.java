@@ -42,8 +42,8 @@ public class LocationStatusUtils {
 
     /**
      * Sets the location status into shared preferences.
-     * This should not be called from the UI thread
-     * because it uses commit to write to the shared preferences.
+     * This may be called from the UI thread
+     * because it uses apply to write to the shared preferences.
      * @param context
      * @param locationStatus
      */
@@ -61,8 +61,8 @@ public class LocationStatusUtils {
 
     /**
      * Sets the location status into shared preferences as LOCATION_STATUS_UNKNOWN.
-     * This should not be called from the UI thread
-     * because it uses commit to write to the shared preferences.
+     * This may be called from the UI thread
+     * because it uses apply to write to the shared preferences.
      * @param context
      */
     public static void setLocationStatusUnknown(Context context) {
