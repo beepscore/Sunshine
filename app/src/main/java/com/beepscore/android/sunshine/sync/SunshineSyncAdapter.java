@@ -198,8 +198,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         String units = "metric";
         int numDays = 14;
 
-        // assume ok, then error or exception can re-set
-        LocationStatusUtils.setLocationStatus(getContext(), LocationStatusUtils.LOCATION_STATUS_OK);
+        // set unknown until we get a response with more info
+        LocationStatusUtils.setLocationStatus(getContext(), LocationStatusUtils.LOCATION_STATUS_UNKNOWN);
 
         try {
             Uri builtUri = WeatherHelper.weatherUri(locationQuery, format, units, numDays);
