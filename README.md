@@ -108,6 +108,11 @@ Instead in app enter location St Petersburg,us
 US zip code 988053 returns Castroreale IT.
 Instead enter location Seattle,us
 
+### Test Settings/location invalid location
+Udacity lesson video shows set location Londan and app shows location invalid or unknown.
+However on 2015-11-09 if user enters Londin or Londan, OpenWeatherMap fixes spelling to London.
+I entered foobier, app shows Validating Location... no weather information available.
+
 ## Phone and Tablet UI
 ### Phone
 App uses a one pane layout.
