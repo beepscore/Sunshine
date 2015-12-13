@@ -249,7 +249,11 @@ public class DetailFragment extends Fragment
         }
         if (weatherDesc != null) {
             descTextView.setText(weatherDesc);
-            descImageView.setContentDescription(weatherDesc);
+            // Udacity lesson suggests explicitly setContentDescription null for decorative graphics.
+            // This is more verbose than not setting it and doesn't seem to have any effect.
+            // Why do this? To help document programmer intent?
+            // http://stackoverflow.com/questions/9197661/contentdescription-null-a-bad-idea
+            descImageView.setContentDescription(null);
         }
 
         if (weatherConditionId != -1) {
@@ -293,8 +297,8 @@ public class DetailFragment extends Fragment
         // not needed in single pane mode
         windCompassView.invalidate();
 
-        // accessibility
-        windCompassView.setContentDescription(windTextView.getContentDescription());
+        // setContentDescription null to avoid redundant accessibility TalkBalk audio to windTextView.
+        windCompassView.setContentDescription(null);
     }
 
     void onLocationChanged(String newLocation) {
