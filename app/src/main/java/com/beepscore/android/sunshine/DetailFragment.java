@@ -260,11 +260,15 @@ public class DetailFragment extends Fragment
                 weatherTemperatureMax,
                 Utility.isMetric(getActivity()));
         temperatureMaxTextView.setText(temperatureMax);
+        // accessibility add "high"
+        temperatureMaxTextView.setContentDescription("high " + temperatureMax);
 
         String temperatureMin = Utility.formatTemperature(getActivity(),
                 weatherTemperatureMin,
                 Utility.isMetric(getActivity()));
         temperatureMinTextView.setText(temperatureMin);
+        // accessibility add "low"
+        temperatureMinTextView.setContentDescription("low " + temperatureMin);
 
         String humidityString = "Humidity: "
                 + String.valueOf((int)weatherHumidity)
