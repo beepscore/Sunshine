@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.EditTextPreference;
 import android.util.AttributeSet;
-import android.util.Log;
 
 /**
  * LocationEditTextPreference is a type of view
