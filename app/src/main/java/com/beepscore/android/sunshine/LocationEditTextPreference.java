@@ -12,8 +12,8 @@ import android.util.Log;
  */
 public class LocationEditTextPreference extends EditTextPreference {
 
-    static final Integer DEFAULT_MINIMUM_LOCATION_LENGTH = 0;
-    protected Integer mMinLength;
+    static final private int DEFAULT_MINIMUM_LOCATION_LENGTH = 2;
+    private int mMinLength;
 
     /**
      * Constructor method
