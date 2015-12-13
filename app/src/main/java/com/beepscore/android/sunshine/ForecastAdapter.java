@@ -95,11 +95,15 @@ public class ForecastAdapter extends CursorAdapter {
                 weatherTemperatureMax,
                 Utility.isMetric(context));
         viewHolder.temperatureMaxView.setText(temperatureMax);
+        // accessibility add "high"
+        viewHolder.temperatureMaxView.setContentDescription("high" + temperatureMax);
 
         String temperatureMin = Utility.formatTemperature(context,
                 weatherTemperatureMin,
                 Utility.isMetric(context));
         viewHolder.temperatureMinView.setText(temperatureMin);
+        // accessibility add "low"
+        viewHolder.temperatureMinView.setContentDescription("low" + temperatureMin);
     }
 
     private void updateWeatherProperties(Context context, Cursor cursor) {
