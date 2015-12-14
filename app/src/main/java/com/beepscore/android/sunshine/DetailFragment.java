@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beepscore.android.sunshine.data.WeatherContract;
+import com.bumptech.glide.Glide;
 
 /**
  * Created by stevebaker on 8/9/15.
@@ -257,7 +258,10 @@ public class DetailFragment extends Fragment
         }
 
         if (weatherConditionId != -1) {
-            descImageView.setImageResource(WeatherHelper.getArtResourceForWeatherCondition(weatherConditionId));
+            Glide.with(this)
+                    .load(WeatherHelper.getArtUrlForWeatherCondition(getActivity(), weatherConditionId))
+                            .error(WeatherHelper.getArtResourceForWeatherCondition(weatherConditionId))
+                            .into(descImageView);
         }
 
         String temperatureMax = Utility.formatTemperature(getActivity(),
