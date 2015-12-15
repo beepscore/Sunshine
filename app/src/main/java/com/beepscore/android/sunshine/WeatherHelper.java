@@ -274,6 +274,7 @@ public class WeatherHelper {
         // Based on weather code data found at:
         // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
         // http://openweathermap.org/weather-conditions
+        // http://openweathermap.org/img/w/10d.png returns image size 50x50 pixels
 
         String img_name = "01d.png";
 
