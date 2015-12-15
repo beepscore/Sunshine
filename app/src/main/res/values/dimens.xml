@@ -5,4 +5,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="detail_temperature_max_size">60sp</dimen>
     <dimen name="detail_temperature_min_size">48sp</dimen>
+    <dimen name="notification_large_icon_default">216dp</dimen>
 </resources>
