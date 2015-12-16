@@ -270,63 +270,32 @@ public class WeatherHelper {
      * @param weatherId from OpenWeatherMap API response
      * @return resource url for the corresponding image. null if no relation is found.
      */
-    public static Uri getArtUrlForWeatherCondition(Context context, int weatherId) {
+    public static String getArtUrlForWeatherCondition(Context context, int weatherId) {
         // Based on weather code data found at:
         // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
-        // http://openweathermap.org/weather-conditions
-        // http://openweathermap.org/img/w/10d.png returns image size 50x50 pixels
-
-        String img_name = "01d.png";
-
         if (weatherId >= 200 && weatherId <= 232) {
-            //storm
-            img_name = "11d.png";
+            return context.getString(R.string.format_art_url, "storm");
         } else if (weatherId >= 300 && weatherId <= 321) {
-            //light_rain
-            img_name = "09d.png";
+            return context.getString(R.string.format_art_url, "light_rain");
         } else if (weatherId >= 500 && weatherId <= 504) {
-            //rain
-            img_name = "10d.png";
+            return context.getString(R.string.format_art_url, "rain");
         } else if (weatherId == 511) {
-            //freezing_rain
-            img_name = "13d.png";
+            return context.getString(R.string.format_art_url, "snow");
         } else if (weatherId >= 520 && weatherId <= 531) {
-            //rain
-            img_name = "09d.png";
+            return context.getString(R.string.format_art_url, "rain");
         } else if (weatherId >= 600 && weatherId <= 622) {
-            //snow
-            img_name = "13d.png";
+            return context.getString(R.string.format_art_url, "snow");
         } else if (weatherId >= 701 && weatherId <= 761) {
-            //fog
-            img_name = "50d.png";
+            return context.getString(R.string.format_art_url, "fog");
         } else if (weatherId == 761 || weatherId == 781) {
-            //storm
-            img_name = "50d.png";
+            return context.getString(R.string.format_art_url, "storm");
         } else if (weatherId == 800) {
-            //clear
-            img_name = "01d.png";
+            return context.getString(R.string.format_art_url, "clear");
         } else if (weatherId == 801) {
-            //light_clouds
-            img_name = "02d.png";
+            return context.getString(R.string.format_art_url, "light_clouds");
         } else if (weatherId >= 802 && weatherId <= 804) {
-            //clouds
-            img_name = "03d.png";
+            return context.getString(R.string.format_art_url, "clouds");
         }
-
-        final String SCHEME = "http";
-        final String BASE_URL = "api.openweathermap.org";
-        final String IMG = "img";
-        final String W = "w";
-
-        // http://stackoverflow.com/questions/19167954/use-uri-builder-in-android-or-create-url-with-variables
-        Uri.Builder builder = new Uri.Builder();
-        builder.scheme(SCHEME)
-                .authority(BASE_URL)
-                .appendPath(IMG)
-                .appendPath(W)
-                .appendPath(img_name);
-
-        Uri uri = builder.build();
-        return uri;
+        return null;
     }
 }
