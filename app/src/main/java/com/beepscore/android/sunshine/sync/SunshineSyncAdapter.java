@@ -591,12 +591,14 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 // Retrieve the large icon
                 Bitmap largeIcon;
                 try {
+                    // get() is a blocking call, but it's ok to block this background thread
                     largeIcon = Glide.with(context)
                             .load(artUrl)
                             .asBitmap()
                             .error(artResourceId)
                             .fitCenter()
-                            .into(largeIconWidth, largeIconHeight).get();
+                            .into(largeIconWidth, largeIconHeight)
+                            .get();
                 } catch (InterruptedException | ExecutionException e) {
                     Log.e(LOG_TAG, "Error retrieving large icon from " + artUrl, e);
                     largeIcon = BitmapFactory.decodeResource(resources, artResourceId);
