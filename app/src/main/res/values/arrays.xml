@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name ="pref_icon_pack_entries">
+        <item>OpenWeatherMap</item>
+        <item>Grayscale</item>
+        <item>Color</item>
+    </string-array>
+
+    <string-array name ="pref_icon_pack_values">
+        <item>open_weather_map</item>
+        <item>grayscale</item>
+        <item>color</item>
+    </string-array>
+
     <string-array name ="pref_units_entries">
         <item>Metric</item>
         <item>Imperial</item>

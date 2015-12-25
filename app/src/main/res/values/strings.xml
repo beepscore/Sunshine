@@ -30,6 +30,14 @@
     <string name="pref_units_dialog_title">Pick Your Units</string>
     <string name="pref_units_title">Temperature Units</string>
 
+    <string name="pref_icon_pack">pref_icon_pack</string>
+    <string name="pref_icon_pack_open_weather_map" translatable="false">OpenWeatherMap</string>
+    <string name="pref_icon_pack_grayscale" translatable="true">Grayscale</string>
+    <string name="pref_icon_pack_color" translatable="true">Color</string>
+    <string name="pref_icon_pack_key" translatable="false">icon_pack_key</string>
+    <string name="pref_icon_pack_dialog_title">Pick Your Icon Pack</string>
+    <string name="pref_icon_pack_title">Icon Pack</string>
+
     <!-- Strings used when displaying the state of the Location in settings -->
     <string name="pref_location_error_description">Invalid Location (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
     <string name="pref_location_unknown_description">Validating Location... (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>

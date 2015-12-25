@@ -20,6 +20,14 @@
         android:entryValues="@array/pref_units_values"
         android:defaultValue="metric" />
 
+    <ListPreference
+        android:key="@string/pref_icon_pack_key"
+        android:dialogTitle="@string/pref_icon_pack_dialog_title"
+        android:title="@string/pref_icon_pack_title"
+        android:entries="@array/pref_icon_pack_entries"
+        android:entryValues="@array/pref_icon_pack_values"
+        android:defaultValue="color" />
+
     <CheckBoxPreference
         android:key="@string/enable_notifications"
         android:title="@string/pref_weather_notification_title"
