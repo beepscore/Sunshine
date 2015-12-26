@@ -34,5 +34,5 @@ dependencies {
     // google services for google cloud messaging
     // https://developers.google.com/cloud-messaging/android/client
     // append -gcm to add only google cloud messaging
-    compile "com.google.android.gms:play-services-gcm:8.4.0"
+    compile "com.google.android.gms:play-services-gcm:8.3.0"
 }
