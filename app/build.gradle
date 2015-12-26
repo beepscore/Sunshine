@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+// google services for google cloud messaging
+apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
