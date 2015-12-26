@@ -38,8 +38,11 @@
     <!-- Label for Sunshine option in art pack preference [CHAR LIMIT=25] -->
     <string name="pref_art_pack_label_sunshine">Sunshine</string>
 
-    <!-- Label for cute dogs option in art pack preference [CHAR LIMIT=25] -->
-    <string name="pref_art_pack_label_cute_dogs">Cute dogs</string>
+    <!-- Label for colored option in art pack preference [CHAR LIMIT=25] -->
+    <string name="pref_art_pack_label_colored">Colored</string>
+
+    <!-- Label for mono option in art pack preference [CHAR LIMIT=25] -->
+    <string name="pref_art_pack_label_mono">Mono</string>
 
     <!-- Key name for art pack unit preference in SharedPreferences [CHAR LIMIT=NONE] -->
     <string name="pref_art_pack_key" translatable="false">art_pack</string>
@@ -47,9 +50,13 @@
     <!-- Value in SharedPreferences for Sunshine art pack option [CHAR LIMIT=NONE] -->
     <string name="pref_art_pack_sunshine" translatable="false">https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-xxhdpi/art_%s.png</string>
 
-    <!-- Value in SharedPreferences for cute dogs art pack  option [CHAR LIMIT=NONE] -->
-    <string name="pref_art_pack_cute_dogs" translatable="false">https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-mdpi/art_%s.png</string>
+    <!-- Value in SharedPreferences for colored art pack option [CHAR LIMIT=NONE] -->
+    <string name="pref_art_pack_colored" translatable="false">https://raw.githubusercontent.com/udacity/sunshine_icons/master/Archive/Colored/art_%s.png</string>
 
+    <!-- Value in SharedPreferences for mono art pack option [CHAR LIMIT=NONE] -->
+    <string name="pref_art_pack_mono" translatable="false">https://raw.githubusercontent.com/udacity/sunshine_icons/master/Archive/Mono/art_%s.png</string>
+
+    <!-- Value in SharedPreferences for mono art pack  option [CHAR LIMIT=NONE] -->
     <!-- Strings used when displaying the state of the Location in settings -->
     <string name="pref_location_error_description">Invalid Location (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
     <string name="pref_location_unknown_description">Validating Location... (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
