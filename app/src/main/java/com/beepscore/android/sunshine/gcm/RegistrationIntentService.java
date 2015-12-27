@@ -53,7 +53,6 @@ public class RegistrationIntentService extends IntentService {
                 // are local.
                 InstanceID instanceID = InstanceID.getInstance(this);
 
-                // TODO: gcm_default sender ID comes from the API console
                 String senderId = getString(R.string.gcm_defaultSenderId);
                 if ( senderId.length() != 0 ) {
                     String token = instanceID.getToken(senderId,
@@ -76,13 +75,36 @@ public class RegistrationIntentService extends IntentService {
     }
 
     /**
-     * Normally, you would want to persist the registration to third-party servers. Because we do
-     * not have a server, and are faking it with a website, you'll want to log the token instead.
-     * That way you can see the value in logcat, and note it for future use in the website.
+     * When our third party server requests google cloud messaging to push a notification
+     * it supplies a server API key and a list of registration_id tokens.
      *
-     * @param token The new token.
+     * Server api key
+     * Approximately 39 characters long including 2 dashes.
+     * Keep this a secret, store it securely on server.
+     *
+     * Registration_id tokens
+     * The list contains one token for every device app instance we are pushing to.
+     * Normally, we would persist each token on the third-party server.
+     *
+     * For this sample app we don't have a server, and are using a website.
+     * http://udacity.github.io/Advanced_Android_Development/
+     *
+     * Alternatively can use POSTMAN to manually send a push notification request.
+     * POST https://android.googleapis.com/gcm/send
+     * header
+     * Authorization: "key=<server api key>"
+     * Content-type: application/json
+     * Body
+     * {"data": {"weather": "Avalanche", "location": "Florida"},
+     *  "registration_ids": ["<registration_id0>", "<registration_id1>"] }
+     *
+     * @param token The new token, also known as registration_id.
+     *              Uniquely identifies an app instance installed on a single device.
+     *              length ~ 152 characters
      */
     private void sendRegistrationToServer(String token) {
-        Log.i(TAG, "GCM Registration Token: " + token);
+        // Log the token to enable manually recording it and
+        // manually sending push notification request.
+        Log.i(TAG, "GCM Registration ID Token: " + token);
     }
 }
